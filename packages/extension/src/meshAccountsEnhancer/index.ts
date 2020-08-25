@@ -5,7 +5,6 @@
 
 import accountsObservable from '@polkadot/ui-keyring/observable/accounts';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { assert } from '@polkadot/util';
 import { Option } from '@polkadot/types/codec';
 
@@ -25,11 +24,9 @@ function meshAccountsEnhancer (): void {
     const unsubCallbacks: Record<string, UnsubCallback> = {};
 
     // @TODO manage this subscription.
-    const subscription = accountsObservable.subject.subscribe((accounts: SubjectInfo): void => {
-      const currentAccounts = Object.keys(unsubCallbacks);
+    accountsObservable.subject.subscribe((accounts: SubjectInfo): void => {
       const transformedAccounts = transformAccounts(accounts).filter((account) => !unsubCallbacks[account]);
       const newAccounts = transformedAccounts.filter((account) => !unsubCallbacks[account]);
-      const removedAccounts = currentAccounts.filter((account) => transformedAccounts.indexOf(account) === -1);
 
       // @TODO construct a single queries array
       newAccounts.forEach((account) => {
