@@ -26,7 +26,7 @@ export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress }
   const [suriPath, setSuriPath] = useState<null | string>(defaultPath);
   const [parentPassword, setParentPassword] = useState<string>('');
   const [isProperParentPassword, setIsProperParentPassword] = useState(false);
-  const [shouldAccountBeDerived, setShouldAccountBeDerived] = useState(true);
+  const shouldAccountBeDerived = true;
 
   const passwordInputRef = useRef<HTMLDivElement>(null);
 
@@ -85,13 +85,6 @@ export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress }
 
   return (
     <>
-      {!isLocked && (
-        <CheckboxWithSmallerMargins
-          checked={shouldAccountBeDerived}
-          label='Derive new account from existing'
-          onChange={setShouldAccountBeDerived}
-        />
-      )}
       <DisableableArea isDisabled={!shouldAccountBeDerived}>
         {isLocked
           ? <Address address={parentAddress} />
@@ -127,35 +120,18 @@ export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress }
       </DisableableArea>
       <VerticalSpace/>
       <ButtonArea>
-        {shouldAccountBeDerived
-          ? (
-            <NextStepButton
-              data-button-action='create derived account'
-              isBusy={isBusy}
-              isDisabled={!isProperParentPassword || !suriPath}
-              onClick={_onSubmit}
-            >
+        <NextStepButton
+          data-button-action='create derived account'
+          isBusy={isBusy}
+          isDisabled={!isProperParentPassword || !suriPath}
+          onClick={_onSubmit}
+        >
               Create a derived account
-            </NextStepButton>
-          )
-          : (
-            <NextStepButton
-              data-button-action='create root account'
-              onClick={_goCreate}
-            >
-              Create account from new seed
-            </NextStepButton>
-          )
-        }
+        </NextStepButton>
       </ButtonArea>
     </>
   );
 }
-
-const CheckboxWithSmallerMargins = styled(Checkbox)`
-  margin-top: 0;
-  margin-bottom: 10px;
-`;
 
 const DisableableArea = styled.div<{ isDisabled: boolean }>`
   opacity: ${({ isDisabled }): string => isDisabled ? '0.2' : '1'};

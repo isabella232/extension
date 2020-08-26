@@ -33,22 +33,21 @@ function Derive ({ isLocked }: Props): React.ReactElement<Props> {
   const [isBusy, setIsBusy] = useState(false);
   const [account, setAccount] = useState<null | PathState>(null);
   const [name, setName] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null);
   const [parentPassword, setParentPassword] = useState<string | null>(null);
 
   const _onCreate = useCallback(() => {
-    if (!account || !name || !password || !parentPassword) {
+    if (!account || !name || !parentPassword) {
       return;
     }
 
     setIsBusy(true);
-    deriveAccount(parentAddress, account.suri, parentPassword, name, password)
+    deriveAccount(parentAddress, account.suri, parentPassword, name, parentPassword)
       .then(() => onAction('/'))
       .catch((error): void => {
         setIsBusy(false);
         console.error(error);
       });
-  }, [account, name, password, onAction, parentAddress, parentPassword]);
+  }, [account, name, onAction, parentAddress, parentPassword]);
 
   const _onDerivationConfirmed = useCallback(({ account, parentPassword }: ConfirmState) => {
     setAccount(account);
@@ -78,8 +77,7 @@ function Derive ({ isLocked }: Props): React.ReactElement<Props> {
           onChange={setName}
         />
       )}
-      {account && name && <Password onChange={setPassword}/>}
-      {account && name && password && (
+      {account && name && (
         <Address
           address={account.address}
           name={name}
@@ -92,7 +90,6 @@ function Derive ({ isLocked }: Props): React.ReactElement<Props> {
             <BackButton onClick={_onBackClick}/>
             <NextStepButton
               isBusy={isBusy}
-              isDisabled={!password}
               onClick={_onCreate}
             >
               Create derived account
