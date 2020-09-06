@@ -26,7 +26,7 @@ export default function Welcome (): React.ReactElement<Props> {
   return (
     <>
       <Header text='Welcome'/>
-      <Note>A couple of things to note before we begin:</Note>
+      <Note>{t<string>('A couple of things to note before we begin:')}</Note>
       <TextBox>
         <List>
           <li>We do not collect keys and passwords in our servers.</li>
