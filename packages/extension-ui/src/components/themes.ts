@@ -47,6 +47,8 @@ const darkTheme = {
   textColorDanger: '#FF8686'
 };
 
+export declare type Theme = typeof darkTheme;
+
 const lightTheme: Theme = {
   ...darkTheme,
   accountBackground: '#FFFFFF',
@@ -74,6 +76,13 @@ const lightTheme: Theme = {
   textColorDanger: '#F24A4A'
 };
 
+export const themes = {
+  dark: darkTheme,
+  light: lightTheme
+};
+
+export declare type AvailableThemes = keyof typeof themes;
+
 export function chooseTheme (): AvailableThemes {
   const preferredTheme = localStorage.getItem('theme');
 
@@ -87,12 +96,3 @@ export function chooseTheme (): AvailableThemes {
     ? 'light'
     : 'dark';
 }
-
-export declare type Theme = typeof darkTheme;
-
-export const themes = {
-  dark: darkTheme,
-  light: lightTheme
-};
-
-export declare type AvailableThemes = keyof typeof themes;

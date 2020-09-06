@@ -7,11 +7,13 @@ import { Call, ExtrinsicEra, ExtrinsicPayload } from '@polkadot/types/interfaces
 import { AnyJson, SignerPayloadJSON } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
+import { TFunction } from 'i18next';
 import { formatNumber, bnToBn } from '@polkadot/util';
 
 import { Table } from '../../components';
 import useMetadata from '../../hooks/useMetadata';
+import useTranslation from '../../hooks/useTranslation';
 
 interface Decoded {
   args: AnyJson | null;
@@ -43,11 +45,11 @@ function decodeMethod (data: string, isDecoded: boolean, chain: Chain | null, sp
   return { args, method };
 }
 
-function renderMethod (data: string, { args, method }: Decoded): React.ReactNode {
+function renderMethod (data: string, { args, method }: Decoded, t: TFunction): React.ReactNode {
   if (!args || !method) {
     return (
       <tr>
-        <td className='label'>method data</td>
+        <td className='label'>{t<string>('method data')}</td>
         <td className='data'>{data}</td>
       </tr>
     );
@@ -56,7 +58,7 @@ function renderMethod (data: string, { args, method }: Decoded): React.ReactNode
   return (
     <>
       <tr>
-        <td className='label'>method</td>
+        <td className='label'>{t<string>('method')}</td>
         <td className='data'>
           <details>
             <summary>{method.sectionName}.{method.methodName}{
@@ -70,7 +72,7 @@ function renderMethod (data: string, { args, method }: Decoded): React.ReactNode
       </tr>
       {method.meta && (
         <tr>
-          <td className='label'>info</td>
+          <td className='label'>{t<string>('info')}</td>
           <td className='data'>
             <details>
               <summary>{method.meta.documentation.map((d) => d.toString().trim()).join(' ')}</summary>
@@ -82,25 +84,31 @@ function renderMethod (data: string, { args, method }: Decoded): React.ReactNode
   );
 }
 
-function mortalityAsString (era: ExtrinsicEra, hexBlockNumber: string): string {
+function mortalityAsString (era: ExtrinsicEra, hexBlockNumber: string, t: TFunction): string {
   if (era.isImmortalEra) {
-    return 'immortal';
+    return t<string>('immortal');
   }
 
   const blockNumber = bnToBn(hexBlockNumber);
   const mortal = era.asMortalEra;
 
-  return `mortal, valid from #${formatNumber(mortal.birth(blockNumber))} to #${formatNumber(mortal.death(blockNumber))}`;
+  return t<string>('mortal, valid from {{birth}} to {{death}}', {
+    replace: {
+      birth: formatNumber(mortal.birth(blockNumber)),
+      death: formatNumber(mortal.death(blockNumber))
+    }
+  });
 }
 
 function Extrinsic ({ className, isDecoded, payload: { era, nonce, tip }, request: { blockNumber, genesisHash, method, specVersion: hexSpec }, url }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const chain = useMetadata(genesisHash);
   const specVersion = useRef(bnToBn(hexSpec)).current;
-  const [decoded, setDecoded] = useState<Decoded>({ args: null, method: null });
 
-  useEffect((): void => {
-    setDecoded(decodeMethod(method, isDecoded, chain, specVersion));
-  }, [method, isDecoded, chain, specVersion]);
+  const decoded = useMemo(
+    () => decodeMethod(method, isDecoded, chain, specVersion),
+    [method, isDecoded, chain, specVersion]
+  );
 
   return (
     <Table
@@ -108,31 +116,31 @@ function Extrinsic ({ className, isDecoded, payload: { era, nonce, tip }, reques
       isFull
     >
       <tr>
-        <td className='label'>from</td>
+        <td className='label'>{t<string>('from')}</td>
         <td className='data'>{url}</td>
       </tr>
       <tr>
-        <td className='label'>{chain ? 'chain' : 'genesis'}</td>
+        <td className='label'>{chain ? t<string>('chain') : t<string>('genesis')}</td>
         <td className='data'>{chain ? chain.name : genesisHash}</td>
       </tr>
       <tr>
-        <td className='label'>version</td>
+        <td className='label'>{t<string>('version')}</td>
         <td className='data'>{specVersion.toNumber()}</td>
       </tr>
       <tr>
-        <td className='label'>nonce</td>
+        <td className='label'>{t<string>('nonce')}</td>
         <td className='data'>{formatNumber(nonce)}</td>
       </tr>
       {!tip.isEmpty && (
         <tr>
-          <td className='label'>tip</td>
+          <td className='label'>{t<string>('tip')}</td>
           <td className='data'>{formatNumber(tip)}</td>
         </tr>
       )}
-      {renderMethod(method, decoded)}
+      {renderMethod(method, decoded, t)}
       <tr>
         <td className='label'>lifetime</td>
-        <td className='data'>{mortalityAsString(era, blockNumber)}</td>
+        <td className='data'>{mortalityAsString(era, blockNumber, t)}</td>
       </tr>
     </Table>
   );

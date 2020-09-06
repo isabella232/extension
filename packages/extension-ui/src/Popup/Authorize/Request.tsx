@@ -5,10 +5,12 @@
 import { RequestAuthorizeTab } from '@polkadot/extension-base/background/types';
 import { ThemeProps } from '../../types';
 
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
+import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 
 import { ActionBar, ActionContext, Button, Icon, Link, Warning } from '../../components';
+import useTranslation from '../../hooks/useTranslation';
 import { approveAuthRequest, rejectAuthRequest } from '../../messaging';
 
 interface Props {
@@ -20,15 +22,22 @@ interface Props {
 }
 
 function Request ({ authId, className, isFirst, request: { origin }, url }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const onAction = useContext(ActionContext);
-  const _onApprove = (): Promise<void> =>
-    approveAuthRequest(authId)
-      .then((): void => onAction())
-      .catch((error: Error) => console.error(error));
-  const _onReject = (): Promise<void> =>
-    rejectAuthRequest(authId)
-      .then((): void => onAction())
-      .catch((error: Error) => console.error(error));
+
+  const _onApprove = useCallback(
+    () => approveAuthRequest(authId)
+      .then(() => onAction())
+      .catch((error: Error) => console.error(error)),
+    [authId, onAction]
+  );
+
+  const _onReject = useCallback(
+    () => rejectAuthRequest(authId)
+      .then(() => onAction())
+      .catch((error: Error) => console.error(error)),
+    [authId, onAction]
+  );
 
   return (
     <div className={className}>
@@ -39,20 +48,21 @@ function Request ({ authId, className, isFirst, request: { origin }, url }: Prop
             onClick={_onReject}
           />
           <div className='tab-info'>
-            An application, self-identifying as <span className='tab-name'>{origin}</span> is requesting access from{' '}
-            <a
-              href={url}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <span className='tab-url'>{url}</span>
-            </a>.
+            <Trans key='accessRequest'>An application, self-identifying as <span className='tab-name'>{origin}</span> is requesting access from{' '}
+              <a
+                href={url}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <span className='tab-url'>{url}</span>
+              </a>.
+            </Trans>
           </div>
         </Info>
         {isFirst && (
           <>
-            <RequestWarning>Only approve this request if you trust the application. Approving gives the application access to the addresses of your accounts.</RequestWarning>
-            <AcceptButton onClick={_onApprove}>Yes, allow this application access</AcceptButton>
+            <RequestWarning>{t<string>('Only approve this request if you trust the application. Approving gives the application access to the addresses of your accounts.')}</RequestWarning>
+            <AcceptButton onClick={_onApprove}>{t<string>('Yes, allow this application access')}</AcceptButton>
           </>
         )}
         <RejectButton>

@@ -2,14 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useContext, useEffect, useState } from 'react';
-import { ActionContext, Loading } from '../../components';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+
+import { ActionContext, Address, Loading } from '../../components';
+import useTranslation from '../../hooks/useTranslation';
 import { createAccountSuri, createSeed } from '../../messaging';
 import { HeaderWithSteps } from '../../partials';
 import AccountName from './AccountName';
 import Mnemonic from './Mnemonic';
 
 export default function CreateAccount (): React.ReactElement {
+  const { t } = useTranslation();
   const onAction = useContext(ActionContext);
   const [isBusy, setIsBusy] = useState(false);
   const [step, setStep] = useState(1);
@@ -22,44 +25,57 @@ export default function CreateAccount (): React.ReactElement {
   }, []);
 
   // FIXME Duplicated between here and Import.tsx
-  const _onCreate = (name: string, password: string): void => {
-    // this should always be the case
-    if (name && password && account) {
-      setIsBusy(true);
-      createAccountSuri(name, password, account.seed)
-        .then((): void => onAction('/'))
-        .catch((error: Error): void => {
-          setIsBusy(false);
-          console.error(error);
-        });
-    }
-  };
+  const _onCreate = useCallback(
+    (name: string, password: string): void => {
+      // this should always be the case
+      if (name && password && account) {
+        setIsBusy(true);
 
-  const _onNextStep = (): void => setStep(step + 1);
-  const _onPreviousStep = (): void => setStep(step - 1);
+        createAccountSuri(name, password, account.seed)
+          .then(() => onAction('/'))
+          .catch((error: Error): void => {
+            setIsBusy(false);
+            console.error(error);
+          });
+      }
+    },
+    [account, onAction]
+  );
+
+  const _onNextStep = useCallback(() => setStep((step) => step + 1), []);
+  const _onPreviousStep = useCallback(() => setStep((step) => step - 1), []);
 
   return (
     <>
       <HeaderWithSteps
         step={step}
-        text='Create an account:&nbsp;'
+        text={t<string>('Create an account')}
       />
-      <Loading>{account && (step === 1
-        ? (
-          <Mnemonic
-            onNextStep={_onNextStep}
-            seed={account.seed}
+      <Loading>
+        <div>
+          <Address
+            address={account?.address}
+            name={name}
           />
-        )
-        : (
-          <AccountName
-            address={account.address}
-            isBusy={isBusy}
-            onBackClick={_onPreviousStep}
-            onCreate={_onCreate}
-          />
-        )
-      )}</Loading>
+        </div>
+        {account && (
+          step === 1
+            ? (
+              <Mnemonic
+                onNextStep={_onNextStep}
+                seed={account.seed}
+              />
+            )
+            : (
+              <AccountName
+                address={account.address}
+                isBusy={isBusy}
+                onBackClick={_onPreviousStep}
+                onCreate={_onCreate}
+              />
+            )
+        )}
+      </Loading>
     </>
   );
 }

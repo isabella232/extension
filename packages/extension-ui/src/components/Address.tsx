@@ -19,6 +19,7 @@ import parentArrow from '../assets/arrowParentLabel.svg';
 import { AccountContext, SettingsContext } from './contexts';
 import useOutsideClick from '../hooks/useOutsideClick';
 import useMetadata from '../hooks/useMetadata';
+import useTranslation from '../hooks/useTranslation';
 import useToast from '../hooks/useToast';
 import Identicon from './Identicon';
 import Menu from './Menu';
@@ -74,6 +75,7 @@ function recodeAddress (address: string, accounts: AccountWithChildren[], chain:
 const ACCOUNTS_SCREEN_HEIGHT = 550;
 
 function Address ({ actions, address, balance, children, className, did, genesisHash, isHidden, name, parentName, suri, toggleActions }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { accounts } = useContext(AccountContext);
   const settings = useContext(SettingsContext);
   const chain = useMetadata(genesisHash, true);
@@ -109,9 +111,9 @@ function Address ({ actions, address, balance, children, className, did, genesis
 
   const theme = ((chain && chain.icon) || 'polkadot') as 'polkadot';
   const _onClick = useCallback((): void => setShowActionsMenu(!showActionsMenu), [showActionsMenu]);
-  const _onCopy = useCallback((): void => show('Copied'), [show]);
+  const _onCopy = useCallback((): void => show(t('Copied')), [show, t]);
 
-  let displayedName = name || (account && account.name) || '<unknown>';
+  let displayedName = name || (account && account.name) || t('<unknown>');
   const balanceStr = balance !== undefined ? (balance / 1000000).toString() : '';
 
   displayedName += ` (${balanceStr} PolyX)`;
@@ -165,7 +167,7 @@ function Address ({ actions, address, balance, children, className, did, genesis
             </div>
           )}
           <div className='addressDisplay'>
-            <FullAddress data-field='address'>{formatted || '<unknown>'}</FullAddress>
+            <FullAddress data-field='address'>{formatted || t('<unknown>')}</FullAddress>
             <CopyToClipboard text={(formatted && formatted) || ''} >
               <Svg
                 onClick={_onCopy}
@@ -208,7 +210,6 @@ function Address ({ actions, address, balance, children, className, did, genesis
 }
 
 const FullAddress = styled.div(({ theme }: ThemeProps) => `
-  width: 270px;
   overflow: hidden;
   text-overflow: ellipsis;
   color: ${theme.labelColor};
