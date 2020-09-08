@@ -8,9 +8,11 @@ import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import { ActionContext, Box, Button, ButtonArea, List, VerticalSpace, Checkbox } from '../components';
+import useTranslation from '../hooks/useTranslation';
 import { Header } from '../partials';
 
 export default function Welcome (): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const onAction = useContext(ActionContext);
 
   const [isPPChecked, setIsPPChecked] = useState<boolean>(false);
@@ -24,27 +26,38 @@ export default function Welcome (): React.ReactElement<Props> {
   return (
     <>
       <Header text='Welcome'/>
-      <Note>A couple of things to note before we begin:</Note>
+      <Note>{t<string>('A couple of things to note before we begin:')}</Note>
       <TextBox>
         <List>
           <li>We do not collect keys and passwords in our servers.</li>
           <li>This wallet does not use any trackers or analytics; however, some applications you connect the wallet to may use trackers or analytics.</li>
-          <li>Please read our <a rel="noopener noreferrer" target="_blank" href="https://polymath.network/polymesh-aldebaran-testnet/privacy-policy">Privacy Policy</a></li> to see what information we do collect and how it is processed.
+          <li>Please read our <a href='https://polymath.network/polymesh-aldebaran-testnet/privacy-policy'
+            rel='noopener noreferrer'
+            target='_blank'>Privacy Policy</a></li> to see what information we do collect and how it is processed.
         </List>
       </TextBox>
-      <Checkbox className='checkbox' checked={isPPChecked} onClick={() => setIsPPChecked(!isPPChecked)}
+      <Checkbox checked={isPPChecked}
+        className='checkbox'
         label={<>
-          I have read and accept the Polymath <a rel="noopener noreferrer" target="_blank" href="https://polymath.network/polymesh-aldebaran-testnet/privacy-policy">Privacy Policy</a>
+          I have read and accept the Polymath <a href='https://polymath.network/polymesh-aldebaran-testnet/privacy-policy'
+            rel='noopener noreferrer'
+            target='_blank'>Privacy Policy</a>
         </>}
+        onClick={() => setIsPPChecked(!isPPChecked)}
       />
-      <Checkbox className='checkbox' checked={isTSChecked} onClick={() => setIsTSChecked(!isTSChecked)}
+      <Checkbox checked={isTSChecked}
+        className='checkbox'
         label={<>
-          I have read and accept the Polymath <a rel="noopener noreferrer" target="_blank" href="https://polymath.network/polymesh-aldebaran-testnet/wallet-terms">Terms of Service</a>
+          I have read and accept the Polymath <a href='https://polymath.network/polymesh-aldebaran-testnet/wallet-terms'
+            rel='noopener noreferrer'
+            target='_blank'>Terms of Service</a>
         </>}
+        onClick={() => setIsTSChecked(!isTSChecked)}
       />
       <VerticalSpace />
       <ButtonArea>
-        <Button onClick={_onClick} isDisabled={!isPPChecked || !isTSChecked}>Continue</Button>
+        <Button isDisabled={!isPPChecked || !isTSChecked}
+          onClick={_onClick}>Continue</Button>
       </ButtonArea>
     </>
   );

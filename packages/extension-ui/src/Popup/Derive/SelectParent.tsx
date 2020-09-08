@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { assert } from '@polkadot/util';
 
-import { AccountContext, ActionContext, Address, ButtonArea, Checkbox, InputWithLabel, Label, NextStepButton, VerticalSpace } from '../../components';
+import { AccountContext, ActionContext, Address, ButtonArea, InputWithLabel, Label, NextStepButton, VerticalSpace } from '../../components';
+import useTranslation from '../../hooks/useTranslation';
 import { validateAccount, validateDerivationPath } from '../../messaging';
 import { nextDerivationPath } from '../../util/nextDerivationPath';
 import AddressDropdown from './AddressDropdown';
@@ -15,10 +16,12 @@ import DerivationPath from './DerivationPath';
 interface Props {
   isLocked?: boolean;
   parentAddress: string;
+  parentGenesis: string | null;
   onDerivationConfirmed: (derivation: { account: { address: string; suri: string }; parentPassword: string }) => void;
 }
 
-export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress }: Props): React.ReactElement<Props> {
+export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress, parentGenesis }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const onAction = useContext(ActionContext);
   const [isBusy, setIsBusy] = useState(false);
   const { accounts, hierarchy } = useContext(AccountContext);
@@ -30,8 +33,15 @@ export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress }
 
   const passwordInputRef = useRef<HTMLDivElement>(null);
 
+  const allAddresses = useMemo(
+    () => hierarchy
+      .filter(({ isExternal }) => !isExternal)
+      .map(({ address, genesisHash }): [string, string | null] => [address, genesisHash || null]),
+    [hierarchy]
+  );
+
   const _goCreate = useCallback(
-    (): void => onAction('/account/create'),
+    () => onAction('/account/create'),
     [onAction]
   );
 
@@ -60,9 +70,6 @@ export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress }
             const account = await validateDerivationPath(parentAddress, suriPath, parentPassword);
 
             assert(account, 'Unable to derive');
-
-            console.log(account);
-
             onDerivationConfirmed({ account, parentPassword });
           } catch (error) {
             setSuriPath(null);
@@ -87,13 +94,19 @@ export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress }
     <>
       <DisableableArea isDisabled={!shouldAccountBeDerived}>
         {isLocked
-          ? <Address address={parentAddress} />
+          ? (
+            <Address
+              address={parentAddress}
+              genesisHash={parentGenesis}
+            />
+          )
           : (
-            <Label label='Choose Parent Account:'>
+            <Label label={t<string>('Choose Parent Account:')}>
               <AddressDropdown
-                allAddresses={hierarchy.filter(({ isExternal }) => !isExternal).map(({ address }) => address)}
+                allAddresses={allAddresses}
                 onSelect={_onParentChange}
                 selectedAddress={parentAddress}
+                selectedGenesis={parentGenesis}
               />
             </Label>
           )
@@ -103,7 +116,7 @@ export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress }
             data-export-password
             isError={!isProperParentPassword}
             isFocused
-            label='enter the password for the account you want to derive from'
+            label={t<string>('enter the password for the account you want to derive from')}
             onChange={_onParentPasswordEnter}
             type='password'
             value={parentPassword}
@@ -120,14 +133,26 @@ export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress }
       </DisableableArea>
       <VerticalSpace/>
       <ButtonArea>
-        <NextStepButton
-          data-button-action='create derived account'
-          isBusy={isBusy}
-          isDisabled={!isProperParentPassword || !suriPath}
-          onClick={_onSubmit}
-        >
-              Create a derived account
-        </NextStepButton>
+        {shouldAccountBeDerived
+          ? (
+            <NextStepButton
+              data-button-action='create derived account'
+              isBusy={isBusy}
+              isDisabled={!isProperParentPassword || !suriPath}
+              onClick={_onSubmit}
+            >
+              {t<string>('Create a derived account')}
+            </NextStepButton>
+          )
+          : (
+            <NextStepButton
+              data-button-action='create root account'
+              onClick={_goCreate}
+            >
+              {t<string>('Create account from new seed')}
+            </NextStepButton>
+          )
+        }
       </ButtonArea>
     </>
   );

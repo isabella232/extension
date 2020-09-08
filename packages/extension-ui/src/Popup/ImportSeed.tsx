@@ -6,6 +6,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { AccountContext, ActionContext, Address, ButtonArea, NextStepButton, TextAreaWithLabel, ValidatedInput, VerticalSpace } from '../components';
+import useTranslation from '../hooks/useTranslation';
 import { createAccountSuri, validateSeed } from '../messaging';
 import { Header, Name, Password } from '../partials';
 import { allOf, isNotShorterThan, Result } from '../util/validators';
@@ -26,6 +27,7 @@ const isSeedValid = allOf(
 );
 
 export default function Import (): React.ReactElement {
+  const { t } = useTranslation();
   const { accounts } = useContext(AccountContext);
   const onAction = useContext(ActionContext);
   const [isBusy, setIsBusy] = useState(false);
@@ -40,10 +42,14 @@ export default function Import (): React.ReactElement {
   const _onChangeSeed = useCallback(
     async (suri: string | null): Promise<void> => {
       if (suri) {
-        setAccount(await validateSeed(suri));
-      } else {
-        setAccount(null);
+        try {
+          return setAccount(await validateSeed(suri));
+        } catch (error) {
+          console.error(error);
+        }
       }
+
+      setAccount(null);
     },
     []
   );
@@ -67,32 +73,38 @@ export default function Import (): React.ReactElement {
     <>
       <HeaderWithSmallerMargin
         showBackArrow
-        text='Import account'
+        text={t<string>('Import account')}
       />
+      <div>
+        <Address
+          address={account?.address}
+          name={name}
+        />
+      </div>
       <ValidatedInput
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         component={SeedInput}
         isFocused
-        label='existing 12 or 24-word mnemonic seed'
+        label={t<string>('existing 12 or 24-word mnemonic seed')}
         onValidatedChange={_onChangeSeed}
         rowsCount={2}
         validator={isSeedValid}
       />
-      {account && <Name onChange={setName} />}
-      {account && name && <Password onChange={setPassword} />}
+      {account && (
+        <>
+          <Name onChange={setName} />
+          <Password onChange={setPassword} />
+        </>
+      )}
       {account && name && password && (
         <>
-          <Address
-            address={account.address}
-            name={name}
-          />
           <VerticalSpace />
           <ButtonArea>
             <NextStepButton
               isBusy={isBusy}
               onClick={_onCreate}
             >
-              Add the account with the supplied seed
+              {t<string>('Add the account with the supplied seed')}
             </NextStepButton>
           </ButtonArea>
         </>

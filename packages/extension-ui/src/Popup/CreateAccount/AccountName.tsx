@@ -4,7 +4,8 @@
 
 import React, { useCallback, useState } from 'react';
 
-import { Address, BackButton, ButtonArea, NextStepButton, VerticalSpace } from '../../components';
+import { BackButton, ButtonArea, NextStepButton, VerticalSpace } from '../../components';
+import useTranslation from '../../hooks/useTranslation';
 import { Name, Password } from '../../partials';
 
 interface Props {
@@ -14,7 +15,8 @@ interface Props {
   onCreate: (name: string, password: string) => void | Promise<void | boolean>;
 }
 
-function AccountName ({ address, isBusy, onBackClick, onCreate }: Props): React.ReactElement<Props> {
+function AccountName ({ isBusy, onBackClick, onCreate }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [name, setName] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
 
@@ -29,13 +31,7 @@ function AccountName ({ address, isBusy, onBackClick, onCreate }: Props): React.
         isFocused
         onChange={setName}
       />
-      {name && <Password onChange={setPassword} />}
-      {name && password && (
-        <Address
-          address={address}
-          name={name}
-        />
-      )}
+      <Password onChange={setPassword} />
       <VerticalSpace />
       <ButtonArea>
         <BackButton onClick={onBackClick} />
@@ -45,11 +41,11 @@ function AccountName ({ address, isBusy, onBackClick, onCreate }: Props): React.
           isDisabled={!password || !name}
           onClick={_onCreate}
         >
-          Add the account with the generated seed
+          {t<string>('Add the account with the generated seed')}
         </NextStepButton>
       </ButtonArea>
     </>
   );
 }
 
-export default AccountName;
+export default React.memo(AccountName);
