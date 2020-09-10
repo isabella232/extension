@@ -1,31 +1,31 @@
 /* eslint-disable prefer-destructuring */
-import { darken } from 'polished';
+import { darken } from "polished";
 
 export const breakpoints = {
   sm: 0,
-  md: '42.5em', // 680px
-  lg: '64em', // 1024px
-  xl: '80em', // 1280px
+  md: "42.5em", // 680px
+  lg: "64em", // 1024px
+  xl: "80em", // 1280px
 };
 
 export const fontSizes = {
-  0: '0.75rem', // 12px
-  1: '0.875rem', // 14px
-  2: '1rem', // 16px
-  3: '1.125rem', // 18px
-  4: '1.25rem', // 20px
-  5: '1.5rem', // 24px
-  6: '1.75rem', // 28px
-  7: '2.125rem', // 34px
-  8: '2.625rem', // 42px
-  9: '3rem', // 48px
-  10: '3.75rem', // 60px,
-  baseText: '1rem',
+  0: "0.75rem", // 12px
+  1: "0.875rem", // 14px
+  2: "1rem", // 16px
+  3: "1.125rem", // 18px
+  4: "1.25rem", // 20px
+  5: "1.5rem", // 24px
+  6: "1.75rem", // 28px
+  7: "2.125rem", // 34px
+  8: "2.625rem", // 42px
+  9: "3rem", // 48px
+  10: "3.75rem", // 60px,
+  baseText: "1rem",
 };
 
 export const borderWidths = {
-  0: '0px',
-  1: '1px',
+  0: "0px",
+  1: "1px",
 };
 
 export const fontFamilies = {
@@ -45,12 +45,7 @@ export const lineHeights = {
   xlarge: 4.938, // 79 px
 };
 
-export type TFontWeightCustom =
-  | 'light'
-  | 'normal'
-  | 'semiBold'
-  | 'bold'
-  | 'strong';
+export type TFontWeightCustom = "light" | "normal" | "semiBold" | "bold" | "strong";
 
 export const fontWeights = {
   light: 300,
@@ -61,45 +56,45 @@ export const fontWeights = {
 };
 
 export const space = {
-  0: '0',
-  1: '5px',
-  2: '10px',
-  3: '16px',
-  4: '24px',
-  5: '36px',
-  6: '48px',
-  7: '80px',
-  8: '120px',
+  0: "0",
+  1: "5px",
+  2: "10px",
+  3: "16px",
+  4: "24px",
+  5: "36px",
+  6: "48px",
+  7: "80px",
+  8: "120px",
 
-  xs: '5px',
-  s: '10px',
-  m: '16px',
-  l: '36px',
-  xl: '48px',
-  xxl: '80px',
-  xxxl: '120px',
-  formGap: '21px',
-  gridGap: '24px',
+  xs: "5px",
+  s: "10px",
+  m: "16px",
+  l: "36px",
+  xl: "48px",
+  xxl: "80px",
+  xxxl: "120px",
+  formGap: "21px",
+  gridGap: "24px",
 
-  '-0': '-0',
-  '-1': '-5px',
-  '-2': '-10px',
-  '-3': '-16px',
-  '-4': '-24px',
-  '-5': '-36px',
-  '-6': '-48px',
-  '-7': '-80px',
-  '-8': '-120px',
+  "-0": "-0",
+  "-1": "-5px",
+  "-2": "-10px",
+  "-3": "-16px",
+  "-4": "-24px",
+  "-5": "-36px",
+  "-6": "-48px",
+  "-7": "-80px",
+  "-8": "-120px",
 
-  '-xs': '-5px',
-  '-s': '-10px',
-  '-m': '-16px',
-  '-l': '-36px',
-  '-xl': '-48px',
-  '-xxl': '-80px',
-  '-xxxl': '-120px',
-  '-formGap': '-21px',
-  '-gridGap': '-24px',
+  "-xs": "-5px",
+  "-s": "-10px",
+  "-m": "-16px",
+  "-l": "-36px",
+  "-xl": "-48px",
+  "-xxl": "-80px",
+  "-xxxl": "-120px",
+  "-formGap": "-21px",
+  "-gridGap": "-24px",
 };
 
 export const zIndexes = {
@@ -111,18 +106,18 @@ export const zIndexes = {
 };
 
 const _colors = {
-  gray: ['#FFFFFF', '#152935', '#6C7D89', '#8C9BA5', '#EBF0F7'],
-  brandBg: '#FAFDFF',
-  brandLightest: '#DCEFFE',
-  brandLighter: '#6DC7F7',
-  brandMain: '#1348E4',
-  brandDark: '#0024BD',
-  brandDarkest: '#170087',
-  info: '#2574B5',
-  green: ['#00AA5E', '#0B6B40', '#D4F7E7'],
-  yellow: ['#EFC100', '#FBF3D0', '#E3A30C'],
-  red: ['#DB2C3E', '#FAE6E8'],
-  white: '#FFFFFF',
+  gray: ["#FFFFFF", "#152935", "#6C7D89", "#8C9BA5", "#EBF0F7", "#F8F9FC"],
+  brandBg: "#FAFDFF",
+  brandLightest: "#DCEFFE",
+  brandLighter: "#6DC7F7",
+  brandMain: "#1348E4",
+  brandDark: "#0024BD",
+  brandDarkest: "#170087",
+  info: "#2574B5",
+  green: ["#00AA5E", "#0B6B40", "#D4F7E7"],
+  yellow: ["#EFC100", "#FBF3D0", "#E3A30C"],
+  red: ["#DB2C3E", "#FAE6E8"],
+  white: "#FFFFFF",
 };
 
 const gradients = {
@@ -150,32 +145,23 @@ export const colors = {
 };
 
 export const shadows = {
-  0: '',
-  1: '0px 1px 2px rgba(21, 41, 53, 0.24), 0px 1px 3px rgba(21, 41, 53, 0.12);',
-  2: '0px 3px 6px rgba(21, 41, 53, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.16);',
-  3: '0px 3px 6px rgba(21, 41, 53, 0.1), 0px 10px 20px rgba(21, 41, 53, 0.15);',
-  4: '0px 5px 10px rgba(21, 41, 53, 0.05), 0px 15px 25px rgba(21, 41, 53, 0.15);',
-  5: '0px 20px 40px rgba(21, 41, 53, 0.1);',
+  0: "",
+  1: "0px 1px 2px rgba(21, 41, 53, 0.24), 0px 1px 3px rgba(21, 41, 53, 0.12);",
+  2: "0px 3px 6px rgba(21, 41, 53, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.16);",
+  3: "0px 3px 6px rgba(21, 41, 53, 0.1), 0px 10px 20px rgba(21, 41, 53, 0.15);",
+  4: "0px 5px 10px rgba(21, 41, 53, 0.05), 0px 15px 25px rgba(21, 41, 53, 0.15);",
+  5: "0px 20px 40px rgba(21, 41, 53, 0.1);",
 };
 
 export const radii = {
-  0: '',
-  1: '2px',
-  2: '4px',
-  3: '8px',
-  4: '16px',
+  0: "",
+  1: "2px",
+  2: "4px",
+  3: "8px",
+  4: "16px",
 };
 
-export type TTextVariant =
-  | 'b1m'
-  | 'b1'
-  | 'b2m'
-  | 'b2'
-  | 'b3m'
-  | 'b3'
-  | 'sh1'
-  | 'c1'
-  | 'c2';
+export type TTextVariant = "b1m" | "b1" | "b2m" | "b2" | "b3m" | "b3" | "sh1" | "c1" | "c2";
 
 export const texts = {
   b1: {
@@ -224,14 +210,14 @@ export const texts = {
     fontSize: fontSizes[1],
     lineHeight: lineHeights.none,
     fontWeight: fontWeights.semiBold,
-    letterSpacing: '0.4px',
+    letterSpacing: "0.4px",
   },
   c2: {
     color: colors.brandMain,
     fontSize: fontSizes[0],
     lineHeight: lineHeights.none,
     fontWeight: fontWeights.semiBold,
-    letterSpacing: '0.4px',
+    letterSpacing: "0.4px",
   },
 };
 
@@ -280,7 +266,7 @@ export const headings = {
 
 export const links = {
   color: colors.brandMain,
-  '&:hover, &:focus': {
+  "&:hover, &:focus": {
     color: darken(0.2, colors.secondary),
   },
 };
@@ -295,11 +281,11 @@ export const transitions = {
 };
 
 const _maxWidth = {
-  0: '500px',
-  1: '700px',
-  2: '850px',
-  3: '1000px',
-  4: '1600px',
+  0: "500px",
+  1: "700px",
+  2: "850px",
+  3: "1000px",
+  4: "1600px",
 };
 
 export const maxWidth = {
@@ -312,11 +298,11 @@ export const maxWidth = {
 };
 
 export const header = {
-  height: '48px',
+  height: "48px",
 };
 
 export const sidebar = {
-  width: '124px',
+  width: "124px",
 };
 
 export const footer = {
