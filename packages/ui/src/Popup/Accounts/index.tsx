@@ -6,10 +6,9 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { AccountContext } from "../../components";
-import { Header } from "../../partials";
 import AccountsTree from "./AccountsTree";
 import AddAccount from "./AddAccount";
-import { Text, Box } from "../../ui";
+import { Text, Box, Header } from "../../ui";
 
 export default function Accounts(): React.ReactElement {
   const { hierarchy } = useContext(AccountContext);
@@ -20,7 +19,7 @@ export default function Accounts(): React.ReactElement {
         <AddAccount />
       ) : (
         <>
-          <Header showAdd showSettings text={"Accounts 123"} />
+          <Header>Accounts</Header>
           <AccountsArea>
             <Box px="s">
               <Text variant="c2" color="gray.1">

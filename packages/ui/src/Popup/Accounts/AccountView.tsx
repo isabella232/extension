@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { Box, Text, Flex, TextEllipsis, Icon } from "../../ui";
 import { AccountJson } from "@polkadot/extension-base/background/types";
 import { SvgAccount, SvgCheck, SvgCheckboxMarkedCircle, SvgDotsVertical } from "@polkadot/ui/assets/images/icons";
+import { Menu } from "@polkadot/ui/components";
 
 export interface Props extends AccountJson {
   className?: string;

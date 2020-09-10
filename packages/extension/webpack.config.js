@@ -52,6 +52,10 @@ function createWebpack({ alias = {}, context }) {
             },
           ],
         },
+        {
+          test: /\.css$/,
+          loader: "raw-loader",
+        },
       ],
     },
     node: {
