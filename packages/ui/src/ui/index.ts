@@ -9,3 +9,4 @@ export { Header } from "./Header";
 export { IconCircled } from "./IconCircled";
 export { Heading } from "./Heading";
 export { Flex } from "./Flex";
+export { TextEllipsis } from "./TextEllipsis";
