@@ -1,11 +1,3 @@
-# `ui`
+# @polkadot/extension-ui
 
-> TODO: description
-
-## Usage
-
-```
-const ui = require('ui');
-
-// TODO: DEMONSTRATE API
-```
+UI for the `@polkadot/extension`

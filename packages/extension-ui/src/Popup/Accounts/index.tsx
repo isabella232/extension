@@ -2,41 +2,35 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useContext } from 'react';
-import styled from 'styled-components';
+import React, { useContext } from "react";
+import styled from "styled-components";
 
-import { AccountContext } from '../../components';
-import useTranslation from '../../hooks/useTranslation';
-import { Header } from '../../partials';
-import AccountsTree from './AccountsTree';
-import AddAccount from './AddAccount';
+import { AccountContext } from "../../components";
+import useTranslation from "../../hooks/useTranslation";
+import { Header } from "../../partials";
+import AccountsTree from "./AccountsTree";
+import AddAccount from "./AddAccount";
 
-export default function Accounts (): React.ReactElement {
+export default function Accounts(): React.ReactElement {
   const { t } = useTranslation();
   const { hierarchy } = useContext(AccountContext);
 
   return (
     <>
-      {(hierarchy.length === 0)
-        ? <AddAccount />
-        : (
-          <>
-            <Header
-              showAdd
-              showSettings
-              text={t<string>('Accounts')}
-            />
-            <AccountsArea>
-              {hierarchy.map((json, index): React.ReactNode => (
-                <AccountsTree
-                  {...json}
-                  key={`${index}:${json.address}`}
-                />
-              ))}
-            </AccountsArea>
-          </>
-        )
-      }
+      {hierarchy.length === 0 ? (
+        <AddAccount />
+      ) : (
+        <>
+          <Header showAdd showSettings text="Test 123" />
+          <AccountsArea>
+            {hierarchy.map(
+              (json, index): React.ReactNode => (
+                <AccountsTree {...json} key={`${index}:${json.address}`} />
+              )
+            )}
+          </AccountsArea>
+        </>
+      )}
     </>
   );
 }

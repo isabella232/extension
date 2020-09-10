@@ -1,10 +1,6 @@
 {
   "extends": "./node_modules/@polkadot/dev/config/tsconfig",
-  "exclude": [
-    "build/**/*",
-    "**/build/*",
-    "**/build/**/*"
-  ],
+  "exclude": ["build/**/*", "**/build/*", "**/build/**/*"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
@@ -19,7 +15,9 @@
       "@polkadot/extension-inject": ["packages/extension-inject/src"],
       "@polkadot/extension-inject/*": ["packages/extension-inject/src/*"],
       "@polkadot/extension-ui": ["packages/extension-ui/src"],
-      "@polkadot/extension-ui/*": ["packages/extension-ui/src/*"]
+      "@polkadot/extension-ui/*": ["packages/extension-ui/src/*"],
+      "@polkadot/ui": ["packages/ui/src"],
+      "@polkadot/ui/*": ["packages/ui/src/*"]
     },
     "skipLibCheck": true
   }

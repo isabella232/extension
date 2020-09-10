@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountJson } from '@polkadot/extension-base/background/types';
+import { AccountJson } from "@polkadot/extension-base/background/types";
 
-import React, { useCallback, useContext, useMemo, useState } from 'react';
-import styled from 'styled-components';
-import genesisOptions from '@polkadot/extension-chains/genesisHashes';
+import React, { useCallback, useContext, useMemo, useState } from "react";
+import styled from "styled-components";
+import genesisOptions from "@polkadot/extension-chains/genesisHashes";
 
-import { ActionContext, Address, Checkbox, Dropdown, Link, MenuDivider } from '../../components';
-import useTranslation from '../../hooks/useTranslation';
-import { editAccount, showAccount, tieAccount } from '../../messaging';
-import { Name } from '../../partials';
+import { ActionContext, Address, Checkbox, Dropdown, Link, MenuDivider } from "../../components";
+import useTranslation from "../../hooks/useTranslation";
+import { editAccount, showAccount, tieAccount } from "../../messaging";
+import { Name } from "../../partials";
 
 interface Props extends AccountJson {
   className?: string;
@@ -23,7 +23,17 @@ interface EditState {
   toggleActions: number;
 }
 
-function Account ({ address, balance, className, did, genesisHash, isExternal, isHidden, parentName, suri }: Props): React.ReactElement<Props> {
+function Account({
+  address,
+  balance,
+  className,
+  did,
+  genesisHash,
+  isExternal,
+  isHidden,
+  parentName,
+  suri,
+}: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const onAction = useContext(ActionContext);
   const [{ isEditing, toggleActions }, setEditing] = useState<EditState>({ isEditing: false, toggleActions: 0 });
@@ -31,8 +41,7 @@ function Account ({ address, balance, className, did, genesisHash, isExternal, i
 
   const _onChangeGenesis = useCallback(
     (genesisHash?: string | null): void => {
-      tieAccount(address, genesisHash || null)
-        .catch(console.error);
+      tieAccount(address, genesisHash || null).catch(console.error);
     },
     [address]
   );
@@ -42,80 +51,62 @@ function Account ({ address, balance, className, did, genesisHash, isExternal, i
     [isEditing]
   );
 
-  const _saveChanges = useCallback(
-    (): void => {
-      if (editedName && editedName !== name) {
-        editAccount(address, editedName)
-          .then(() => onAction())
-          .catch(console.error);
-      }
-
-      _toggleEdit();
-    },
-    [editedName, address, _toggleEdit, onAction]
-  );
-
-  const _toggleVisibility = useCallback(
-    (): void => {
-      showAccount(address, isHidden || false)
+  const _saveChanges = useCallback((): void => {
+    if (editedName && editedName !== name) {
+      editAccount(address, editedName)
+        .then(() => onAction())
         .catch(console.error);
-    },
-    [address, isHidden]
-  );
+    }
 
-  const _actions = useMemo(() => (
-    <>
-      <Link
-        className='menuItem'
-        onClick={_toggleEdit}
-      >
-        {t<string>('Rename')}
-      </Link>
-      {!isExternal && (
-        <Link
-          className='menuItem'
-          to={`/account/derive/${address}/locked`}
-        >
-          {t<string>('Derive New Account')}
+    _toggleEdit();
+  }, [editedName, address, _toggleEdit, onAction]);
+
+  const _toggleVisibility = useCallback((): void => {
+    showAccount(address, isHidden || false).catch(console.error);
+  }, [address, isHidden]);
+
+  const _actions = useMemo(
+    () => (
+      <>
+        <Link className="menuItem" onClick={_toggleEdit}>
+          {t<string>("Rename")}
         </Link>
-      )}
-      <MenuDivider />
-      {!isExternal && (
-        <Link
-          className='menuItem'
-          isDanger
-          to={`/account/export/${address}`}
-        >
-          {t<string>('Export Account')}
+        {!isExternal && (
+          <Link className="menuItem" to={`/account/derive/${address}/locked`}>
+            {t<string>("Derive New Account t1")}
+          </Link>
+        )}
+        <MenuDivider />
+        {!isExternal && (
+          <Link className="menuItem" isDanger to={`/account/export/${address}`}>
+            {t<string>("Export Account")}
+          </Link>
+        )}
+        <Link className="menuItem" isDanger to={`/account/forget/${address}`}>
+          {t<string>("Forget Account")}
         </Link>
-      )}
-      <Link
-        className='menuItem'
-        isDanger
-        to={`/account/forget/${address}`}
-      >
-        {t<string>('Forget Account')}
-      </Link>
-      <MenuDivider />
-      <div className='menuItem'>
-        <Checkbox
-          checked={!isHidden}
-          className='inputItem'
-          label={t<string>('Visible (always inject)')}
-          onClick={_toggleVisibility}
-        />
-      </div>
-      <div className='menuItem'>
-        <Dropdown
-          className='inputItem'
-          label=''
-          onChange={_onChangeGenesis}
-          options={genesisOptions}
-          value={genesisHash || ''}
-        />
-      </div>
-    </>
-  ), [_onChangeGenesis, _toggleEdit, _toggleVisibility, address, genesisHash, isExternal, isHidden, t]);
+        <MenuDivider />
+        <div className="menuItem">
+          <Checkbox
+            checked={!isHidden}
+            className="inputItem"
+            label={t<string>("Visible (always inject)")}
+            onClick={_toggleVisibility}
+          />
+        </div>
+        <div className="menuItem">
+          <Dropdown
+            className="inputItem"
+            label=""
+            onChange={_onChangeGenesis}
+            options={genesisOptions}
+            value={genesisHash || ""}
+          />
+        </div>
+      </>
+    ),
+    [_onChangeGenesis, _toggleEdit, _toggleVisibility, address, genesisHash, isExternal, isHidden, t]
+  );
 
   return (
     <div className={className}>
@@ -123,7 +114,7 @@ function Account ({ address, balance, className, did, genesisHash, isExternal, i
         actions={_actions}
         address={address}
         balance={balance}
-        className='address'
+        className="address"
         did={did}
         genesisHash={genesisHash}
         isHidden={isHidden}
@@ -133,14 +124,7 @@ function Account ({ address, balance, className, did, genesisHash, isExternal, i
         toggleActions={toggleActions}
       >
         {isEditing && (
-          <Name
-            address={address}
-            className='editName'
-            isFocused
-            label={' '}
-            onBlur={_saveChanges}
-            onChange={setName}
-          />
+          <Name address={address} className="editName" isFocused label={" "} onBlur={_saveChanges} onChange={setName} />
         )}
       </Address>
     </div>
