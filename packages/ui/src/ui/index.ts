@@ -10,3 +10,4 @@ export { IconCircled } from "./IconCircled";
 export { Heading } from "./Heading";
 export { Flex } from "./Flex";
 export { TextEllipsis } from "./TextEllipsis";
+export { Wrapper, Menu, MenuItem } from "./Menu";

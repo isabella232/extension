@@ -31,7 +31,6 @@ const IconComponent: FC<IconProps> = ({
   ariaLabel,
   ...props
 }) => {
-  console.log("ICON", width, scale);
   return (
     <Box as="span" className={className} {...props}>
       <Asset role="img" aria-label={ariaLabel} />

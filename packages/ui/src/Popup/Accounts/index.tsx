@@ -9,9 +9,27 @@ import { AccountContext } from "../../components";
 import AccountsTree from "./AccountsTree";
 import AddAccount from "./AddAccount";
 import { Text, Box, Header } from "../../ui";
+import { showAccount } from "../../messaging";
+import { AccountWithChildren } from "@polkadot/extension-base/background/types";
 
 export default function Accounts(): React.ReactElement {
   const { hierarchy } = useContext(AccountContext);
+
+  console.log("ACCOUNTS", hierarchy);
+
+  const select = (accounts: AccountWithChildren[], selectedAccount: string) => {
+    accounts.map((account) => {
+      showAccount(account.address, account.address === selectedAccount).catch(console.error);
+      if (account.children) {
+        select(account.children, selectedAccount);
+      }
+    });
+  };
+
+  const selectAccount = (accountAddress: string) => {
+    console.log("ACCOUN SELECTED", accountAddress);
+    select(hierarchy, accountAddress);
+  };
 
   return (
     <>
@@ -28,7 +46,7 @@ export default function Accounts(): React.ReactElement {
             </Box>
             {hierarchy.map(
               (json, index): React.ReactNode => (
-                <AccountsTree {...json} key={`${index}:${json.address}`} />
+                <AccountsTree {...json} key={`${index}:${json.address}`} selectAccount={selectAccount} />
               )
             )}
           </AccountsArea>

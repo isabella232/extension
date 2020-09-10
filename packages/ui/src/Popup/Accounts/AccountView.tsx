@@ -1,17 +1,39 @@
 import React, { FC } from "react";
-import { Box, Text, Flex, TextEllipsis, Icon } from "../../ui";
+import { Box, Text, Flex, TextEllipsis, Icon, Wrapper, Menu, MenuItem } from "../../ui";
 import { AccountJson } from "@polkadot/extension-base/background/types";
 import { SvgAccount, SvgCheck, SvgCheckboxMarkedCircle, SvgDotsVertical } from "@polkadot/ui/assets/images/icons";
-import { Menu } from "@polkadot/ui/components";
+import { Button } from "react-aria-menubutton";
 
 export interface Props extends AccountJson {
   className?: string;
   parentName?: string;
+  selectAccount: (accountAddress: string) => void;
 }
 
 export const AccountView: FC<Props> = (props) => {
-  const { className, parentName, name, address, balance, isHidden } = props;
+  const { className, parentName, name, address, balance, isHidden, selectAccount } = props;
   console.log("PROPS", props);
+
+  const handleMenuClick = (event) => {
+    console.log("click", event);
+    switch (event) {
+      case "select":
+        return selectAccount(address);
+    }
+  };
+
+  const renderMenuItems = () => {
+    return (
+      <>
+        <MenuItem value="select">Select</MenuItem>
+        <MenuItem value="rename">Rename</MenuItem>
+        <MenuItem value="derive">Derive new account</MenuItem>
+        <MenuItem value="export">Export account</MenuItem>
+        <MenuItem value="forget">Forget account</MenuItem>
+      </>
+    );
+  };
+
   return (
     <Box boxShadow="3" m="s" borderRadius="2" pt="s" pb="s">
       <Box borderRadius="2" bg="brandLightest" mx="s">
@@ -31,7 +53,12 @@ export const AccountView: FC<Props> = (props) => {
               <Icon Asset={SvgCheckboxMarkedCircle} width={16} height={16} color="success" />
             </Box>
             <Box mr="1">
-              <Icon Asset={SvgDotsVertical} width={16} height={16} color="gray.1" />
+              <Wrapper onSelection={handleMenuClick}>
+                <Button>
+                  <Icon Asset={SvgDotsVertical} width={16} height={16} color="gray.1" />
+                </Button>
+                <Menu>{renderMenuItems()}</Menu>
+              </Wrapper>
             </Box>
           </Flex>
         </Flex>

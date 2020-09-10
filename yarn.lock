@@ -3452,6 +3452,7 @@ __metadata:
     "@types/bn.js": ^4.11.6
     "@types/enzyme": ^3.10.5
     "@types/enzyme-adapter-react-16": ^1.0.6
+    "@types/react-aria-menubutton": ^6.2.5
     "@types/react-copy-to-clipboard": ^4.3.0
     "@types/react-dom": ^16.9.8
     "@types/react-router": ^5.1.8
@@ -3463,6 +3464,8 @@ __metadata:
     enzyme-adapter-react-16: ^1.15.3
     polished: ^3.6.5
     react: ^16.13.1
+    react-aria-menubutton: ^7.0.0
+    react-contexify: ^4.1.1
     react-dom: ^16.13.1
     react-dropzone: ^11.0.3
     react-is: ^16.13.1
@@ -4017,6 +4020,15 @@ __metadata:
   version: 1.5.4
   resolution: "@types/q@npm:1.5.4"
   checksum: 1a19cf2c41648b862bd25a4c26ba33dc7206f14fcf50c5b78031b59090d21176e703cd10aff8af409eafbefcebb288607d30af765ee3859637cf3fae6e875648
+  languageName: node
+  linkType: hard
+
+"@types/react-aria-menubutton@npm:^6.2.5":
+  version: 6.2.5
+  resolution: "@types/react-aria-menubutton@npm:6.2.5"
+  dependencies:
+    "@types/react": "*"
+  checksum: 3ac53a0f137ba1303204c6497b150b963c3be650ff3ff5370ecf998d944854a1be10cb90b6d6d756b0216d7a0452db88182ee022c6a60aa92099abdea90a95da
   languageName: node
   linkType: hard
 
@@ -7425,6 +7437,13 @@ __metadata:
     isobject: ^3.0.0
     static-extend: ^0.1.1
   checksum: 6411679ad4d2bde81b62ad721d4771d108d5d8ef32805d10ebfa6f1d6bdcfd5cb6dfea5232b85221f079e42691c36cf2db05a5e76b87ba8f6deb37a2c23a4a41
+  languageName: node
+  linkType: hard
+
+"classnames@npm:^2.2.6":
+  version: 2.2.6
+  resolution: "classnames@npm:2.2.6"
+  checksum: 490eaeca5931846737ffd33e472a701d268d5b8bc5717dd4cf108a127b06e86e05350e06799abbbe763a0e4c945b4217f6700b7ae00ddc703505682c370e5cf2
   languageName: node
   linkType: hard
 
@@ -10948,6 +10967,13 @@ __metadata:
     inherits: ^2.0.3
     readable-stream: ^2.3.6
   checksum: b8fa1fbfadd5c4b6df3cf2c34b3c408fe508a2899c536bafa339f679de545689997e907bd4ff61dd292942f8044fb2f293a5956dd8b601f6a5601617842d0dda
+  languageName: node
+  linkType: hard
+
+"focus-group@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "focus-group@npm:0.3.1"
+  checksum: 983af9ab14ffce751a221bd1ba721d23eca89f05f82665589bcb74f556931322b6b2291255314bcce67d041e2e8126dd5c8653c74a6f0bebf5a569ab63df10d4
   languageName: node
   linkType: hard
 
@@ -18205,7 +18231,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.8, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2":
+"prop-types@npm:^15.5.8, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2":
   version: 15.7.2
   resolution: "prop-types@npm:15.7.2"
   dependencies:
@@ -18527,6 +18553,32 @@ __metadata:
   bin:
     rc: ./cli.js
   checksum: ea2b7f7cee201a67923a2240de594a5d9b59bd312b814b06536d3d609a416dfd6fb9b85ea2abfd3b8a4eb5ed33eaff946ee75a8f2b7fb10941073c5cfee6b7a5
+  languageName: node
+  linkType: hard
+
+"react-aria-menubutton@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "react-aria-menubutton@npm:7.0.0"
+  dependencies:
+    focus-group: ^0.3.1
+    prop-types: ^15.6.0
+    teeny-tap: ^0.2.0
+  peerDependencies:
+    react: ^16.3.0
+  checksum: 18fb6e8cd98bfffafdd095271f66300caa8d8599d2e8f706a0cb905a3a3d979eb6b174dd167151c28ee50691a9f888333099b7c9a296edf6f8a158a492e4ecee
+  languageName: node
+  linkType: hard
+
+"react-contexify@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "react-contexify@npm:4.1.1"
+  dependencies:
+    classnames: ^2.2.6
+    prop-types: ^15.6.2
+  peerDependencies:
+    react: ">=16.0.0"
+    react-dom: ">=16.0.0"
+  checksum: ff3679bdd1df550c70c90ba5a397a9319b776e4150ffab87551d0b1ee8a02ee6447a7bdfeac796ee433494869299b1e434d3f3c7e9dc5549dcde3c19ae1c0717
   languageName: node
   linkType: hard
 
@@ -21311,6 +21363,13 @@ __metadata:
     mkdirp: ^1.0.3
     yallist: ^4.0.0
   checksum: 7ae26210927bdf590686db21e66d5579020ccbebda93a1adffe266eb88ca8b152c56dd8ce0df87d81e3dbe709bfe8562b29c584871ba015ec868dec9062e91ea
+  languageName: node
+  linkType: hard
+
+"teeny-tap@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "teeny-tap@npm:0.2.0"
+  checksum: b5116a7be9df48e9391272b3931c2c485d4e2d12bfc0c088fecf49a7fa9106e69962d8cb00f866e0f2898b14ef9dbf565d0ebe65629ea9ccfc788f27718836e1
   languageName: node
   linkType: hard
 

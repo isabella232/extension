@@ -8,14 +8,25 @@ import { AccountView } from "./AccountView";
 
 interface Props extends AccountWithChildren {
   parentName?: string;
+  selectAccount: (accountAddress: string) => void;
 }
 
-export default function AccountsTree({ parentName, suri, ...account }: Props): React.ReactElement<Props> {
+export default function AccountsTree({
+  parentName,
+  suri,
+  selectAccount,
+  ...account
+}: Props): React.ReactElement<Props> {
   return (
     <>
-      <AccountView {...account} parentName={parentName} suri={suri} />
+      <AccountView {...account} parentName={parentName} suri={suri} selectAccount={selectAccount} />
       {account?.children?.map((child, index) => (
-        <AccountsTree key={`${index}:${child.address}`} {...child} parentName={account.name} />
+        <AccountsTree
+          key={`${index}:${child.address}`}
+          {...child}
+          parentName={account.name}
+          selectAccount={selectAccount}
+        />
       ))}
     </>
   );
