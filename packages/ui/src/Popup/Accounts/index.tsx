@@ -8,10 +8,15 @@ import styled from "styled-components";
 import { AccountContext } from "../../components";
 import AccountsTree from "./AccountsTree";
 import AddAccount from "./AddAccount";
-import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button } from "../../ui";
+import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button, StatusBadge } from "../../ui";
 import { showAccount } from "../../messaging";
 import { AccountWithChildren } from "@polkadot/extension-base/background/types";
-import { SvgCheckboxMarkedCircle, SvgAlertCircle } from "@polkadot/ui/assets/images/icons";
+import {
+  SvgCheckboxMarkedCircle,
+  SvgAlertCircle,
+  SvgViewDashboard,
+  SvgDotsVertical,
+} from "@polkadot/ui/assets/images/icons";
 import { formatters } from "../../util";
 
 export default function Accounts(): React.ReactElement {
@@ -75,8 +80,14 @@ export default function Accounts(): React.ReactElement {
       ) : (
         <>
           <Header>
-            myaccounts
-            <Box></Box>
+            <Flex flexDirection="row" alignItems="center" justifyContent="space-between" mb="m">
+              <StatusBadge variant="yellow">Polymesh testnet</StatusBadge>
+
+              <Flex flexDirection="row" justifyContent="center">
+                <Icon color="gray.0" Asset={SvgViewDashboard} width={24} height={24} />
+                <Icon color="gray.0" Asset={SvgDotsVertical} width={24} height={24} />
+              </Flex>
+            </Flex>
             <Box borderRadius="2" bg="brandLightest">
               {currentAccount && (
                 <Flex flexDirection="row" mx="1" justifyContent="space-between">
