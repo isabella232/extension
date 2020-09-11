@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 
-import { AccountContext, ActionContext, Address, ButtonArea, NextStepButton, TextAreaWithLabel, ValidatedInput, VerticalSpace } from '../components';
+import { AccountContext, ActionContext, Address, ButtonArea, NextStepButton, TextAreaWithLabel, ValidatedInput, VerticalSpace, InputWithLabel } from '../components';
 import useTranslation from '../hooks/useTranslation';
-import { createAccountSuri, validateSeed } from '../messaging';
+import { createAccountSuri, validateSeed, validateAccount } from '../messaging';
 import { Header, Name, Password } from '../partials';
 import { allOf, isNotShorterThan, Result } from '../util/validators';
 
@@ -34,6 +34,9 @@ export default function Import (): React.ReactElement {
   const [account, setAccount] = useState<null | { address: string; suri: string }>(null);
   const [name, setName] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
+  const [isProperReusedPassword, setIsProperReusedPassword] = useState(false);
+  const reuseAccountsPassword = accounts.length > 0 && accounts[0].address;
+  const passwordInputRef = useRef<HTMLDivElement>(null);
 
   useEffect((): void => {
     !accounts.length && onAction();
@@ -55,19 +58,38 @@ export default function Import (): React.ReactElement {
   );
 
   // FIXME Duplicated between here and Create.tsx
-  const _onCreate = useCallback((): void => {
-    // this should always be the case
-    if (name && password && account) {
-      setIsBusy(true);
 
-      createAccountSuri(name, password, account.suri)
+  const _onCreate = useCallback((): void => {
+    const _createAccountSuri = (name: string, password: string, suri: string): void => {
+      createAccountSuri(name, password, suri)
         .then(() => onAction('/'))
         .catch((error): void => {
           setIsBusy(false);
           console.error(error);
         });
+    };
+
+    // this should always be the case
+    if (name && password && account) {
+      setIsBusy(true);
+
+      if (reuseAccountsPassword) {
+        validateAccount(reuseAccountsPassword, password).then((isUnlockable) => {
+          if (isUnlockable) {
+            _createAccountSuri(name, password, account.suri);
+          } else {
+            setIsProperReusedPassword(isUnlockable);
+            setIsBusy(false);
+          }
+        }).catch((error): void => {
+          setIsBusy(false);
+          console.error(error);
+        });
+      } else {
+        _createAccountSuri(name, password, account.suri);
+      }
     }
-  }, [account, name, onAction, password]);
+  }, [account, name, password, reuseAccountsPassword, onAction]);
 
   return (
     <>
@@ -93,7 +115,19 @@ export default function Import (): React.ReactElement {
       {account && (
         <>
           <Name onChange={setName} />
-          <Password onChange={setPassword} />
+          {reuseAccountsPassword
+            ? <div ref={passwordInputRef}>
+              <InputWithLabel
+                data-export-password
+                isError={!isProperReusedPassword}
+                isFocused
+                label={t<string>('Unlock an existing account')}
+                onChange={setPassword}
+                type='password'
+                value={password || ''}
+              />
+            </div>
+            : <Password onChange={setPassword} />}
         </>
       )}
       {account && name && password && (

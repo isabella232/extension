@@ -2,18 +2,19 @@
   "repository": "https://github.com/PolymathNetwork/extension",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "Apache-2",
-  "version": "0.33.0-beta.23",
+  "version": "0.34.0-beta.10",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^1.32.0-beta.20",
+    "@polkadot/api": "^1.32.1",
     "@polkadot/keyring": "^3.4.1",
-    "@polkadot/types": "^1.32.0-beta.20",
+    "@polkadot/types": "^1.32.1",
     "@polkadot/util": "^3.4.1",
     "@polkadot/util-crypto": "^3.4.1",
     "babel-core": "^7.0.0-bridge.0",
+    "safe-buffer": "^5.2.1",
     "typescript": "^4.0.2"
   },
   "scripts": {
@@ -23,7 +24,7 @@
     "build:release": "polkadot-ci-ghact-build",
     "build:zip": "yarn build:zip:dst && yarn build:zip:src",
     "build:zip:dst": "rm -rf ./master-build.zip && cd packages/extension/build && zip -r -FS ../../../master-build.zip .",
-    "build:zip:src": "rm -rf ./master-src.zip && zip -r -x '*build*' -x '*node_modules*' -FS ./master-src.zip packages .babelrc.js .editorconfig .eslintignore .eslintrc.js babel.config.js CHANGELOG.md CONTRIBUTING.md jest.config.js lerna.json LICENSE package.json README.md tsconfig.json yarn.lock",
+    "build:zip:src": "rm -rf ./master-src.zip && zip -r -x '*build/*' -x '*node_modules*' -FS ./master-src.zip packages .babelrc.js .editorconfig .eslintignore .eslintrc.js babel.config.js CHANGELOG.md CONTRIBUTING.md i18next-scanner.config.js jest.config.js lerna.json LICENSE package.json README.md tsconfig.json yarn.lock",
     "lint": "polkadot-dev-run-lint",
     "lint:css": "stylelint './packages/**/src/**/*.tsx'",
     "clean": "polkadot-dev-clean-build",
@@ -34,8 +35,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
-    "@polkadot/dev": "^0.55.46",
-    "@polkadot/typegen": "^1.32.0-beta.20",
+    "@polkadot/dev": "^0.55.49",
+    "@polkadot/typegen": "^1.32.1",
     "@types/jest": "^26.0.13",
     "copy-webpack-plugin": "^6.1.0",
     "i18next-scanner": "^2.11.0",
