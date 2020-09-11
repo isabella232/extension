@@ -12,3 +12,5 @@ export { Flex } from "./Flex";
 export { TextEllipsis } from "./TextEllipsis";
 export { Wrapper, Menu, MenuItem } from "./Menu";
 export { StatusBadge } from "./StatusBadge";
+export { BaseInput } from "./BaseInput";
+export { TextInput } from "./TextInput";
