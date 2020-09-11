@@ -8,16 +8,18 @@ export interface MenuProps {
 
 export const Menu = styled(ScMenu)({
   background: "#fff",
-  border: "1px solid #ccc",
+  border: "1px solid #EBF0F7",
+  boxShadow: "0px 1px 2px rgba(21, 41, 53, 0.24), 0px 1px 3px rgba(21, 41, 53, 0.12);",
+  borderRadius: "8px",
   listStyleType: "none",
   paddingLeft: 0,
   position: "absolute",
   top: "100%",
-  left: -180,
+  left: -280,
   zIndex: 99,
   margin: "2px 0 0 0",
-  width: "220px",
-  maxWidth: "200px",
+  width: "312px",
+  maxWidth: "312px",
   "&:before": {
     border: "inset 6px",
     content: "",

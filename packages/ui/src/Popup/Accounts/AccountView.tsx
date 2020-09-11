@@ -6,6 +6,8 @@ import { Button } from "react-aria-menubutton";
 import { useHistory } from "react-router-dom";
 import { formatters } from "../../util";
 
+const colors = ["#F2E6FF", "#F1FEE1", "#FFEBF1", "#FFEAE1", "#E6F9FE", "#FAF5FF", "#E6FFFA", "#EBF4FF", "#DCEFFE"];
+
 export interface Props extends AccountJson {
   className?: string;
   parentName?: string;
@@ -15,6 +17,18 @@ export interface Props extends AccountJson {
 export const AccountView: FC<Props> = (props) => {
   const { did, isExternal, name, address, balance, isHidden, selectAccount } = props;
   const history = useHistory();
+
+  const stringToColor = (str: string) => {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let colorIndex = (hash >> 8) & 0xf;
+    if (colorIndex >= colors.length) {
+      colorIndex = colorIndex - colors.length;
+    }
+    return colors[colorIndex];
+  };
 
   const handleMenuClick = (event) => {
     console.log("click", event);
@@ -44,7 +58,7 @@ export const AccountView: FC<Props> = (props) => {
 
   return (
     <Box boxShadow="3" m="s" borderRadius="2" pt="s" pb="s">
-      <Box borderRadius="2" bg="brandLightest" mx="s">
+      <Box borderRadius="2" bg={stringToColor(address)} mx="s">
         <Flex flexDirection="row" justifyContent="space-between">
           <Flex flexDirection="row" px="1">
             <Text color="brandMain" variant="c2">
