@@ -1,10 +1,18 @@
-import React, { FC } from "react";
-import { Box, Text, Flex, TextEllipsis, Icon, Wrapper, Menu, MenuItem } from "../../ui";
+import React, { FC, useState, useContext } from "react";
+import { Box, Text, Flex, TextEllipsis, Icon, Wrapper, Menu, MenuItem, TextInput } from "../../ui";
 import { AccountJson } from "@polkadot/extension-base/background/types";
-import { SvgAccount, SvgCheck, SvgCheckboxMarkedCircle, SvgDotsVertical } from "@polkadot/ui/assets/images/icons";
+import {
+  SvgAccount,
+  SvgCheck,
+  SvgCheckboxMarkedCircle,
+  SvgDotsVertical,
+  SvgWindowClose,
+} from "@polkadot/ui/assets/images/icons";
+import { editAccount } from "../../messaging";
 import { Button } from "react-aria-menubutton";
 import { useHistory } from "react-router-dom";
 import { formatters } from "../../util";
+import { ActionContext } from "../../components";
 
 const colors = ["#F2E6FF", "#F1FEE1", "#FFEBF1", "#FFEAE1", "#E6F9FE", "#FAF5FF", "#E6FFFA", "#EBF4FF", "#DCEFFE"];
 
@@ -17,6 +25,9 @@ export interface Props extends AccountJson {
 export const AccountView: FC<Props> = (props) => {
   const { did, isExternal, name, address, balance, isHidden, selectAccount } = props;
   const history = useHistory();
+  const [isEditing, setEditing] = useState(false);
+  const [newName, setNewName] = useState(name);
+  const onAction = useContext(ActionContext);
 
   const stringToColor = (str: string) => {
     var hash = 0;
@@ -41,7 +52,26 @@ export const AccountView: FC<Props> = (props) => {
         return history.push(`/account/export/${address}`);
       case "forget":
         return history.push(`/account/forget/${address}`);
+      case "rename":
+        return setEditing(true);
     }
+  };
+
+  const cancelEditing = () => {
+    setEditing(false);
+  };
+
+  const handleNameChange = (e) => {
+    setNewName(e.target.value);
+  };
+
+  const save = () => {
+    editAccount(address, newName)
+      .then(() => {
+        onAction();
+        setEditing(false);
+      })
+      .catch(console.error);
   };
 
   const renderMenuItems = () => {
@@ -92,9 +122,22 @@ export const AccountView: FC<Props> = (props) => {
               <Icon Asset={SvgAccount} width={14} height={14} color="brandMain" />
             </Box>
             <Box ml="s">
-              <Text variant="b2m" color="gray.1">
-                {name}
-              </Text>
+              {isEditing && (
+                <Flex flexDirection="row">
+                  <TextInput defaultValue={name} value={newName} onChange={handleNameChange} />
+                  <Box ml="xs">
+                    <Icon Asset={SvgCheck} width={16} height={16} color="gray.2" onClick={save} />
+                  </Box>
+                  <Box ml="xs">
+                    <Icon Asset={SvgWindowClose} width={16} height={16} color="gray.2" onClick={cancelEditing} />
+                  </Box>
+                </Flex>
+              )}
+              {!isEditing && (
+                <Text variant="b2m" color="gray.1">
+                  {name}
+                </Text>
+              )}
 
               <Box>
                 <Text variant="b3" color="gray.3">

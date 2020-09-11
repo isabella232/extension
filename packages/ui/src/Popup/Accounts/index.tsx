@@ -82,7 +82,6 @@ export default function Accounts(): React.ReactElement {
           <Header>
             <Flex flexDirection="row" alignItems="center" justifyContent="space-between" mb="m">
               <StatusBadge variant="yellow">Polymesh testnet</StatusBadge>
-
               <Flex flexDirection="row" justifyContent="center">
                 <Icon color="gray.0" Asset={SvgViewDashboard} width={24} height={24} />
                 <Icon color="gray.0" Asset={SvgDotsVertical} width={24} height={24} />
