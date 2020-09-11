@@ -161,7 +161,7 @@ export const radii = {
   4: "16px",
 };
 
-export type TTextVariant = "b1m" | "b1" | "b2m" | "b2" | "b3m" | "b3" | "sh1" | "c1" | "c2";
+export type TTextVariant = "b1m" | "b1" | "b2m" | "b2" | "b3m" | "b3" | "sh1" | "c1" | "c2" | "c2m";
 
 export const texts = {
   b1: {
@@ -213,6 +213,13 @@ export const texts = {
     letterSpacing: "0.4px",
   },
   c2: {
+    color: colors.brandMain,
+    fontSize: fontSizes[0],
+    lineHeight: lineHeights.none,
+    fontWeight: fontWeights.normal,
+    letterSpacing: "0.4px",
+  },
+  c2m: {
     color: colors.brandMain,
     fontSize: fontSizes[0],
     lineHeight: lineHeights.none,

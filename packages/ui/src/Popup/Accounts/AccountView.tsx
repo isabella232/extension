@@ -4,6 +4,7 @@ import { AccountJson } from "@polkadot/extension-base/background/types";
 import { SvgAccount, SvgCheck, SvgCheckboxMarkedCircle, SvgDotsVertical } from "@polkadot/ui/assets/images/icons";
 import { Button } from "react-aria-menubutton";
 import { useHistory } from "react-router-dom";
+import { formatters } from "../../util";
 
 export interface Props extends AccountJson {
   className?: string;
@@ -12,7 +13,7 @@ export interface Props extends AccountJson {
 }
 
 export const AccountView: FC<Props> = (props) => {
-  const { isExternal, name, address, balance, isHidden, selectAccount } = props;
+  const { did, isExternal, name, address, balance, isHidden, selectAccount } = props;
   const history = useHistory();
 
   const handleMenuClick = (event) => {
@@ -47,11 +48,11 @@ export const AccountView: FC<Props> = (props) => {
         <Flex flexDirection="row" justifyContent="space-between">
           <Flex flexDirection="row" px="1">
             <Text color="brandMain" variant="c2">
-              {name}
+              Did Label
             </Text>
             <Box mx="1">
               <Text color="gray.2" variant="c2">
-                <TextEllipsis size="12">{address}</TextEllipsis>
+                <TextEllipsis size="12">{did}</TextEllipsis>
               </Text>
             </Box>
           </Flex>
@@ -83,7 +84,7 @@ export const AccountView: FC<Props> = (props) => {
 
               <Box>
                 <Text variant="b3" color="gray.3">
-                  {balance} POLYX
+                  {formatters.formatAmount(balance, 2, true)} POLYX
                 </Text>
               </Box>
             </Box>

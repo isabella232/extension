@@ -1,3 +1,5 @@
+import BigNumber from "bignumber.js";
+
 /**
  * Shortens an address for display purposes
  */
@@ -10,4 +12,12 @@ export const toShortAddress = (address: string, { size = 17 }: { size?: number }
   const remainder = ((size - 3) / 2) % 1 !== 0 ? 1 : 0;
 
   return `${address.substring(0, portionSize + remainder)}...${address.slice(-portionSize)}`;
+};
+
+export const formatAmount = (amount: BigNumber, minimumFractionDigits = 0, scaleDown: boolean = false) => {
+  const formattter = new Intl.NumberFormat("en-US", {
+    minimumFractionDigits,
+  });
+
+  return formattter.format(parseFloat((scaleDown ? amount / 1000000 : amount).toString()));
 };
