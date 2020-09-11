@@ -3,6 +3,7 @@ import { Box, Text, Flex, TextEllipsis, Icon, Wrapper, Menu, MenuItem } from "..
 import { AccountJson } from "@polkadot/extension-base/background/types";
 import { SvgAccount, SvgCheck, SvgCheckboxMarkedCircle, SvgDotsVertical } from "@polkadot/ui/assets/images/icons";
 import { Button } from "react-aria-menubutton";
+import { useHistory } from "react-router-dom";
 
 export interface Props extends AccountJson {
   className?: string;
@@ -11,14 +12,20 @@ export interface Props extends AccountJson {
 }
 
 export const AccountView: FC<Props> = (props) => {
-  const { className, parentName, name, address, balance, isHidden, selectAccount } = props;
-  console.log("PROPS", props);
+  const { isExternal, name, address, balance, isHidden, selectAccount } = props;
+  const history = useHistory();
 
   const handleMenuClick = (event) => {
     console.log("click", event);
     switch (event) {
       case "select":
         return selectAccount(address);
+      case "derive":
+        return history.push(`/account/derive/${address}/locked`);
+      case "export":
+        return history.push(`/account/export/${address}`);
+      case "forget":
+        return history.push(`/account/forget/${address}`);
     }
   };
 
@@ -27,7 +34,7 @@ export const AccountView: FC<Props> = (props) => {
       <>
         <MenuItem value="select">Select</MenuItem>
         <MenuItem value="rename">Rename</MenuItem>
-        <MenuItem value="derive">Derive new account</MenuItem>
+        {!isExternal && <MenuItem value="derive">Derive new account</MenuItem>}
         <MenuItem value="export">Export account</MenuItem>
         <MenuItem value="forget">Forget account</MenuItem>
       </>
@@ -38,7 +45,7 @@ export const AccountView: FC<Props> = (props) => {
     <Box boxShadow="3" m="s" borderRadius="2" pt="s" pb="s">
       <Box borderRadius="2" bg="brandLightest" mx="s">
         <Flex flexDirection="row" justifyContent="space-between">
-          <Flex flexDirection="row" p="1">
+          <Flex flexDirection="row" px="1">
             <Text color="brandMain" variant="c2">
               {name}
             </Text>
@@ -50,7 +57,7 @@ export const AccountView: FC<Props> = (props) => {
           </Flex>
           <Flex flexDirection="row" justifyContent="space-between">
             <Box mr="1">
-              <Icon Asset={SvgCheckboxMarkedCircle} width={16} height={16} color="success" />
+              <Icon Asset={SvgCheckboxMarkedCircle} width={14} height={14} color="success" />
             </Box>
             <Box mr="1">
               <Wrapper onSelection={handleMenuClick}>
@@ -63,18 +70,17 @@ export const AccountView: FC<Props> = (props) => {
           </Flex>
         </Flex>
       </Box>
-      <Box mt="s" py="s" bg="gray.5" px="s">
+      <Box mt="s" bg={isHidden ? "gray.0" : "gray.5"} px="s">
         <Flex flexDirection="row" justifyContent="space-between">
           <Flex flexDirection="row">
             <Box px="2" borderRadius="50%" width={32} height={32} backgroundColor="brandLightest">
               <Icon Asset={SvgAccount} width={14} height={14} color="brandMain" />
             </Box>
             <Box ml="s">
-              <Box>
-                <Text variant="b2m" color="gray.1">
-                  {name}
-                </Text>
-              </Box>
+              <Text variant="b2m" color="gray.1">
+                {name}
+              </Text>
+
               <Box>
                 <Text variant="b3" color="gray.3">
                   {balance} POLYX

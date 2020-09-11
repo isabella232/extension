@@ -15,8 +15,6 @@ import { AccountWithChildren } from "@polkadot/extension-base/background/types";
 export default function Accounts(): React.ReactElement {
   const { hierarchy } = useContext(AccountContext);
 
-  console.log("ACCOUNTS", hierarchy);
-
   const select = (accounts: AccountWithChildren[], selectedAccount: string) => {
     accounts.map((account) => {
       showAccount(account.address, account.address === selectedAccount).catch(console.error);
@@ -27,7 +25,6 @@ export default function Accounts(): React.ReactElement {
   };
 
   const selectAccount = (accountAddress: string) => {
-    console.log("ACCOUN SELECTED", accountAddress);
     select(hierarchy, accountAddress);
   };
 
@@ -37,9 +34,16 @@ export default function Accounts(): React.ReactElement {
         <AddAccount />
       ) : (
         <>
-          <Header>Accounts</Header>
+          <Header>
+            myaccounts
+            <Box></Box>
+            <Box borderRadius="2" bg="brandLightest">
+              {" "}
+              Account Info
+            </Box>
+          </Header>
           <AccountsArea>
-            <Box px="s">
+            <Box px="s" pt="m">
               <Text variant="c2" color="gray.1">
                 ACCOUNTS
               </Text>
