@@ -170,7 +170,7 @@ function Address({
             </div>
           )}
           <div className="addressDisplay">
-            <FullAddress data-field="address">HELLO {formatted || "<unknown>"}</FullAddress>
+            <FullAddress data-field="address">{formatted || "<unknown>"}</FullAddress>
             <CopyToClipboard text={(formatted && formatted) || ""}>
               <Svg onClick={_onCopy} src={copyIcon} />
             </CopyToClipboard>

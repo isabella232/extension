@@ -7,6 +7,7 @@ import {
   SvgCheckboxMarkedCircle,
   SvgDotsVertical,
   SvgWindowClose,
+  SvgAlertCircle,
 } from "@polkadot/ui/assets/images/icons";
 import { editAccount } from "../../messaging";
 import { Button } from "react-aria-menubutton";
@@ -86,6 +87,13 @@ export const AccountView: FC<Props> = (props) => {
     );
   };
 
+  const renderStatus = (isVerified: boolean) => {
+    const color = isVerified ? "success" : "alert";
+    const iconAsset = isVerified ? SvgCheckboxMarkedCircle : SvgAlertCircle;
+
+    return <Icon Asset={iconAsset} width={14} height={14} color={color} />;
+  };
+
   return (
     <Box boxShadow="3" m="s" borderRadius="2" pt="s" pb="s">
       <Box borderRadius="2" bg={stringToColor(address)} mx="s">
@@ -101,9 +109,7 @@ export const AccountView: FC<Props> = (props) => {
             </Box>
           </Flex>
           <Flex flexDirection="row" justifyContent="space-between">
-            <Box mr="1">
-              <Icon Asset={SvgCheckboxMarkedCircle} width={14} height={14} color="success" />
-            </Box>
+            <Box mr="1">{renderStatus(false)}</Box>
             <Box mr="1">
               <Wrapper onSelection={handleMenuClick}>
                 <Button>
