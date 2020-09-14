@@ -1,0 +1,20 @@
+{
+  "name": "@polymath/extension",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.4.0",
+    "@types/lodash-es": "^4.17.3",
+    "@types/redux-logger": "^3.0.8",
+    "lodash-es": "^4.17.15"
+  },
+  "devDependencies": {
+    "redux-logger": "^3.0.6"
+  }
+}

@@ -3116,6 +3116,7 @@ __metadata:
     "@polkadot/extension-base": 0.34.0-beta.10
     "@polkadot/extension-inject": 0.34.0-beta.10
     "@polkadot/extension-ui": 0.34.0-beta.10
+    "@polymath/extension": 0.1.0
     babel-loader: ^8.1.0
     extract-loader: ^5.1.0
     file-loader: ^6.1.0
@@ -3366,6 +3367,30 @@ __metadata:
   peerDependencies:
     "@polkadot/util": "*"
   checksum: 5fff4c5f6d1625807c5e4355a7d228e42ecd477faaa79dabb7e738a800f51c0a9874f4ccfee9bce9ade2b2b99d8c7da2f12af8fa07d3ad43f154fc4eb0b66a5a
+  languageName: node
+  linkType: hard
+
+"@polymath/extension@0.1.0, @polymath/extension@workspace:packages/extension-polymath":
+  version: 0.0.0-use.local
+  resolution: "@polymath/extension@workspace:packages/extension-polymath"
+  dependencies:
+    "@reduxjs/toolkit": ^1.4.0
+    "@types/lodash-es": ^4.17.3
+    "@types/redux-logger": ^3.0.8
+    lodash-es: ^4.17.15
+    redux-logger: ^3.0.6
+  languageName: unknown
+  linkType: soft
+
+"@reduxjs/toolkit@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "@reduxjs/toolkit@npm:1.4.0"
+  dependencies:
+    immer: ^7.0.3
+    redux: ^4.0.0
+    redux-thunk: ^2.3.0
+    reselect: ^4.0.0
+  checksum: d7ef94402868abedc497ee386089a14992c54e163dfc99ed0cf13de7e616f86748c0b9f0d7555e7685144aa8f10216b19e0dbcce5c2aeea1d753b45865545df3
   languageName: node
   linkType: hard
 
@@ -3692,6 +3717,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash-es@npm:^4.17.3":
+  version: 4.17.3
+  resolution: "@types/lodash-es@npm:4.17.3"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: d277a0d79dc3093ed683fd5314301d1df083f10921c14f7ec0604270450858239e604498c33cb5378fda9db56f2af2a014d3e42f7d1df5dc391662c8feb9f377
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.14.161
+  resolution: "@types/lodash@npm:4.14.161"
+  checksum: c3657517dab1a23059d86ae379c4e7538212f05ba9c3e108ab694167f086118a5b44ed04bcb6e5cd0a89778c29909668302a755df576e3597df16fda8b603443
+  languageName: node
+  linkType: hard
+
 "@types/minimatch@npm:*":
   version: 3.0.3
   resolution: "@types/minimatch@npm:3.0.3"
@@ -3810,6 +3851,15 @@ __metadata:
     "@types/prop-types": "*"
     csstype: ^3.0.2
   checksum: cf5dabe1e9c893a19a338002ac4bf5a86c9bc3cd88eb07aece54e6d2e5af35debe2a8c72d211ad9133391543ce115219cd7c7f2a6f649b81caf4548e1cc99061
+  languageName: node
+  linkType: hard
+
+"@types/redux-logger@npm:^3.0.8":
+  version: 3.0.8
+  resolution: "@types/redux-logger@npm:3.0.8"
+  dependencies:
+    redux: ^4.0.0
+  checksum: c7b7a41da5002ff3fc7d76edce5c0cd87139ca307223dcbfa6bc97e7acca2a61ceb420b7246106ba76746cd95a6da347017d14ee2f03eefd2e850079e1c9c7fc
   languageName: node
   linkType: hard
 
@@ -8538,6 +8588,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"deep-diff@npm:^0.3.5":
+  version: 0.3.8
+  resolution: "deep-diff@npm:0.3.8"
+  checksum: debaca1f9513b9c4dc64dbbcb23b6bc697e8dfa8e1cac8169542676408bfb803078255f82cc51c973cf1f0e18332f06c056c9dc5eab1cf777086e38930e597c1
+  languageName: node
+  linkType: hard
+
 "deep-equal@npm:^1.0.1":
   version: 1.1.1
   resolution: "deep-equal@npm:1.1.1"
@@ -12267,6 +12324,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"immer@npm:^7.0.3":
+  version: 7.0.9
+  resolution: "immer@npm:7.0.9"
+  checksum: 20fba3dabd033f9584eb1df9c16210b64c16a536a6376b0dedf153176554d89432ee86409458d8773edd142ddcae75f8e242b1952cd5b61c22767a4538880dd0
+  languageName: node
+  linkType: hard
+
 "import-cwd@npm:^2.0.0":
   version: 2.1.0
   resolution: "import-cwd@npm:2.1.0"
@@ -14471,6 +14535,13 @@ __metadata:
   dependencies:
     p-locate: ^4.1.0
   checksum: c58f49d45c8672d0a290dea0ce41fcb27205b3f2d61452ba335ef3b42ad36c10c31b1f061b46d96dd4b81e9a00e8a2897bc124d75623b80a9f6d36b1e754a6b5
+  languageName: node
+  linkType: hard
+
+"lodash-es@npm:^4.17.15":
+  version: 4.17.15
+  resolution: "lodash-es@npm:4.17.15"
+  checksum: ee2871b76deefd1754527e659a8c8b688f2e427e67b30709296878e18ad9cb54b4f0fc16a7161298156b4e0ebc2a37dfe501a3ea8725f195763f9de8a7ba6da6
   languageName: node
   linkType: hard
 
@@ -18647,6 +18718,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"redux-logger@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "redux-logger@npm:3.0.6"
+  dependencies:
+    deep-diff: ^0.3.5
+  checksum: cc54fe7def447262864badc7703a2a978cf25085f123a144c0032f97947c36c4da452d7cdcece54179913091ffe2b991e1103c37eec4a1283d17044878ae74a3
+  languageName: node
+  linkType: hard
+
+"redux-thunk@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "redux-thunk@npm:2.3.0"
+  checksum: 2d7210b88cef244384ab15bfe0c0f79a7d5a2fe059825da121121ec75378b175860695fafd5265386a0fd4b86212cc49e5972825f7bc9f803ad8753229f0258b
+  languageName: node
+  linkType: hard
+
+"redux@npm:^4.0.0":
+  version: 4.0.5
+  resolution: "redux@npm:4.0.5"
+  dependencies:
+    loose-envify: ^1.4.0
+    symbol-observable: ^1.2.0
+  checksum: 112739c2fb83ae2e18335d942a883b3ee14ebada31ff3a7924511a1f38a4278a762f5823491f3eb5083492de601ed76cb2687295c7d5db9a6e098c2542cdc05b
+  languageName: node
+  linkType: hard
+
 "reflect.ownkeys@npm:^0.2.0":
   version: 0.2.0
   resolution: "reflect.ownkeys@npm:0.2.0"
@@ -20902,6 +20999,13 @@ __metadata:
   bin:
     svgo: ./bin/svgo
   checksum: e1659738423f625561fa23769d0a010f5ba08e83926ce697491153fa29a8cb2452fa5abb14c1bb489aa186718856f8768d4da870210a79302d47535c57c30d30
+  languageName: node
+  linkType: hard
+
+"symbol-observable@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "symbol-observable@npm:1.2.0"
+  checksum: 268834a1d4cba19d40f367e5c2755f612969c8418e43a3be17408e392802a667f8bb542893440d58a080a8ea8da05ea98e27e472b9f4ff6fbda78a21a1a41c53
   languageName: node
   linkType: hard
 
