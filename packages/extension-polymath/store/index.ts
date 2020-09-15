@@ -33,8 +33,6 @@ const store = configureStore({
   reducer: persistedReducer
 });
 
-const persistor = persistStore(store);
-
 // Reducer hot module reloading
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./rootReducer', () => {
@@ -46,4 +44,5 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
 
 export type AppDispatch = typeof store.dispatch
 
+export const persister = persistStore(store);
 export default store;
