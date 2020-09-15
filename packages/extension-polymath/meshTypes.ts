@@ -622,8 +622,8 @@ export interface SecurityToken extends Struct {
 export interface Signatory extends Enum {
   readonly isIdentity: boolean;
   readonly asIdentity: IdentityId;
-  readonly isAccountKey: boolean;
-  readonly asAccountKey: AccountKey;
+  readonly isAccount: boolean;
+  readonly asAccount: AccountKey;
 }
 
 /** @name SignatoryType */

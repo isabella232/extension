@@ -111,11 +111,10 @@ export function meshAccountsEnhancer (): void {
 
       newDids.forEach((did) => {
         api.query.identity.didRecords<DidRecord>(did, (didRecords) => {
-          console.log('didRecords', didRecords);
           const priKey = encodeAddress(didRecords.primary_key);
           const secKeys = didRecords.secondary_keys.toArray().reduce((keys, item) => {
-            return item.signer.isAccountKey
-              ? keys.concat(encodeAddress(item.signer.asAccountKey))
+            return item.signer.isAccount
+              ? keys.concat(encodeAddress(item.signer.asAccount))
               : keys;
           }, [] as string[]);
 
