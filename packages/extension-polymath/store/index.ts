@@ -1,16 +1,28 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-// eslint-disable-next-line header/header
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import rootReducer from './rootReducer';
+import { localStorage } from 'redux-persist-webextension-storage';
 
-// @TODO fix this
-declare let module: any;
+import { persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER } from 'redux-persist';
 
-const middleware = [...getDefaultMiddleware()];
+const persistConfig = {
+  key: 'root',
+  storage: localStorage,
+  version: 1
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const middleware = [...getDefaultMiddleware({ serializableCheck: {
+  ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+} })];
 
 if (process.env.NODE_ENV === 'development' && logger) {
   middleware.push(logger);
@@ -18,8 +30,10 @@ if (process.env.NODE_ENV === 'development' && logger) {
 
 const store = configureStore({
   middleware,
-  reducer: rootReducer
+  reducer: persistedReducer
 });
+
+const persistor = persistStore(store);
 
 // Reducer hot module reloading
 if (process.env.NODE_ENV === 'development' && module.hot) {

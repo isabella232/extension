@@ -12,7 +12,10 @@
     "@reduxjs/toolkit": "^1.4.0",
     "@types/lodash-es": "^4.17.3",
     "@types/redux-logger": "^3.0.8",
-    "lodash-es": "^4.17.15"
+    "@types/redux-persist": "^4.3.1",
+    "lodash-es": "^4.17.15",
+    "redux-persist": "^6.0.0",
+    "redux-persist-webextension-storage": "^1.0.2"
   },
   "devDependencies": {
     "redux-logger": "^3.0.6"

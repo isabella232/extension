@@ -53,6 +53,7 @@ function observeDids (cb: (dids: string[]) => void) {
 
 // @TODO generic observer functions
 
+// @TODO convert into a thunk? https://redux-toolkit.js.org/tutorials/advanced-tutorial#thinking-in-thunks
 export function meshAccountsEnhancer (): void {
   meshApi.then((api) => {
     const unsubCallbacks: Record<string, UnsubCallback> = {};
