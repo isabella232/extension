@@ -384,7 +384,7 @@ export interface Investment extends Struct {
 /** @name IssueRecipient */
 export interface IssueRecipient extends Enum {
   readonly isAccount: boolean;
-  readonly asAccount: AccountKey;
+  readonly asAccount: AccountId;
   readonly isIdentity: boolean;
   readonly asIdentity: IdentityId;
 }

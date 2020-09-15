@@ -9,7 +9,10 @@
 export default {
   "types": {
     "IdentityId": "[u8; 32]",
+    "InvestorUid": "[u8; 32]",
     "Ticker": "[u8; 12]",
+    "CddId": "[u8; 32]",
+    "ScopeId": "[u8; 32]",
     "PosRatio": "(u32, u32)",
     "DocumentName": "Text",
     "DocumentUri": "Text",
@@ -36,7 +39,8 @@ export default {
       "_enum": {
         "Cins": "",
         "Cusip": "",
-        "Isin": ""
+        "Isin": "",
+        "Dti": ""
       }
     },
     "AssetOwnershipRelation": {
@@ -56,7 +60,7 @@ export default {
       "owner_did": "IdentityId",
       "divisible": "bool",
       "asset_type": "AssetType",
-      "treasury_did": "Option<IdentityId>"
+      "primary_issuance_agent": "Option<IdentityId>"
     },
     "LinkedKeyInfo": {
       "_enum": {
@@ -78,12 +82,12 @@ export default {
         "Account": "AccountId"
       }
     },
-    "SigningKey": {
+    "SecondaryKey": {
       "signer": "Signatory",
       "permissions": "Vec<Permission>"
     },
-    "SigningKeyWithAuth": {
-      "signing_key": "SigningKey",
+    "SecondaryKeyWithAuth": {
+      "secondary_key": "SecondaryKey",
       "auth_signature": "Signature"
     },
     "IdentityRole": {
@@ -102,26 +106,282 @@ export default {
     },
     "PreAuthorizedKeyInfo": {
       "target_id": "IdentityId",
-      "signing_key": "SigningKey"
+      "secondary_key": "SecondaryKey"
     },
     "DidRecord": {
       "roles": "Vec<IdentityRole>",
-      "master_key": "AccountId",
-      "signing_keys": "Vec<SigningKey>"
+      "primary_key": "AccountId",
+      "secondary_keys": "Vec<SecondaryKey>"
     },
-    "JurisdictionName": "Text",
+    "KeyIdentityData": {
+      "identity": "IdentityId",
+      "permissions": "Option<Vec<Permission>>"
+    },
+    "CountryCode": {
+      "_enum": [
+        "AF",
+        "AX",
+        "AL",
+        "DZ",
+        "AS",
+        "AD",
+        "AO",
+        "AI",
+        "AQ",
+        "AG",
+        "AR",
+        "AM",
+        "AW",
+        "AU",
+        "AT",
+        "AZ",
+        "BS",
+        "BH",
+        "BD",
+        "BB",
+        "BY",
+        "BE",
+        "BZ",
+        "BJ",
+        "BM",
+        "BT",
+        "BO",
+        "BA",
+        "BW",
+        "BV",
+        "BR",
+        "VG",
+        "IO",
+        "BN",
+        "BG",
+        "BF",
+        "BI",
+        "KH",
+        "CM",
+        "CA",
+        "CV",
+        "KY",
+        "CF",
+        "TD",
+        "CL",
+        "CN",
+        "HK",
+        "MO",
+        "CX",
+        "CC",
+        "CO",
+        "KM",
+        "CG",
+        "CD",
+        "CK",
+        "CR",
+        "CI",
+        "HR",
+        "CU",
+        "CY",
+        "CZ",
+        "DK",
+        "DJ",
+        "DM",
+        "DO",
+        "EC",
+        "EG",
+        "SV",
+        "GQ",
+        "ER",
+        "EE",
+        "ET",
+        "FK",
+        "FO",
+        "FJ",
+        "FI",
+        "FR",
+        "GF",
+        "PF",
+        "TF",
+        "GA",
+        "GM",
+        "GE",
+        "DE",
+        "GH",
+        "GI",
+        "GR",
+        "GL",
+        "GD",
+        "GP",
+        "GU",
+        "GT",
+        "GG",
+        "GN",
+        "GW",
+        "GY",
+        "HT",
+        "HM",
+        "VA",
+        "HN",
+        "HU",
+        "IS",
+        "IN",
+        "ID",
+        "IR",
+        "IQ",
+        "IE",
+        "IM",
+        "IL",
+        "IT",
+        "JM",
+        "JP",
+        "JE",
+        "JO",
+        "KZ",
+        "KE",
+        "KI",
+        "KP",
+        "KR",
+        "KW",
+        "KG",
+        "LA",
+        "LV",
+        "LB",
+        "LS",
+        "LR",
+        "LY",
+        "LI",
+        "LT",
+        "LU",
+        "MK",
+        "MG",
+        "MW",
+        "MY",
+        "MV",
+        "ML",
+        "MT",
+        "MH",
+        "MQ",
+        "MR",
+        "MU",
+        "YT",
+        "MX",
+        "FM",
+        "MD",
+        "MC",
+        "MN",
+        "ME",
+        "MS",
+        "MA",
+        "MZ",
+        "MM",
+        "NA",
+        "NR",
+        "NP",
+        "NL",
+        "AN",
+        "NC",
+        "NZ",
+        "NI",
+        "NE",
+        "NG",
+        "NU",
+        "NF",
+        "MP",
+        "NO",
+        "OM",
+        "PK",
+        "PW",
+        "PS",
+        "PA",
+        "PG",
+        "PY",
+        "PE",
+        "PH",
+        "PN",
+        "PL",
+        "PT",
+        "PR",
+        "QA",
+        "RE",
+        "RO",
+        "RU",
+        "RW",
+        "BL",
+        "SH",
+        "KN",
+        "LC",
+        "MF",
+        "PM",
+        "VC",
+        "WS",
+        "SM",
+        "ST",
+        "SA",
+        "SN",
+        "RS",
+        "SC",
+        "SL",
+        "SG",
+        "SK",
+        "SI",
+        "SB",
+        "SO",
+        "ZA",
+        "GS",
+        "SS",
+        "ES",
+        "LK",
+        "SD",
+        "SR",
+        "SJ",
+        "SZ",
+        "SE",
+        "CH",
+        "SY",
+        "TW",
+        "TJ",
+        "TZ",
+        "TH",
+        "TL",
+        "TG",
+        "TK",
+        "TO",
+        "TT",
+        "TN",
+        "TR",
+        "TM",
+        "TC",
+        "TV",
+        "UG",
+        "UA",
+        "AE",
+        "GB",
+        "US",
+        "UM",
+        "UY",
+        "UZ",
+        "VU",
+        "VE",
+        "VN",
+        "VI",
+        "WF",
+        "EH",
+        "YE",
+        "ZM",
+        "ZW"
+      ]
+    },
     "Scope": "IdentityId",
+    "InvestorZKProofData": "[u8;64]",
     "Claim": {
       "_enum": {
         "Accredited": "Scope",
         "Affiliate": "Scope",
         "BuyLockup": "Scope",
         "SellLockup": "Scope",
-        "CustomerDueDiligence": "",
+        "CustomerDueDiligence": "CddId",
         "KnowYourCustomer": "Scope",
-        "Jurisdiction": "(JurisdictionName, Scope)",
+        "Jurisdiction": "(CountryCode, Scope)",
         "Exempted": "Scope",
         "Blocked": "Scope",
+        "InvestorZKProof": "(Scope, ScopeId, CddId, InvestorZKProofData)",
         "NoData": ""
       }
     },
@@ -150,31 +410,32 @@ export default {
       "id": "IdentityId",
       "claim_type": "ClaimType"
     },
-    "AssetTransferRule": {
-      "sender_rules": "Vec<Rule>",
-      "receiver_rules": "Vec<Rule>",
-      "rule_id": "u32"
+    "ComplianceRequirement": {
+      "sender_conditions": "Vec<Condition>",
+      "receiver_conditions": "Vec<Condition>",
+      "id": "u32"
     },
-    "AssetTransferRuleResult": {
-      "sender_rules": "Vec<Rule>",
-      "receiver_rules": "Vec<Rule>",
-      "rule_id": "u32",
-      "transfer_rule_result": "bool"
+    "ComplianceRequirementResult": {
+      "sender_conditions": "Vec<Condition>",
+      "receiver_conditions": "Vec<Condition>",
+      "id": "u32",
+      "result": "bool"
     },
-    "RuleType": {
+    "ConditionType": {
       "_enum": {
         "IsPresent": "Claim",
         "IsAbsent": "Claim",
         "IsAnyOf": "Vec<Claim>",
-        "IsNoneOf": "Vec<Claim>"
+        "IsNoneOf": "Vec<Claim>",
+        "IsIdentity": "TargetIdentity"
       }
     },
-    "Rule": {
-      "rule_type": "RuleType",
+    "Condition": {
+      "condition_type": "ConditionType",
       "issuers": "Vec<IdentityId>"
     },
-    "RuleResult": {
-      "rule": "Rule",
+    "ConditionResult": {
+      "condition": "Condition",
       "result": "bool"
     },
     "STO": {
@@ -219,6 +480,12 @@ export default {
       "max_ticker_length": "u8",
       "registration_length": "Option<Moment>"
     },
+    "ClassicTickerRegistration": {
+      "eth_owner": "EthereumAddress",
+      "is_created": "bool"
+    },
+    "EthereumAddress": "[u8; 20]",
+    "EcdsaSignature": "[u8; 65]",
     "SignData": {
       "custodian_did": "IdentityId",
       "holder_did": "IdentityId",
@@ -242,13 +509,40 @@ export default {
     "Url": "Text",
     "PipDescription": "Text",
     "PipsMetadata": {
-      "proposer": "AccountId",
       "id": "PipId",
-      "end": "u32",
       "url": "Option<Url>",
       "description": "Option<PipDescription>",
-      "cool_off_until": "u32",
-      "beneficiaries": "Vec<Beneficiary>"
+      "created_at": "BlockNumber"
+    },
+    "Proposer": {
+      "_enum": {
+        "Community": "AccountId",
+        "Committee": "Committee"
+      }
+    },
+    "Committee": {
+      "_enum": {
+        "Technical": "",
+        "Upgrade": ""
+      }
+    },
+    "SkippedCount": "u8",
+    "SnapshottedPip": {
+      "id": "PipId",
+      "weight": "(bool, Balance)"
+    },
+    "SnapshotId": "u32",
+    "SnapshotMetadata": {
+      "created_at": "BlockNumber",
+      "made_by": "AccountId",
+      "id": "SnapshotId"
+    },
+    "SnapshotResult": {
+      "_enum": {
+        "Approve": "",
+        "Reject": "",
+        "Skip": ""
+      }
     },
     "Beneficiary": {
       "id": "IdentityId",
@@ -292,7 +586,9 @@ export default {
     "Pip": {
       "id": "PipId",
       "proposal": "Call",
-      "state": "ProposalState"
+      "state": "ProposalState",
+      "proposer": "Proposer",
+      "cool_off_until": "u32"
     },
     "ProposalData": {
       "_enum": {
@@ -326,9 +622,10 @@ export default {
     },
     "AuthorizationData": {
       "_enum": {
-        "AttestMasterKeyRotation": "IdentityId",
-        "RotateMasterKey": "IdentityId",
+        "AttestPrimaryKeyRotation": "IdentityId",
+        "RotatePrimaryKey": "IdentityId",
         "TransferTicker": "Ticker",
+        "TransferPrimaryIssuanceAgent": "Ticker",
         "AddMultiSigSigner": "AccountId",
         "TransferAssetOwnership": "Ticker",
         "JoinIdentity": "Vec<Permission>",
@@ -397,14 +694,14 @@ export default {
       "constant": "u32",
       "max_slash_percent": "u32"
     },
-    "AssetTransferRules": {
+    "AssetCompliance": {
       "is_paused": "bool",
-      "rules": "Vec<AssetTransferRule>"
+      "requirements": "Vec<ComplianceRequirement>"
     },
-    "AssetTransferRulesResult": {
-      "is_paused": "bool",
-      "rules": "Vec<AssetTransferRuleResult>",
-      "final_result": "bool"
+    "AssetComplianceResult": {
+      "paused": "bool",
+      "requirements": "Vec<ComplianceRequirementResult>",
+      "result": "bool"
     },
     "Claim1stKey": {
       "target": "IdentityId",
@@ -441,12 +738,12 @@ export default {
         "AssetAddDocument",
         "AssetCreateAsset",
         "DividendNew",
-        "ComplianceManagerAddActiveRule",
+        "ComplianceManagerAddComplianceRequirement",
         "IdentityRegisterDid",
         "IdentityCddRegisterDid",
         "IdentityAddClaim",
-        "IdentitySetMasterKey",
-        "IdentityAddSigningKeysWithAuthorization",
+        "IdentitySetPrimaryKey",
+        "IdentityAddSecondaryKeysWithAuthorization",
         "PipsPropose",
         "VotingAddBallot"
       ]
@@ -464,8 +761,8 @@ export default {
       }
     },
     "DidRecordsSuccess": {
-      "master_key": "AccountId",
-      "signing_key": "Vec<SigningKey>"
+      "primary_key": "AccountId",
+      "secondary_key": "Vec<SecondaryKey>"
     },
     "DidRecords": {
       "_enum": {
@@ -526,8 +823,8 @@ export default {
     },
     "AuthorizationType": {
       "_enum": {
-        "AttestMasterKeyRotation": "",
-        "RotateMasterKey": "",
+        "AttestPrimaryKeyRotation": "",
+        "RotatePrimaryKey": "",
         "TransferTicker": "",
         "AddMultiSigSigner": "",
         "TransferAssetOwnership": "",
@@ -656,12 +953,32 @@ export default {
       "coeffFrac": "Perbill",
       "negative": "bool",
       "degree": "u8"
+    },
+    "TargetIdentity": {
+      "_enum": {
+        "PrimaryIssuanceAgent": "",
+        "Specific": "IdentityId"
+      }
+    },
+    "Fundraiser": {
+      "raise_token": "Ticker",
+      "remaining_amount": "Balance",
+      "price_per_token": "Balance",
+      "venue_id": "u64"
+    },
+    "VenueType": {
+      "_enum": [
+        "Other",
+        "Distribution",
+        "Sto",
+        "Exchange"
+      ]
     }
   },
   "rpc": {
     "compliance": {
       "canTransfer": {
-        "description": "Checks whether a transaction with given parameters is compliant to the compliance manager rules",
+        "description": "Checks whether a transaction with given parameters is compliant to the compliance manager conditions",
         "params": [
           {
             "name": "ticker",
@@ -679,7 +996,7 @@ export default {
             "isOptional": false
           },
           {
-            "name": "treasury_did",
+            "name": "primary_issuance_agent",
             "type": "Option<IdentityId>",
             "isOptional": false
           },
@@ -689,7 +1006,7 @@ export default {
             "isOptional": true
           }
         ],
-        "type": "AssetTransferRulesResult"
+        "type": "AssetComplianceResult"
       }
     },
     "identity": {
@@ -787,6 +1104,22 @@ export default {
           }
         ],
         "type": "Vec<Authorization>"
+      },
+      "getKeyIdentityData": {
+        "description": "Query relation between a signing key and a DID",
+        "params": [
+          {
+            "name": "acc",
+            "type": "AccountId",
+            "isOptional": false
+          },
+          {
+            "name": "blockHash",
+            "type": "Hash",
+            "isOptional": true
+          }
+        ],
+        "type": "Option<KeyIdentityData<IdentityId>>"
       }
     },
     "pips": {

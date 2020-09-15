@@ -2,6 +2,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IdentityData } from '../../types';
 import isEqual from 'lodash/isEqual';
+import merge from 'lodash/merge';
+
 type IdentitiesState = Record<string, IdentityData>;
 const initialState: IdentitiesState = {};
 
@@ -13,7 +15,7 @@ const identitiesSlice = createSlice({
       const identityData = action.payload;
 
       if (!isEqual(state[identityData.did], identityData)) {
-        state[identityData.did] = { ...state[identityData.did], ...identityData };
+        state[identityData.did] = merge(state[identityData.did], identityData);
       }
     },
     removeIdentity (state, action: PayloadAction<string>) {
