@@ -3,23 +3,33 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import isEqual from 'lodash-es/isEqual';
 import merge from 'lodash/merge';
 
-import { AccountData } from '../../types';
-type State = Record<string, AccountData>;
-const initialState: State = {};
+import { AccountData, NetworkName } from '../../types';
+type State = Record<NetworkName, Record<string, AccountData>>;
+const initialState: State = {
+  [NetworkName.pmf]: {},
+  [NetworkName.alcyone]: {}
+};
+
+type SetAccountPayload = { network: NetworkName, data: AccountData };
+
+type RemoveAccountPayload = { network: NetworkName, address: string };
 
 const accountsSlice = createSlice({
   name: 'accounts',
   initialState,
   reducers: {
-    setAccount (state, action: PayloadAction<AccountData>) {
-      const accountData = action.payload;
+    setAccount (state, action: PayloadAction<SetAccountPayload>) {
+      const { data, network } = action.payload;
+      const prev = state[network][data.address];
 
-      if (!isEqual(accountData, state[accountData.address])) {
-        state[accountData.address] = merge(state[accountData.address], accountData);
+      if (!isEqual(data, prev)) {
+        state[network][data.address] = merge(prev, data);
       }
     },
-    removeAccount (state, action: PayloadAction<string>) {
-      delete state[action.payload];
+    removeAccount (state, action: PayloadAction<RemoveAccountPayload>) {
+      const { address, network } = action.payload;
+
+      delete state[network][address];
     }
   }
 });

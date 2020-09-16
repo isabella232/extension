@@ -14,6 +14,7 @@ import { actions as identityActions } from './store/features/identities';
 import store from './store';
 import { AccountData, IdentityData, UnsubCallback } from './types';
 import { subscribeDidsList } from './store/subscribers';
+import { getNetwork } from './store/getters';
 
 function observeAccounts (cb: (accounts: string[]) => void) {
   return accountsObservable.subject.subscribe((accountsSubject: SubjectInfo) => {
@@ -29,6 +30,7 @@ export function meshAccountsEnhancer (): void {
     const unsubCallbacks: Record<string, UnsubCallback> = {};
     let prevAccounts: string[] = [];
     let prevDids: string[] = [];
+    const network = getNetwork();
 
     // @TODO manage this subscription. Perhaps on port disconnect
     observeAccounts((accounts: string[]) => {
@@ -37,7 +39,7 @@ export function meshAccountsEnhancer (): void {
 
       removedAccounts.forEach((account) => {
         unsubCallbacks[account]();
-        store.dispatch(accountActions.removeAccount(account));
+        store.dispatch(accountActions.removeAccount({ address: account, network }));
       });
 
       prevAccounts = accounts;
@@ -51,7 +53,7 @@ export function meshAccountsEnhancer (): void {
             balance: accData.data.free.toString()
           };
 
-          store.dispatch(accountActions.setAccount(accountData));
+          store.dispatch(accountActions.setAccount({ data: accountData, network }));
 
           if (!linkedKeyInfo.unwrapOrDefault().isEmpty) {
             const did = linkedKeyInfo.unwrapOrDefault().asUnique.toString();
@@ -59,12 +61,13 @@ export function meshAccountsEnhancer (): void {
             // eslint-disable-next-line
             api.rpc.identity.isIdentityHasValidCdd(did)
               .then((cddStatus: CddStatus) => {
-                store.dispatch(identityActions.setIdentity({
+                store.dispatch(identityActions.setIdentity({ data: {
                   cdd: cddStatus.isOk,
                   did,
                   priKey: account,
                   secKeys: []
-                }));
+                },
+                network }));
               })
               .catch(console.error);
           }
@@ -94,7 +97,7 @@ export function meshAccountsEnhancer (): void {
             secKeys
           };
 
-          store.dispatch(identityActions.setIdentity(identityData));
+          store.dispatch(identityActions.setIdentity({ data: identityData, network }));
         })
           .then((unsub) => {
             unsubCallbacks[did] = unsub;
