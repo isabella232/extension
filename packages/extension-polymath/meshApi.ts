@@ -4,16 +4,19 @@
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import meshSchema from './meshSchema';
-// @TODO read endpoint from config.
-const provider = new WsProvider('wss://pmf.polymath.network');
-const _meshApi = ApiPromise.create({
-  provider,
-  rpc: meshSchema.rpc,
-  types: meshSchema.types
-});
+import { getNetworkUrl } from './store/getters';
 
-const meshApi: Promise<ApiPromise> = new Promise((resolve, reject): void => {
-  _meshApi.then((api) => {
+const url = getNetworkUrl();
+const provider = new WsProvider(url);
+
+console.log('URL', url);
+
+const meshApi:Promise<ApiPromise> = new Promise((resolve, reject): void => {
+  ApiPromise.create({
+    provider,
+    rpc: meshSchema.rpc,
+    types: meshSchema.types
+  }).then((api) => {
     api.isReady.then((api) => {
       resolve(api);
     }).catch((err) => reject(err));

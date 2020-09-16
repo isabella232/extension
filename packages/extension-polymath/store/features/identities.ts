@@ -4,8 +4,8 @@ import { IdentityData } from '../../types';
 import isEqual from 'lodash/isEqual';
 import merge from 'lodash/merge';
 
-type IdentitiesState = Record<string, IdentityData>;
-const initialState: IdentitiesState = {};
+type State = Record<string, IdentityData>;
+const initialState: State = {};
 
 const identitiesSlice = createSlice({
   name: 'identities',

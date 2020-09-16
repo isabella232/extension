@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { networkURLs } from '../constants';
 import { DidType, ReversedDidList } from '../types';
 import { RootState } from './rootReducer';
 
@@ -31,4 +32,14 @@ export const identifiedAccounts = createSelector(
   (accounts, reversedDidList: ReversedDidList) => {
     return Object.values(accounts).map((account) => ({ ...account, ...reversedDidList[account.address] }));
   }
+);
+
+export const network = createSelector(
+  (state: RootState) => state.network,
+  (network) => network
+);
+
+export const networkUrl = createSelector(
+  network,
+  (network) => networkURLs[network]
 );

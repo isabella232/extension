@@ -493,7 +493,7 @@ export default class Extension {
       case 'pri(accounts.subscribe)':
         return this.accountsSubscribe(id, port);
 
-      // @TODO move to a separate request handler.
+      // @TODO1 move to a separate request handler.
       case 'pri(polyAccounts.subscribe)':
         return this.polyAccountsSubscribe(id, port);
 

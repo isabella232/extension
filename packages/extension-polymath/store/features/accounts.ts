@@ -4,8 +4,8 @@ import isEqual from 'lodash-es/isEqual';
 import merge from 'lodash/merge';
 
 import { AccountData } from '../../types';
-type AccountsState = Record<string, AccountData>;
-const initialState: AccountsState = {};
+type State = Record<string, AccountData>;
+const initialState: State = {};
 
 const accountsSlice = createSlice({
   name: 'accounts',

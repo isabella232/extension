@@ -31,3 +31,8 @@ export type UnsubCallback = () => void;
 
 export type ReversedDidList =
   Record<string, {did: string, keyType: DidType, cdd: boolean | undefined, didAlias: string}>;
+
+export enum NetworkName {
+  pmf = 'pmf',
+  alcyone = 'alcyone'
+}
