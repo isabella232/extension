@@ -10,7 +10,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 import { KeyringPair, KeyringPair$Json, KeyringPair$Meta } from '@polkadot/keyring/types';
 import { SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 import { TypeRegistry } from '@polkadot/types';
-import { IdentifiedAccount } from '@polymath/extension/types';
+import { IdentifiedAccount, NetworkName } from '@polymath/extension/types';
 
 type KeysWithDefinedValues<T> = {
   [K in keyof T]: T[K] extends undefined ? never : K
@@ -77,7 +77,8 @@ export interface RequestSignatures {
   'pri(accounts.show)': [RequestAccountShow, boolean];
   'pri(accounts.tie)': [RequestAccountTie, boolean];
   'pri(accounts.subscribe)': [RequestAccountSubscribe, boolean, AccountJson[]];
-  'pri(polyAccounts.subscribe)': [RequestPolymeshAccountsSubscribe, boolean, IdentifiedAccount[]];
+  'pri(polyAccounts.subscribe)': [RequestPolyAccountsSubscribe, boolean, IdentifiedAccount[]];
+  'pri(polyNetwork.subscribe)': [RequestPolyNetworkSubscribe, boolean, NetworkName];
   'pri(accounts.validate)': [RequestAccountValidate, boolean];
   'pri(accounts.changePassword)': [RequestAccountChangePassword, boolean];
   'pri(authorize.approve)': [RequestAuthorizeApprove, boolean];
@@ -228,7 +229,9 @@ export type RequestAccountList = null;
 
 export type RequestAccountSubscribe = null;
 
-export type RequestPolymeshAccountsSubscribe = null;
+export type RequestPolyAccountsSubscribe = null;
+
+export type RequestPolyNetworkSubscribe = null;
 
 export interface RequestRpcSend {
   method: string;

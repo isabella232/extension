@@ -13,7 +13,7 @@ import { setSS58Format } from '@polkadot/util-crypto';
 import { Loading } from '../components';
 import { AccountContext, ActionContext, AuthorizeReqContext, MediaContext, MetadataReqContext, SettingsContext, SigningReqContext } from '../components/contexts';
 import ToastProvider from '../components/Toast/ToastProvider';
-import { subscribeAccounts, subscribeAuthorizeRequests, subscribeMetadataRequests, subscribePolymeshAccounts, subscribeSigningRequests } from '../messaging';
+import { subscribeAccounts, subscribeAuthorizeRequests, subscribeMetadataRequests, subscribeNetwork, subscribePolymeshAccounts, subscribeSigningRequests } from '../messaging';
 import { buildHierarchy } from '../util/buildHierarchy';
 import Accounts from './Accounts';
 import Authorize from './Authorize';
@@ -81,6 +81,7 @@ export default function Popup (): React.ReactElement {
     Promise.all([
       subscribeAccounts(setAccounts),
       subscribePolymeshAccounts((accounts) => console.log('Polymesh accounts', accounts)),
+      subscribeNetwork((network) => console.log('Polymesh network', network)),
       subscribeAuthorizeRequests(setAuthRequests),
       subscribeMetadataRequests(setMetaRequests),
       subscribeSigningRequests(setSignRequests)
