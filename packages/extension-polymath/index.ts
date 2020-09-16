@@ -14,8 +14,7 @@ import { actions as accountActions } from './store/features/accounts';
 import { actions as identityActions } from './store/features/identities';
 import store from './store';
 import { AccountData, IdentityData, UnsubCallback } from './types';
-import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from './store/rootReducer';
+import { subscribeDidsList } from './store/subscribers';
 
 function observeAccounts (cb: (accounts: string[]) => void) {
   return accountsObservable.subject.subscribe((accountsSubject: SubjectInfo) => {
@@ -25,34 +24,6 @@ function observeAccounts (cb: (accounts: string[]) => void) {
   });
 }
 
-// @TODO a generic subscriber that received store, selector and cb. Like in dan's example.
-
-function observeDids (cb: (dids: string[]) => void) {
-  let currentState: string[];
-
-  const didsSelector = createSelector(
-    (state: RootState) => state.identities,
-    (identities) => Object.keys(identities)
-  );
-
-  function storeListener () {
-    const nextState = didsSelector(store.getState());
-
-    if (!isEqual(nextState, currentState)) {
-      currentState = nextState;
-      cb(currentState);
-    }
-  }
-
-  const unsubscribe = store.subscribe(storeListener);
-
-  storeListener();
-
-  return unsubscribe;
-}
-
-// @TODO generic observer functions
-
 // @TODO convert into a thunk? https://redux-toolkit.js.org/tutorials/advanced-tutorial#thinking-in-thunks
 export function meshAccountsEnhancer (): void {
   meshApi.then((api) => {
@@ -60,7 +31,7 @@ export function meshAccountsEnhancer (): void {
     let prevAccounts: string[] = [];
     let prevDids: string[] = [];
 
-    // @TODO manage this subscription.
+    // @TODO manage this subscription. Perhaps on port disconnect
     observeAccounts((accounts: string[]) => {
       const newAccounts = difference(accounts, prevAccounts);
       const removedAccounts = difference(prevAccounts, accounts);
@@ -105,7 +76,7 @@ export function meshAccountsEnhancer (): void {
     });
 
     // @TODO manage this subscription.
-    observeDids((dids: string[]) => {
+    subscribeDidsList((dids: string[]) => {
       const newDids = difference(dids, prevDids);
       const removedDids = difference(prevDids, dids);
 

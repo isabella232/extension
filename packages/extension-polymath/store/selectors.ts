@@ -1,13 +1,11 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { DidType } from '../types';
+import { DidType, ReversedDidList } from '../types';
 import { RootState } from './rootReducer';
 
 export const didsList = createSelector(
   (state: RootState) => state.identities,
   (identities) => Object.keys(identities)
 );
-
-type ReversedDidList = Record<string, {did: string, keyType: DidType, cdd: boolean | undefined}>;
 
 export const reversedDidList = createSelector(
   (state: RootState) => state.identities,
