@@ -12,11 +12,12 @@ export const reversedDidList = createSelector(
   (identities): ReversedDidList => {
     return Object.keys(identities).reduce((reversedList: ReversedDidList, did) => {
       const identity = identities[did];
+      const data = { cdd: identity.cdd, did, didAlias: identity.alias || '' };
 
-      reversedList[identity.priKey] = { cdd: identity.cdd, did, keyType: DidType.primary };
+      reversedList[identity.priKey] = { ...data, keyType: DidType.primary };
 
       identity.secKeys.forEach((secKey) => {
-        reversedList[secKey] = { cdd: identity.cdd, did, keyType: DidType.secondary };
+        reversedList[secKey] = { ...data, keyType: DidType.secondary };
       });
 
       return reversedList;

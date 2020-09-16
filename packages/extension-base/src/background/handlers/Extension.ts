@@ -17,6 +17,9 @@ import { keyExtractSuri, mnemonicGenerate, mnemonicValidate } from '@polkadot/ut
 import State from './State';
 import { createSubscription, unsubscribe } from './subscriptions';
 
+import { subscribeIdentifiedAccounts } from '@polymath/extension/store/subscribers';
+import { IdentifiedAccount } from '@polymath/extension/types';
+
 type CachedUnlocks = Record<string, number>;
 
 const SEED_DEFAULT_LENGTH = 12;
@@ -135,6 +138,33 @@ export default class Extension {
     port.onDisconnect.addListener((): void => {
       unsubscribe(id);
       subscription.unsubscribe();
+    });
+
+    return true;
+  }
+
+  private polyAccountsSubscribe (id: string, port: chrome.runtime.Port): boolean {
+    const cb = createSubscription<'pri(accounts.subscribe)'>(id, port);
+
+    function appendAccountNames (accounts: IdentifiedAccount[]) {
+      const keyringAccounts = transformAccounts(accountsObservable.subject.getValue());
+
+      accounts = accounts.map((account) => {
+        const keyringAccount = keyringAccounts.find((keyringAccount) => keyringAccount.address === account.address);
+
+        if (keyringAccount) {
+          return { ...account, name: keyringAccount.name };
+        }
+
+        return account;
+      });
+      cb(accounts);
+    }
+
+    const unsubscribe = subscribeIdentifiedAccounts(appendAccountNames);
+
+    port.onDisconnect.addListener((): void => {
+      unsubscribe();
     });
 
     return true;
@@ -462,6 +492,10 @@ export default class Extension {
 
       case 'pri(accounts.subscribe)':
         return this.accountsSubscribe(id, port);
+
+      // @TODO move to a separate request handler.
+      case 'pri(polyAccounts.subscribe)':
+        return this.polyAccountsSubscribe(id, port);
 
       case 'pri(accounts.tie)':
         return this.accountsTie(request as RequestAccountTie);

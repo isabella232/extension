@@ -23,10 +23,11 @@ export type IdentifiedAccount = {
   cdd?: boolean;
   address: string;
   didType?: DidType;
+  didAlias: string;
   balance: string;
 }
 
 export type UnsubCallback = () => void;
 
 export type ReversedDidList =
-  Record<string, {did: string, keyType: DidType, cdd: boolean | undefined}>;
+  Record<string, {did: string, keyType: DidType, cdd: boolean | undefined, didAlias: string}>;
