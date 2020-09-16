@@ -2,7 +2,6 @@
 import accountsObservable from '@polkadot/ui-keyring/observable/accounts';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { Option } from '@polkadot/types/codec';
-import isEqual from 'lodash-es/isEqual';
 import difference from 'lodash-es/difference';
 
 import meshApi from './meshApi';
