@@ -182,6 +182,11 @@ export async function subscribeNetwork (cb: (network: NetworkName) => void): Pro
   return sendMessage('pri(polyNetwork.subscribe)', null, cb);
 }
 
+// @TODO2 remove this once we've applied a similar change to Polymesh UI
+export async function setNetwork (network: NetworkName): Promise<boolean> {
+  return sendMessage('pri(polyNetwork.set)', { network });
+}
+
 export async function subscribeAuthorizeRequests (cb: (accounts: AuthorizeRequest[]) => void): Promise<boolean> {
   return sendMessage('pri(authorize.requests)', null, cb);
 }

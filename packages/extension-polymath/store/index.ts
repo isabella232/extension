@@ -3,6 +3,8 @@ import logger from 'redux-logger';
 import rootReducer from './rootReducer';
 import { localStorage } from 'redux-persist-webextension-storage';
 
+// @TODO fix all messed up types
+
 import { persistStore,
   persistReducer,
   FLUSH,
