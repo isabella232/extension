@@ -9,8 +9,6 @@ import { getNetworkUrl } from './store/getters';
 const url = getNetworkUrl();
 const provider = new WsProvider(url);
 
-console.log('URL', url);
-
 const meshApi:Promise<ApiPromise> = new Promise((resolve, reject): void => {
   ApiPromise.create({
     provider,
