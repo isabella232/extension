@@ -18,8 +18,8 @@
       "@polkadot/extension-ui/*": ["packages/extension-ui/src/*"],
       "@polymath/extension": ["packages/extension-polymath/src"],
       "@polymath/extension/*": ["packages/extension-polymath/src/*"],
-      "@polkadot/ui": ["packages/ui/src"],
-      "@polkadot/ui/*": ["packages/ui/src/*"]
+      "@polymath/ui": ["packages/ui/src"],
+      "@polymath/ui/*": ["packages/ui/src/*"]
     },
     "skipLibCheck": true
   }

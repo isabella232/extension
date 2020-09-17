@@ -6,6 +6,7 @@
         "packages/extension-dapp/package.json",
         "packages/extension-ui/package.json",
         "packages/extension/package.json"
+        "packages/ui/package.json",
       ]
     }
   }

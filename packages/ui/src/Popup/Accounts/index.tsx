@@ -16,7 +16,7 @@ import {
   SvgAlertCircle,
   SvgViewDashboard,
   SvgDotsVertical,
-} from "@polkadot/ui/assets/images/icons";
+} from "@polymath/ui/assets/images/icons";
 import { formatters } from "../../util";
 
 export default function Accounts(): React.ReactElement {

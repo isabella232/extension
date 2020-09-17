@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Wrapper as ScWrapper } from "react-aria-menubutton";
-import { styled } from "@polkadot/ui/styles";
+import { styled } from "@polymath/ui/styles";
 
 export interface WrapperProps {
   onSelection: () => void;

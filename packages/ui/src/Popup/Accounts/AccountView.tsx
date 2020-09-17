@@ -8,7 +8,7 @@ import {
   SvgDotsVertical,
   SvgWindowClose,
   SvgAlertCircle,
-} from "@polkadot/ui/assets/images/icons";
+} from "@polymath/ui/assets/images/icons";
 import { editAccount } from "../../messaging";
 import { Button } from "react-aria-menubutton";
 import { useHistory } from "react-router-dom";

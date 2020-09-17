@@ -8,7 +8,7 @@ import { ActionContext, Loading } from "../../components";
 import { createAccountSuri, createSeed } from "../../messaging";
 import AccountName from "./AccountName";
 import Mnemonic from "./Mnemonic";
-import { SvgLockReset } from "@polkadot/ui/assets/images/icons";
+import { SvgLockReset } from "@polymath/ui/assets/images/icons";
 
 export default function CreateAccount(): React.ReactElement {
   const onAction = useContext(ActionContext);
