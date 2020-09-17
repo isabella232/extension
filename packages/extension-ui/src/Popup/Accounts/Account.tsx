@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import genesisOptions from '@polkadot/extension-chains/genesisHashes';
 
 import { ActionContext, Address, Checkbox, Dropdown, Link, MenuDivider } from '../../components';
-import useTranslation from '../../hooks/useTranslation';
 import { editAccount, showAccount, tieAccount } from '../../messaging';
 import { Name } from '../../partials';
 
@@ -24,7 +23,6 @@ interface EditState {
 }
 
 function Account ({ address, balance, className, did, genesisHash, isExternal, isHidden, parentName, suri }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const onAction = useContext(ActionContext);
   const [{ isEditing, toggleActions }, setEditing] = useState<EditState>({ isEditing: false, toggleActions: 0 });
   const [editedName, setName] = useState<string | null>(null);
@@ -69,14 +67,14 @@ function Account ({ address, balance, className, did, genesisHash, isExternal, i
         className='menuItem'
         onClick={_toggleEdit}
       >
-        {t<string>('Rename')}
+        Rename
       </Link>
       {!isExternal && (
         <Link
           className='menuItem'
           to={`/account/derive/${address}/locked`}
         >
-          {t<string>('Derive New Account')}
+          Derive New Account
         </Link>
       )}
       <MenuDivider />
@@ -86,7 +84,7 @@ function Account ({ address, balance, className, did, genesisHash, isExternal, i
           isDanger
           to={`/account/export/${address}`}
         >
-          {t<string>('Export Account')}
+          Export Account
         </Link>
       )}
       <Link
@@ -94,14 +92,14 @@ function Account ({ address, balance, className, did, genesisHash, isExternal, i
         isDanger
         to={`/account/forget/${address}`}
       >
-        {t<string>('Forget Account')}
+        Forget Account
       </Link>
       <MenuDivider />
       <div className='menuItem'>
         <Checkbox
           checked={!isHidden}
           className='inputItem'
-          label={t<string>('Visible (always inject)')}
+          label='Visible (always inject)'
           onClick={_toggleVisibility}
         />
       </div>
@@ -115,7 +113,7 @@ function Account ({ address, balance, className, did, genesisHash, isExternal, i
         />
       </div>
     </>
-  ), [_onChangeGenesis, _toggleEdit, _toggleVisibility, address, genesisHash, isExternal, isHidden, t]);
+  ), [_onChangeGenesis, _toggleEdit, _toggleVisibility, address, genesisHash, isExternal, isHidden]);
 
   return (
     <div className={className}>
@@ -151,6 +149,7 @@ export default styled(Account)`
   .address {
     margin-bottom: 8px;
   }
+
   .editName {
     position: absolute;
     flex: 1;
@@ -158,6 +157,7 @@ export default styled(Account)`
     top: 6px;
     width: 315px;
   }
+
   .menuItem {
     border-radius: 8px;
     display: block;
@@ -167,6 +167,7 @@ export default styled(Account)`
     margin: 0;
     min-width: 13rem;
     padding: 4px 16px;
+
     .inputItem {
       margin: 0;
     }
