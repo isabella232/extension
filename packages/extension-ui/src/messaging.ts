@@ -13,6 +13,7 @@ import allChains from '@polkadot/extension-chains/chains';
 import { metadataExpand } from '@polkadot/extension-chains';
 import chrome from '@polkadot/extension-inject/chrome';
 import { KeyringPair$Json } from '@polkadot/keyring/types';
+import { IdentifiedAccount, NetworkName } from '@polymath/extension/types';
 
 interface Handler {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -169,6 +170,21 @@ export async function rejectMetaRequest (id: string): Promise<boolean> {
 
 export async function subscribeAccounts (cb: (accounts: AccountJson[]) => void): Promise<boolean> {
   return sendMessage('pri(accounts.subscribe)', null, cb);
+}
+
+// @TODO2 remove this once we've applied a similar change to Polymesh UI
+export async function subscribePolymeshAccounts (cb: (accounts: IdentifiedAccount[]) => void): Promise<boolean> {
+  return sendMessage('pri(polyAccounts.subscribe)', null, cb);
+}
+
+// @TODO2 remove this once we've applied a similar change to Polymesh UI
+export async function subscribeNetwork (cb: (network: NetworkName) => void): Promise<boolean> {
+  return sendMessage('pri(polyNetwork.subscribe)', null, cb);
+}
+
+// @TODO2 remove this once we've applied a similar change to Polymesh UI
+export async function setNetwork (network: NetworkName): Promise<boolean> {
+  return sendMessage('pri(polyNetwork.set)', { network });
 }
 
 export async function subscribeAuthorizeRequests (cb: (accounts: AuthorizeRequest[]) => void): Promise<boolean> {
