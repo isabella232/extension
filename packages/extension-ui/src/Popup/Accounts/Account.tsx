@@ -151,7 +151,6 @@ export default styled(Account)`
   .address {
     margin-bottom: 8px;
   }
-  
   .editName {
     position: absolute;
     flex: 1;
