@@ -16,7 +16,8 @@ const packages = [
   'extension-base',
   'extension-chains',
   'extension-inject',
-  'extension-ui'
+  'extension-ui',
+  'ui'
 ];
 
 function createWebpack ({ alias = {}, context }) {
