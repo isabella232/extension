@@ -81,7 +81,7 @@ export interface RequestSignatures {
   'pri(polyNetwork.subscribe)': [RequestPolyNetworkSubscribe, boolean, NetworkName];
   'pri(polySelectedAccount.subscribe)': [RequestPolySelectedAccountSubscribe, boolean, string | undefined]
   'pri(polyNetwork.set)': [RequestPolyNetworkSet, boolean];
-  'pri(polySelectedAccountSet.set)': [RequestPolySelectedAccountSet, boolean];
+  'pri(polySelectedAccount.set)': [RequestPolySelectedAccountSet, boolean];
   'pri(accounts.validate)': [RequestAccountValidate, boolean];
   'pri(accounts.changePassword)': [RequestAccountChangePassword, boolean];
   'pri(authorize.approve)': [RequestAuthorizeApprove, boolean];

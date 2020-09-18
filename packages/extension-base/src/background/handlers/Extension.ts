@@ -201,7 +201,7 @@ export default class Extension {
     return true;
   }
 
-  private polySelectedAccountSet ({ account }: RequestPolySelectedAccountSet): boolean {
+  private polySelectedAccount ({ account }: RequestPolySelectedAccountSet): boolean {
     setSelectedAccount(account);
 
     return true;
@@ -548,7 +548,7 @@ export default class Extension {
 
       // @TODO1 move to a separate request handler.
       case 'pri(polySelectedAccount.set)':
-        return this.polySelectedAccountSet(request as RequestPolySelectedAccountSet);
+        return this.polySelectedAccount(request as RequestPolySelectedAccountSet);
 
       case 'pri(accounts.tie)':
         return this.accountsTie(request as RequestAccountTie);

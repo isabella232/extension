@@ -171,6 +171,10 @@ export async function subscribePolySelectedAccount (cb: (selected: string | unde
   return sendMessage('pri(polySelectedAccount.subscribe)', null, cb);
 }
 
+export async function setPolySelectedAccount (account: string): Promise<boolean> {
+  return sendMessage('pri(polySelectedAccount.set)', { account });
+}
+
 export async function subscribeAuthorizeRequests (cb: (accounts: AuthorizeRequest[]) => void): Promise<boolean> {
   return sendMessage('pri(authorize.requests)', null, cb);
 }
