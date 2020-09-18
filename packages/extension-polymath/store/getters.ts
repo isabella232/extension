@@ -1,4 +1,4 @@
-import { network, networkUrl } from './selectors';
+import { network, networkUrl, selectedAccount } from './selectors';
 
 import store from '.';
 import { NetworkName } from '../types';
@@ -11,7 +11,12 @@ function getNetworkUrl (): string {
   return networkUrl(store.getState());
 }
 
+function getSelectedAccount (): string | undefined {
+  return selectedAccount(store.getState());
+}
+
 export {
   getNetwork,
-  getNetworkUrl
+  getNetworkUrl,
+  getSelectedAccount
 };

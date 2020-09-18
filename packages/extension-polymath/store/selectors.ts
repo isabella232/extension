@@ -38,12 +38,30 @@ export const reversedDidList = createSelector(
   }
 );
 
-export const identifiedAccounts = createSelector(
-  (state: RootState) => state.accounts,
-  reversedDidList,
-
+export const accounts = createSelector(
   network,
-  (accounts, reversedDidList: ReversedDidList, network) => {
-    return Object.values(accounts[network]).map((account) => ({ ...account, ...reversedDidList[account.address] }));
+  (state: RootState) => state.accounts,
+  (network, accounts) => accounts[network]
+);
+
+export const identifiedAccounts = createSelector(
+  accounts,
+  reversedDidList,
+  (accounts, reversedDidList: ReversedDidList) => {
+    return Object.values(accounts).map((account) => ({ ...account, ...reversedDidList[account.address] }));
+  }
+);
+
+export const selectedAccount = createSelector(
+  (state: RootState) => state.accounts.selected,
+  accounts,
+  (selectedAccount, accounts) => {
+    if (selectedAccount) {
+      return selectedAccount;
+    } else if (Object.keys(accounts).length) {
+      return Object.values(accounts)[0].address;
+    }
+
+    return undefined;
   }
 );

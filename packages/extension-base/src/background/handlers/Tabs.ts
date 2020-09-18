@@ -17,6 +17,9 @@ import RequestBytesSign from '../RequestBytesSign';
 import RequestExtrinsicSign from '../RequestExtrinsicSign';
 import State from './State';
 import { createSubscription, unsubscribe } from './subscriptions';
+import { subscribeSelectedAccount } from '@polymath/extension/store/subscribers';
+import { prioritize } from '@polymath/extension/utils';
+import { getSelectedAccount } from '@polymath/extension/store/getters';
 
 function transformAccounts (accounts: SubjectInfo): InjectedAccount[] {
   return Object
@@ -25,7 +28,9 @@ function transformAccounts (accounts: SubjectInfo): InjectedAccount[] {
     .sort((a, b) => (a.json.meta.whenCreated || 0) - (b.json.meta.whenCreated || 0))
     .map(({ json: { address, meta: { genesisHash, name } } }): InjectedAccount => ({
       address, genesisHash, name
-    }));
+    }))
+    // Prioritize selected account.
+    .sort(prioritize(getSelectedAccount(), (a) => a.address));
 }
 
 export default class Tabs {
@@ -46,6 +51,12 @@ export default class Tabs {
 
   // FIXME This looks very much like what we have in Extension
   private accountsSubscribe (url: string, id: string, port: chrome.runtime.Port): boolean {
+    // Call the callback every time the selected account changes, so that we return
+    // that account first.
+    const selectedAccUnsub = subscribeSelectedAccount(() => {
+      cb(transformAccounts(accountsObservable.subject.getValue()));
+    });
+
     const cb = createSubscription<'pub(accounts.subscribe)'>(id, port);
     const subscription = accountsObservable.subject.subscribe((accounts: SubjectInfo): void =>
       cb(transformAccounts(accounts))
@@ -53,6 +64,7 @@ export default class Tabs {
 
     port.onDisconnect.addListener((): void => {
       unsubscribe(id);
+      selectedAccUnsub();
       subscription.unsubscribe();
     });
 
