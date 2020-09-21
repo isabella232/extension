@@ -1,10 +1,8 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import rootReducer from './rootReducer';
+// @ts-ignore
 import { localStorage } from 'redux-persist-webextension-storage';
-
-// @TODO fix all messed up types
-
 import { persistStore,
   persistReducer,
   FLUSH,
@@ -30,14 +28,11 @@ if (process.env.NODE_ENV === 'development' && logger) {
   middleware.push(logger);
 }
 
-const store = configureStore({
-  middleware,
-  reducer: persistedReducer
-});
+const store = configureStore({ middleware, reducer: persistedReducer });
 
 // Reducer hot module reloading
-if (process.env.NODE_ENV === 'development' && module.hot) {
-  module.hot.accept('./rootReducer', () => {
+if (process.env.NODE_ENV === 'development' && (module as any).hot) {
+  (module as any).accept('./rootReducer', () => {
     const newRootReducer = require('./rootReducer').default;
 
     store.replaceReducer(newRootReducer);
@@ -47,4 +42,5 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
 export type AppDispatch = typeof store.dispatch
 
 export const persister = persistStore(store);
+
 export default store;
