@@ -12,7 +12,7 @@ import keyring from '@polkadot/ui-keyring';
 import { assert } from '@polkadot/util';
 
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-import { meshAccountsEnhancer } from '@polymath/extension';
+import { meshAccountsEnhancer } from '@polymath/extension-core';
 // setup the notification (same a FF default background, white text)
 chrome.browserAction.setBadgeBackgroundColor({ color: '#d90000' });
 

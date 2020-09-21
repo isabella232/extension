@@ -23,7 +23,7 @@ export const reversedDidList = createSelector(
   (state: RootState) => state.identities,
   network,
   (identities, network): ReversedDidList => {
-    return Object.keys(identities).reduce((reversedList: ReversedDidList, did) => {
+    return Object.keys(identities[network]).reduce((reversedList: ReversedDidList, did) => {
       const identity = identities[network][did];
       const data = { cdd: identity.cdd, did, didAlias: identity.alias || '' };
 

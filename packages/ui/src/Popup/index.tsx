@@ -13,7 +13,7 @@ import { setSS58Format } from '@polkadot/util-crypto';
 import { Loading } from '../components';
 import { AccountContext, ActionContext, AuthorizeReqContext, MediaContext, MetadataReqContext, SettingsContext, SigningReqContext } from '../components/contexts';
 import ToastProvider from '../components/Toast/ToastProvider';
-import { subscribeAccounts, subscribeAuthorizeRequests, subscribeMetadataRequests, subscribeSigningRequests } from '../messaging';
+import { subscribeAccounts, subscribeAuthorizeRequests, subscribeMetadataRequests, subscribeSigningRequests, subscribePolymeshAccounts, subscribeNetwork } from '../messaging';
 import { buildHierarchy } from '../util/buildHierarchy';
 import Accounts from './Accounts';
 import Authorize from './Authorize';
@@ -27,6 +27,7 @@ import RestoreJson from './RestoreJson';
 import Metadata from './Metadata';
 import Signing from './Signing';
 import Welcome from './Welcome';
+import { IdentifiedAccount } from '@polymath/extension-core/types';
 
 const startSettings = uiSettings.get();
 
@@ -47,20 +48,22 @@ async function requestMediaAccess (cameraOn: boolean): Promise<boolean> {
   return false;
 }
 
-function initAccountContext (accounts: AccountJson[]): AccountsContext {
+function initAccountContext (accounts: AccountJson[], network: string, polymeshAccounts:IdentifiedAccount[]): AccountsContext {
   const hierarchy = buildHierarchy(accounts);
   const master = hierarchy.find((account) => !account.isExternal);
 
   return {
     accounts,
     hierarchy,
-    master
+    master,
+    network,
+    polymeshAccounts
   };
 }
 
 export default function Popup (): React.ReactElement {
   const [accounts, setAccounts] = useState<null | AccountJson[]>(null);
-  const [accountCtx, setAccountCtx] = useState<AccountsContext>({ accounts: [], hierarchy: [] });
+  const [accountCtx, setAccountCtx] = useState<AccountsContext>({ accounts: [], hierarchy: [], network: '', polymeshAccounts: [] });
   const [authRequests, setAuthRequests] = useState<null | AuthorizeRequest[]>(null);
   const [cameraOn, setCameraOn] = useState(startSettings.camera === 'on');
   const [mediaAllowed, setMediaAllowed] = useState(false);
@@ -68,6 +71,8 @@ export default function Popup (): React.ReactElement {
   const [signRequests, setSignRequests] = useState<null | SigningRequest[]>(null);
   const [isWelcomeDone, setWelcomeDone] = useState(false);
   const [settingsCtx, setSettingsCtx] = useState<SettingsStruct>(startSettings);
+  const [network, setNetwork] = useState('');
+  const [polymeshAccounts, setPolymeshAccounts] = useState<IdentifiedAccount[]>([]);
 
   const _onAction = (to?: string): void => {
     setWelcomeDone(window.localStorage.getItem('welcome_read') === 'ok');
@@ -79,6 +84,8 @@ export default function Popup (): React.ReactElement {
 
   useEffect((): void => {
     Promise.all([
+      subscribePolymeshAccounts(setPolymeshAccounts),
+      subscribeNetwork(setNetwork),
       subscribeAccounts(setAccounts),
       subscribeAuthorizeRequests(setAuthRequests),
       subscribeMetadataRequests(setMetaRequests),
@@ -95,8 +102,8 @@ export default function Popup (): React.ReactElement {
   }, []);
 
   useEffect((): void => {
-    setAccountCtx(initAccountContext(accounts || []));
-  }, [accounts]);
+    setAccountCtx(initAccountContext(accounts || [], network, polymeshAccounts));
+  }, [accounts, network, polymeshAccounts]);
 
   useEffect((): void => {
     requestMediaAccess(cameraOn)
@@ -113,6 +120,8 @@ export default function Popup (): React.ReactElement {
           ? Signing
           : Accounts
     : Welcome;
+
+  console.log('ACCOUNTS', polymeshAccounts);
 
   return (
     <Loading>{accounts && authRequests && metaRequests && signRequests && (

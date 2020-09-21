@@ -19,7 +19,7 @@ const packages = [
   'extension-ui'
 ];
 
-const polymathPackages = ['ui'];
+const polymathPackages = ['ui', 'extension-polymath'];
 
 function createWebpack ({ alias = {}, context }) {
   const ENV = process.env.NODE_ENV || 'development';

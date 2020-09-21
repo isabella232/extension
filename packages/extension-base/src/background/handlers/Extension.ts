@@ -17,9 +17,9 @@ import { keyExtractSuri, mnemonicGenerate, mnemonicValidate } from '@polkadot/ut
 import State from './State';
 import { createSubscription, unsubscribe } from './subscriptions';
 
-import { subscribeIdentifiedAccounts, subscribeNetwork } from '@polymath/extension/store/subscribers';
-import { setNetwork } from '@polymath/extension/store/setters';
-import { IdentifiedAccount } from '@polymath/extension/types';
+import { subscribeIdentifiedAccounts, subscribeNetwork } from '@polymath/extension-core/store/subscribers';
+import { setNetwork } from '@polymath/extension-core/store/setters';
+import { IdentifiedAccount } from '@polymath/extension-core/types';
 
 type CachedUnlocks = Record<string, number>;
 

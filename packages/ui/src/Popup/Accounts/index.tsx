@@ -5,7 +5,7 @@
 import React, { useContext, useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
-import { AccountContext } from "../../components";
+import { AccountContext, Link } from "../../components";
 import AccountsTree from "./AccountsTree";
 import AddAccount from "./AddAccount";
 import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button, StatusBadge } from "../../ui";
@@ -16,13 +16,18 @@ import {
   SvgAlertCircle,
   SvgViewDashboard,
   SvgDotsVertical,
+  SvgPlus,
 } from "@polymath/ui/assets/images/icons";
 import { formatters } from "../../util";
+import { IdentifiedAccount } from "@polymath/extension-core/types";
+import { AccountsContainer } from "./AccountsContainer";
+import { useHistory } from "react-router";
 
 export default function Accounts(): React.ReactElement {
-  const [currentAccountAddress, setCurrentAccountAddress] = useState("");
+  const [currentAccountAddress, setCurrentAccountAddress] = useState('');
   const [currentAccount, setCurrentAccount] = useState<AccountWithChildren>();
-  const { hierarchy } = useContext(AccountContext);
+  const { hierarchy, network, polymeshAccounts } = useContext(AccountContext);
+  const history = useHistory();
 
   const select = (accounts: AccountWithChildren[], selectedAccount: string) => {
     setCurrentAccountAddress(selectedAccount);
@@ -73,6 +78,17 @@ export default function Accounts(): React.ReactElement {
     );
   };
 
+  const groupAccounts = (key: string) => (array:IdentifiedAccount[]) =>
+    array.reduce((groupedAccounts: IdentifiedAccount[], account: IdentifiedAccount) => {
+      const value = account[key];
+      groupedAccounts[value] = (groupedAccounts[value] || []).concat(account);
+      return groupedAccounts;
+    }, {});
+
+  const groupedAccounts = groupAccounts('did')(polymeshAccounts);
+
+  console.log(groupedAccounts);
+
   return (
     <>
       {hierarchy.length === 0 ? (
@@ -81,7 +97,7 @@ export default function Accounts(): React.ReactElement {
         <>
           <Header>
             <Flex flexDirection="row" alignItems="center" justifyContent="space-between" mb="m">
-              <StatusBadge variant="yellow">Polymesh testnet</StatusBadge>
+              <StatusBadge variant="yellow">{network}</StatusBadge>
               <Flex flexDirection="row" justifyContent="center">
                 <Icon color="gray.0" Asset={SvgViewDashboard} width={24} height={24} />
                 <Icon color="gray.0" Asset={SvgDotsVertical} width={24} height={24} />
@@ -97,7 +113,7 @@ export default function Accounts(): React.ReactElement {
                       </Text>
                     </Box>
                     <Text color="gray.2" variant="c2">
-                      <TextEllipsis size={12}>{currentAccount?.did}</TextEllipsis>
+                      <TextEllipsis size={12}>{currentAccount?.did || 'hrjekwohrjkhjkethjkewthejlk'}</TextEllipsis>
                     </Text>
                   </Flex>
                   {renderStatus(false)}
@@ -130,16 +146,26 @@ export default function Accounts(): React.ReactElement {
             </Box>
           </Header>
           <AccountsArea>
-            <Box px="s" pt="m">
+            <Flex px="s" pt="m" justifyContent="space-between">
               <Text variant="c2" color="gray.1">
                 ACCOUNTS
               </Text>
-            </Box>
-            {hierarchy.map(
-              (json, index): React.ReactNode => (
-                <AccountsTree {...json} key={`${index}:${json.address}`} selectAccount={selectAccount} />
-              )
-            )}
+              <Link to="/account/create">
+                <Flex justifyContent="center">
+                  <Box mx="s">
+                    <Icon Asset={SvgPlus} width={14} height={14} color="brandMain" />
+                  </Box>
+                  <Text color="brandMain" variant="b2">
+                    Add a key
+                  </Text>
+                </Flex>
+              </Link>
+            </Flex>
+            {
+              Object.keys(groupedAccounts).sort((a) => (a === undefined ? 1 : -1)).map((did: string, index) => {
+                return <AccountsContainer accounts={groupedAccounts[did]} headerText={did} key={index} />
+              })
+            }
           </AccountsArea>
         </>
       )}
