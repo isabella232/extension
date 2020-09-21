@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountJson } from "@polkadot/extension-base/background/types";
+import { AccountJson } from '@polkadot/extension-base/background/types';
 
-import React, { useCallback, useContext, useMemo, useState } from "react";
-import styled from "styled-components";
-import genesisOptions from "@polkadot/extension-chains/genesisHashes";
+import React, { useCallback, useContext, useMemo, useState } from 'react';
+import styled from 'styled-components';
+import genesisOptions from '@polkadot/extension-chains/genesisHashes';
 
-import { ActionContext, Address, Checkbox, Dropdown, Link, MenuDivider } from "../../components";
-import { editAccount, showAccount, tieAccount } from "../../messaging";
-import { Name } from "../../partials";
+import { ActionContext, Address, Checkbox, Dropdown, Link, MenuDivider } from '../../components';
+import { editAccount, showAccount, tieAccount } from '../../messaging';
+import { Name } from '../../partials';
 
 interface Props extends AccountJson {
   className?: string;
@@ -22,7 +22,7 @@ interface EditState {
   toggleActions: number;
 }
 
-function Account({
+function Account ({
   address,
   balance,
   className,
@@ -31,7 +31,7 @@ function Account({
   isExternal,
   isHidden,
   parentName,
-  suri,
+  suri
 }: Props): React.ReactElement<Props> {
   const onAction = useContext(ActionContext);
   const [{ isEditing, toggleActions }, setEditing] = useState<EditState>({ isEditing: false, toggleActions: 0 });
@@ -66,39 +66,45 @@ function Account({
   const _actions = useMemo(
     () => (
       <>
-        <Link className="menuItem" onClick={_toggleEdit}>
+        <Link className='menuItem'
+          onClick={_toggleEdit}>
           Rename
         </Link>
         {!isExternal && (
-          <Link className="menuItem" to={`/account/derive/${address}/locked`}>
+          <Link className='menuItem'
+            to={`/account/derive/${address}/locked`}>
             Derive New Account 1
           </Link>
         )}
         <MenuDivider />
         {!isExternal && (
-          <Link className="menuItem" isDanger to={`/account/export/${address}`}>
+          <Link className='menuItem'
+            isDanger
+            to={`/account/export/${address}`}>
             Export Account 1
           </Link>
         )}
-        <Link className="menuItem" isDanger to={`/account/forget/${address}`}>
+        <Link className='menuItem'
+          isDanger
+          to={`/account/forget/${address}`}>
           Forget Account1
         </Link>
         <MenuDivider />
-        <div className="menuItem">
+        <div className='menuItem'>
           <Checkbox
             checked={!isHidden}
-            className="inputItem"
-            label="Visible (always inject)"
+            className='inputItem'
+            label='Visible (always inject)'
             onClick={_toggleVisibility}
           />
         </div>
-        <div className="menuItem">
+        <div className='menuItem'>
           <Dropdown
-            className="inputItem"
-            label=""
+            className='inputItem'
+            label=''
             onChange={_onChangeGenesis}
             options={genesisOptions}
-            value={genesisHash || ""}
+            value={genesisHash || ''}
           />
         </div>
       </>
@@ -112,7 +118,7 @@ function Account({
         actions={_actions}
         address={address}
         balance={balance}
-        className="address"
+        className='address'
         did={did}
         genesisHash={genesisHash}
         isHidden={isHidden}
@@ -122,7 +128,12 @@ function Account({
         toggleActions={toggleActions}
       >
         {isEditing && (
-          <Name address={address} className="editName" isFocused label={" "} onBlur={_saveChanges} onChange={setName} />
+          <Name address={address}
+            className='editName'
+            isFocused
+            label={' '}
+            onBlur={_saveChanges}
+            onChange={setName} />
         )}
       </Address>
     </div>

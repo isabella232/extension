@@ -33,5 +33,5 @@ export const ButtonDefaultProps = {
   variant: 'primary' as variants,
   fluid: false,
   tabIndex: 0,
-  type: 'button' as HtmlButtonProps['type'],
+  type: 'button' as HtmlButtonProps['type']
 };

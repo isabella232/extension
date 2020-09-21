@@ -3,11 +3,11 @@ import { Theme } from '../types';
 
 export { StyledProps } from 'styled-components';
 
-export type Style<P = {}> = (
+export type Style<P = Record<string, unknown>> = (
   props: ThemedStyledProps<P, Theme>
 ) => string | number;
 
-export type Styles<P = {}> = (
+export type Styles<P = Record<string, unknown>> = (
   props: ThemedStyledProps<P, Theme>
 ) => CSSObject;
 

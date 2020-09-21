@@ -33,7 +33,6 @@ module.exports = {
     '<rootDir>/packages/extension-chains/build',
     '<rootDir>/packages/extension-dapp/build',
     '<rootDir>/packages/extension-inject/build',
-    '<rootDir>/packages/extension-ui/build',
-    'node_modules'
+    '<rootDir>/packages/extension-ui/build'
   ]
 };

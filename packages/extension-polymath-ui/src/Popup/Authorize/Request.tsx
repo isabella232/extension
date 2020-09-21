@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RequestAuthorizeTab } from "@polkadot/extension-base/background/types";
-import { ThemeProps } from "../../types";
+import { RequestAuthorizeTab } from '@polkadot/extension-base/background/types';
+import { ThemeProps } from '../../types';
 
-import React, { useContext } from "react";
-import styled from "styled-components";
+import React, { useContext } from 'react';
+import styled from 'styled-components';
 
-import { ActionBar, ActionContext, Button, Icon, Link, Warning } from "../../components";
-import { approveAuthRequest, rejectAuthRequest } from "../../messaging";
+import { ActionBar, ActionContext, Button, Icon, Link, Warning } from '../../components';
+import { approveAuthRequest, rejectAuthRequest } from '../../messaging';
 
 interface Props {
   authId: string;
@@ -19,7 +19,7 @@ interface Props {
   url: string;
 }
 
-function Request({ authId, className, isFirst, request: { origin }, url }: Props): React.ReactElement<Props> {
+function Request ({ authId, className, isFirst, request: { origin }, url }: Props): React.ReactElement<Props> {
   const onAction = useContext(ActionContext);
   const _onApprove = (): Promise<void> =>
     approveAuthRequest(authId)
@@ -34,11 +34,14 @@ function Request({ authId, className, isFirst, request: { origin }, url }: Props
     <div className={className}>
       <RequestInfo>
         <Info>
-          <Icon icon="X" onClick={_onReject} />
-          <div className="tab-info">
-            An application1, self-identifying as <span className="tab-name">{origin}</span> is requesting access from{" "}
-            <a href={url} rel="noopener noreferrer" target="_blank">
-              <span className="tab-url">{url}</span>
+          <Icon icon='X'
+            onClick={_onReject} />
+          <div className='tab-info'>
+            An application1, self-identifying as <span className='tab-name'>{origin}</span> is requesting access from{' '}
+            <a href={url}
+              rel='noopener noreferrer'
+              target='_blank'>
+              <span className='tab-url'>{url}</span>
             </a>
             .
           </div>
@@ -53,7 +56,8 @@ function Request({ authId, className, isFirst, request: { origin }, url }: Props
           </>
         )}
         <RejectButton>
-          <Link isDanger onClick={_onReject}>
+          <Link isDanger
+            onClick={_onReject}>
             Reject
           </Link>
         </RejectButton>
@@ -84,7 +88,7 @@ const RequestWarning = styled(Warning)`
   margin: 24px 24px 0 1.45rem;
 `;
 
-AcceptButton.displayName = "AcceptButton";
+AcceptButton.displayName = 'AcceptButton';
 
 const RejectButton = styled(ActionBar)`
   margin: 8px 0 15px 0;

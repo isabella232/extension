@@ -1,6 +1,5 @@
 import styled, { StyledComponentProps, DefaultTheme } from 'styled-components';
-import {
-  color,
+import { color,
   ColorProps,
   fontFamily,
   FontFamilyProps,
@@ -12,13 +11,12 @@ import {
   FontSizeProps,
   letterSpacing,
   LetterSpacingProps,
-  variant,
-} from 'styled-system';
+  variant } from 'styled-system';
 import { Box, BoxThemeProps } from '../Box';
 import { TTextVariant, TFontWeightCustom } from '../../styles/themeDefinitions';
 
 const textStyle = variant({
-  key: 'texts',
+  key: 'texts'
 });
 
 export type Props = {
@@ -26,11 +24,11 @@ export type Props = {
   fontWeight?: FontWeightProps['fontWeight'] | TFontWeightCustom;
   bold?: boolean;
 } & BoxThemeProps &
-  ColorProps &
-  FontFamilyProps &
-  FontSizeProps &
-  LineHeightProps &
-  LetterSpacingProps;
+ColorProps &
+FontFamilyProps &
+FontSizeProps &
+LineHeightProps &
+LetterSpacingProps;
 
 export const TextComponent = styled(Box)<Props>(
   textStyle,
@@ -42,22 +40,22 @@ export const TextComponent = styled(Box)<Props>(
   letterSpacing,
   (props) => ({
     ...(props.bold && fontWeight({ ...props, fontWeight: 'bold' })),
-    overflowWrap: 'break-word',
+    overflowWrap: 'break-word'
   })
 );
 
 TextComponent.defaultProps = {
   as: 'span',
-  variant: 'b1',
+  variant: 'b1'
 } as any;
 
 export const Text = Object.assign(TextComponent, {
-  defaultProps: TextComponent.defaultProps,
+  defaultProps: TextComponent.defaultProps
 });
 
 export type TextProps = StyledComponentProps<
   typeof Text,
-  DefaultTheme,
-  {},
-  any
+DefaultTheme,
+Record<string, any>,
+any
 >;

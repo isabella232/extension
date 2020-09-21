@@ -1,5 +1,4 @@
-import {
-  minWidth,
+import { minWidth,
   MinWidthProps,
   MaxWidthProps,
   width,
@@ -32,8 +31,7 @@ import {
   borderBottom,
   borderRight,
   borderTop,
-  borderLeft,
-} from 'styled-system';
+  borderLeft } from 'styled-system';
 import { StyledComponentProps } from 'styled-components';
 import { styled } from '../../styles';
 import { MaxWidthScale } from '../../styles/utils';
@@ -41,23 +39,23 @@ import { ScaleProps } from '../../styles/themeTypes';
 import { Theme } from '@polkadot/extension-ui/types';
 
 export type BoxThemeProps = MinWidthProps &
-  MaxWidthProps &
-  WidthProps &
-  HeightProps &
-  LineHeightProps &
-  SpaceProps &
-  ColorProps &
-  BorderProps &
-  BorderTopProps &
-  BorderRightProps &
-  BorderBottomProps &
-  BorderLeftProps &
-  BorderColorProps &
-  BorderWidthProps &
-  BorderRadiusProps &
-  TextAlignProps &
-  BoxShadowProps &
-  ScaleProps;
+MaxWidthProps &
+WidthProps &
+HeightProps &
+LineHeightProps &
+SpaceProps &
+ColorProps &
+BorderProps &
+BorderTopProps &
+BorderRightProps &
+BorderBottomProps &
+BorderLeftProps &
+BorderColorProps &
+BorderWidthProps &
+BorderRadiusProps &
+TextAlignProps &
+BoxShadowProps &
+ScaleProps;
 
 export const Box = styled.div<BoxThemeProps>(
   minWidth,
@@ -79,8 +77,8 @@ export const Box = styled.div<BoxThemeProps>(
   color,
   boxShadow,
   {
-    boxSizing: 'border-box',
+    boxSizing: 'border-box'
   }
 );
 
-export type BoxProps = StyledComponentProps<typeof Box, Theme, {}, any>;
+export type BoxProps = StyledComponentProps<typeof Box, Theme, Record<string, any>, any>;

@@ -14,7 +14,7 @@ export const CheckStateIcon = styled(Icon)(({ theme }) => ({
   opacity: 0,
   pointerEvents: 'none',
   margin: 'auto',
-  transition: `${theme.transitions.hover.ms}ms`,
+  transition: `${theme.transitions.hover.ms}ms`
 }));
 
 export const CheckboxInput = styled.div(({ theme }) => ({
@@ -30,21 +30,21 @@ export const CheckboxInput = styled.div(({ theme }) => ({
   userSelect: 'none',
 
   [`${Input}:focus + &`]: {
-    borderColor: theme.colors.primary,
+    borderColor: theme.colors.primary
   },
 
   [`${Input}:checked:focus + &`]: {
-    borderColor: theme.colors.primary,
+    borderColor: theme.colors.primary
   },
 
   [`${Input}:checked + &`]: {
     backgroundColor: theme.colors.primary,
-    borderColor: theme.colors.primary,
+    borderColor: theme.colors.primary
   },
 
   [`${Input}:checked + & .checkIcon`]: {
     visibility: 'visible',
-    opacity: 1,
+    opacity: 1
   },
 
   '&.indeterminate': {
@@ -52,12 +52,12 @@ export const CheckboxInput = styled.div(({ theme }) => ({
 
     '.minusIcon': {
       visibility: 'visible',
-      opacity: 1,
+      opacity: 1
     },
 
     '.checkIcon': {
       visibility: 'hidden',
-      opacity: 0,
-    },
-  },
+      opacity: 0
+    }
+  }
 }));
