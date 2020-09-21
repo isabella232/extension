@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from "react";
 
 import { ActionContext } from "../../components";
 import { Header, Icon, Box, Heading, Text, Button } from "../../ui";
-import { SvgPolyNew } from "@polkadot/ui/assets/images/icons";
+import { SvgPolyNew } from "@polymath/extension-ui/assets/images/icons";
 
 function AddAccount(): React.ReactElement<Props> {
   const onAction = useContext(ActionContext);
