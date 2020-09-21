@@ -44,7 +44,7 @@ export const AccountView: FC<Props> = (props) => {
     return colors[colorIndex];
   };
 
-  const handleMenuClick = (event) => {
+  const handleMenuClick = (event: any) => {
     console.log('click', event);
 
     switch (event) {
@@ -65,7 +65,7 @@ export const AccountView: FC<Props> = (props) => {
     setEditing(false);
   };
 
-  const handleNameChange = (e) => {
+  const handleNameChange = (e: any) => {
     setNewName(e.target.value);
   };
 
@@ -120,7 +120,7 @@ export const AccountView: FC<Props> = (props) => {
             <Box mx='1'>
               <Text color='gray.2'
                 variant='c2'>
-                { did && <TextEllipsis size='12'>{did}</TextEllipsis> }
+                { did && <TextEllipsis size={12}>{did}</TextEllipsis> }
               </Text>
             </Box>
           </Flex>

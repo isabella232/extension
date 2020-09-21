@@ -6,7 +6,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import { AuthorizeReqContext } from '../../components';
-import useTranslation from '../../hooks/useTranslation';
+import { useTranslation } from 'react-i18next';
 import { Header } from '../../partials';
 import Request from './Request';
 

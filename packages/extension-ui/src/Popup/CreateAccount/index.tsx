@@ -5,7 +5,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { ActionContext, Address, Loading } from '../../components';
-import useTranslation from '../../hooks/useTranslation';
+import { useTranslation } from 'react-i18next';
 import { createAccountSuri, createSeed } from '../../messaging';
 import { HeaderWithSteps } from '../../partials';
 import AccountName from './AccountName';

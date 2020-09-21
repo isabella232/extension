@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { QrDisplayPayload, QrScanSignature } from '@polkadot/react-qr';
 
 import { Button } from '../../components';
-import useTranslation from '../../hooks/useTranslation';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   children?: React.ReactNode;

@@ -10,7 +10,7 @@
     "@polkadot/extension-inject": "0.34.0-beta.10",
     "@polkadot/extension-ui": "0.34.0-beta.10",
     "@polymath/extension": "0.1.0",
-    "@polymath/extension-ui": "0.33.0-beta.6"
+    "@polymath/extension-ui": "0.1.0"
   },
   "devDependencies": {
     "@polkadot/dev": "^0.55.49",

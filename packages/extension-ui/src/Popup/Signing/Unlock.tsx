@@ -5,7 +5,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Button, InputWithLabel } from '../../components';
-import useTranslation from '../../hooks/useTranslation';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   buttonText: string;

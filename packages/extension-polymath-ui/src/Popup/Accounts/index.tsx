@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { AccountContext } from '../../components';
 import AccountsTree from './AccountsTree';
 import AddAccount from './AddAccount';
-import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button, StatusBadge } from '../../ui';
+import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, StatusBadge } from '../../ui';
 import { showAccount } from '../../messaging';
 import { AccountWithChildren } from '@polkadot/extension-base/background/types';
 import { SvgCheckboxMarkedCircle,

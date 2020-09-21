@@ -5,7 +5,7 @@
 import React, { useCallback, useState } from 'react';
 
 import { BackButton, ButtonArea, NextStepButton, VerticalSpace } from '../../components';
-import useTranslation from '../../hooks/useTranslation';
+import { useTranslation } from 'react-i18next';
 import { Name, Password } from '../../partials';
 
 interface Props {

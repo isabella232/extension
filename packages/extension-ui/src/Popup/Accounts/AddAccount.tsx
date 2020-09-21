@@ -8,7 +8,7 @@ import React, { useCallback, useContext } from 'react';
 import styled from 'styled-components';
 
 import { ActionContext } from '../../components';
-import useTranslation from '../../hooks/useTranslation';
+import { useTranslation } from 'react-i18next';
 import Header from '../../partials/Header';
 import AddAccountImage from './AddAccountImage';
 

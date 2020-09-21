@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import { ActionBar, ActionContext, Button, Link, Table, Warning } from '../../components';
 import useMetadata from '../../hooks/useMetadata';
-import useTranslation from '../../hooks/useTranslation';
+import { useTranslation } from 'react-i18next';
 import { approveMetaRequest, rejectMetaRequest } from '../../messaging';
 
 interface Props {

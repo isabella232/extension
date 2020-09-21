@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import { Wrapper as ScWrapper } from 'react-aria-menubutton';
 import { styled } from '@polymath/extension-ui/styles';
 
