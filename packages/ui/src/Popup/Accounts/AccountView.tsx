@@ -14,12 +14,11 @@ import { ActionContext } from "../../components";
 
 export interface Props {
   account: IdentifiedAccount;
-  isAssigned: boolean;
   isSelected?: boolean;
 }
 
-export const AccountView: FC<Props> = ({account, isAssigned, isSelected}) => {
-  const { name, address } = account;
+export const AccountView: FC<Props> = ({account, isSelected}) => {
+  const { address, balance, did, keyType, name } = account;
 
   const onAction = useContext(ActionContext);
 
@@ -31,7 +30,7 @@ export const AccountView: FC<Props> = ({account, isAssigned, isSelected}) => {
     const text = keyType === 'primary' ? 'Master' : 'Secondary';
 
     return (
-      !isEditing && <StatusBadge variant={color}>{text}</StatusBadge>
+      !isEditing && did && <StatusBadge variant={color}>{text}</StatusBadge>
     );
   };
 
@@ -100,10 +99,13 @@ export const AccountView: FC<Props> = ({account, isAssigned, isSelected}) => {
                 </Flex>
               )}
               <Box ml="s">
-                {renderType(account.keyType)}
+                {renderType(keyType)}
               </Box>
             </Flex>
-            <Icon Asset={SvgCheck} width={24} height={24} color="brandMain" />
+            {
+              isSelected && 
+                <Icon Asset={SvgCheck} width={24} height={24} color="brandMain" />
+            }
           </Flex>
           <Flex
             flexDirection="row"
@@ -118,7 +120,7 @@ export const AccountView: FC<Props> = ({account, isAssigned, isSelected}) => {
             </Box>
             <Box>
               <Text variant="b3" color="gray.1">
-                {formatters.formatAmount(account.balance, 2, true)} POLYX
+                {formatters.formatAmount(balance, 2, true)} POLYX
               </Text>
             </Box>
           </Flex>

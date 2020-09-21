@@ -20,9 +20,6 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerText }) => {
   const renderMenuItems = () => {
     return (
       <>
-        <MenuItem value="select">Select</MenuItem>
-        <MenuItem value="rename">Rename</MenuItem>
-        <MenuItem value="derive">Derive new account</MenuItem>
         <MenuItem value="export">Export account</MenuItem>
         <MenuItem value="forget">Forget account</MenuItem>
       </>
@@ -33,16 +30,10 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerText }) => {
     const { address } = accounts[0];
 
     switch (event) {
-      case "select":
-        return selectAccount(address);
-      case "derive":
-        return history.push(`/account/derive/${address}/locked`);
       case "export":
         return history.push(`/account/export/${address}`);
       case "forget":
         return history.push(`/account/forget/${address}`);
-      case "rename":
-        return setEditing(true);
     }
   };
 
@@ -90,8 +81,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerText }) => {
         {accounts.map((account: IdentifiedAccount, index) => {
           return (
             <AccountView account={account}
-              isAssigned={true}
-              isSelected={true}
+              isSelected={false}
               key={index}
             />
           );
