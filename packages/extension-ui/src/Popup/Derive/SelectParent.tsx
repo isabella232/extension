@@ -6,7 +6,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } 
 import styled from 'styled-components';
 import { assert } from '@polkadot/util';
 
-import { AccountContext, ActionContext, Address, ButtonArea, InputWithLabel, Label, NextStepButton, VerticalSpace } from '../../components';
+import { AccountContext, ActionContext, Address, ButtonArea, Checkbox, InputWithLabel, Label, NextStepButton, VerticalSpace } from '../../components';
 import useTranslation from '../../hooks/useTranslation';
 import { validateAccount, validateDerivationPath } from '../../messaging';
 import { nextDerivationPath } from '../../util/nextDerivationPath';
@@ -29,7 +29,7 @@ export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress, 
   const [suriPath, setSuriPath] = useState<null | string>(defaultPath);
   const [parentPassword, setParentPassword] = useState<string>('');
   const [isProperParentPassword, setIsProperParentPassword] = useState(false);
-  const shouldAccountBeDerived = true;
+  const [shouldAccountBeDerived, setShouldAccountBeDerived] = useState(true);
 
   const passwordInputRef = useRef<HTMLDivElement>(null);
 
@@ -92,6 +92,13 @@ export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress, 
 
   return (
     <>
+      {!isLocked && (
+        <CheckboxWithSmallerMargins
+          checked={shouldAccountBeDerived}
+          label={t<string>('Derive new account from existing')}
+          onChange={setShouldAccountBeDerived}
+        />
+      )}
       <DisableableArea isDisabled={!shouldAccountBeDerived}>
         {isLocked
           ? (
@@ -157,6 +164,11 @@ export function SelectParent ({ isLocked, onDerivationConfirmed, parentAddress, 
     </>
   );
 }
+
+const CheckboxWithSmallerMargins = styled(Checkbox)`
+  margin-top: 0;
+  margin-bottom: 10px;
+`;
 
 const DisableableArea = styled.div<{ isDisabled: boolean }>`
   opacity: ${({ isDisabled }): string => isDisabled ? '0.2' : '1'};

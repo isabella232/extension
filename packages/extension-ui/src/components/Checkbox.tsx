@@ -4,7 +4,7 @@
 
 import { ThemeProps } from '../types';
 
-import React, { useCallback, ReactNode } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import Checkmark from '../assets/checkmark.svg';
@@ -12,7 +12,7 @@ import Checkmark from '../assets/checkmark.svg';
 interface Props {
   checked: boolean;
   className?: string;
-  label: string | ReactNode;
+  label: string;
   onChange?: (checked: boolean) => void;
   onClick?: () => void;
 }
