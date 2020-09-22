@@ -2,11 +2,12 @@ import React from 'react';
 import { Menu as ScMenu } from 'react-aria-menubutton';
 import { styled } from '../../styles';
 
-export interface MenuProps {
+type Props = React.ComponentProps<typeof ScMenu>;
+export interface MenuProps extends Props {
   onSelection: () => void;
 }
 
-export const Menu = styled(ScMenu)({
+export const Menu: React.ReactElement<MenuProps> = styled(ScMenu)({
   background: '#fff',
   border: '1px solid #EBF0F7',
   boxShadow: '0px 1px 2px rgba(21, 41, 53, 0.24), 0px 1px 3px rgba(21, 41, 53, 0.12);',

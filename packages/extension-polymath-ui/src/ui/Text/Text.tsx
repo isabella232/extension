@@ -13,7 +13,7 @@ import { color,
   LetterSpacingProps,
   variant } from 'styled-system';
 import { Box, BoxThemeProps } from '../Box';
-import { TTextVariant, TFontWeightCustom } from '../../styles/themeDefinitions';
+import { TTextVariant, TFontWeightCustom } from '../../components/themeDefinitions';
 
 const textStyle = variant({
   key: 'texts'

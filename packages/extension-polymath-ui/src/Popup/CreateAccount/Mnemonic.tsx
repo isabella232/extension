@@ -4,7 +4,7 @@
 
 import React, { useCallback, useState } from 'react';
 
-import { ButtonArea, Checkbox, MnemonicSeed, NextStepButton, VerticalSpace, Warning } from '../../components';
+import { ButtonArea, Checkbox, MnemonicSeed, NextStepButton, VerticalSpace } from '../../components';
 import useToast from '../../hooks/useToast';
 
 interface Props {

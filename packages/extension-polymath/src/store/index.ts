@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'development' && logger) {
   middleware.push(logger);
 }
 
-const store = configureStore({ middleware, reducer: persistedReducer });
+const store: any = configureStore({ middleware, reducer: persistedReducer });
 
 // Reducer hot module reloading
 if (process.env.NODE_ENV === 'development' && (module as any).hot) {
