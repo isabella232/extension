@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { MenuItem as ScMenuItem } from "react-aria-menubutton";
-import { styled } from "@polkadot/ui/styles";
+import { styled } from "@polymath/extension-ui/styles";
 
 export interface MenuProps {
   onSelection: () => void;

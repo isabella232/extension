@@ -16,8 +16,7 @@ const packages = [
   'extension-base',
   'extension-chains',
   'extension-inject',
-  'extension-ui',
-  'ui'
+  'extension-ui'
 ];
 
 function createWebpack ({ alias = {}, context }) {
@@ -62,8 +61,8 @@ function createWebpack ({ alias = {}, context }) {
         },
         {
           test: /\.css$/,
-          loader: 'raw-loader',
-        },
+          loader: 'raw-loader'
+        }
       ]
     },
     node: {
@@ -117,11 +116,16 @@ function createWebpack ({ alias = {}, context }) {
   };
 }
 
-module.exports = createWebpack({
-  alias: packages.reduce((alias, pkg) => {
-    alias[`@polkadot/${pkg}`] = path.resolve(__dirname, `../${pkg}/src`);
+const alias = packages.reduce((alias, pkg) => {
+  alias[`@polkadot/${pkg}`] = path.resolve(__dirname, `../${pkg}/src`);
 
-    return alias;
-  }, {}),
+  return alias;
+}, {});
+
+alias['@polymath/extension'] = path.resolve(__dirname, '../extension-polymath');
+alias['@polymath/extension-ui'] = path.resolve(__dirname, '../extension-polymath-ui/src');
+
+module.exports = createWebpack({
+  alias,
   context: __dirname
 });

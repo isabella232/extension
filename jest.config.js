@@ -10,6 +10,8 @@ module.exports = Object.assign({}, config, {
     '@polkadot/extension-(base|chains|dapp|inject|ui)(.*)$': '<rootDir>/packages/extension-$1/src/$2',
     // eslint-disable-next-line sort-keys
     '@polkadot/extension(.*)$': '<rootDir>/packages/extension/src/$1',
+    '@polymath/extension(.*)$': '<rootDir>/packages/extension-polymath/src/$1',
+    '@polymath/extension-ui(.*)$': '<rootDir>/packages/extension-polymath-ui/src/$1',
     '\\.(css|less)$': 'empty/object',
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/__mocks__/fileMock.js'
   },
