@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import { Box } from "../Box";
+import styled from 'styled-components';
+import { Box } from '../Box';
 
 export interface StatusBadgeProps {
-  variant?: "green" | "red" | "yellow" | "gray" | "blue";
+  variant?: 'green' | 'red' | 'yellow' | 'gray' | 'blue';
 }
 
 export const StatusBadge = styled(Box)<StatusBadgeProps>`
@@ -15,28 +15,28 @@ export const StatusBadge = styled(Box)<StatusBadgeProps>`
   font-size: 12px;
   font-weight: 500;
   text-align: center;
-  background-color: ${({ variant, theme }) =>
-    variant === "green"
+  background-color: ${({ theme, variant }) =>
+    variant === 'green'
       ? theme.colors.green[2]
-      : variant === "red"
-      ? theme.colors.red[1]
-      : variant === "yellow"
-      ? theme.colors.yellow[1]
-      : variant === "gray"
-      ? theme.colors.gray[4]
-      : variant === "blue"
-      ? theme.colors.brandLightest
-      : theme.colors.gray[4]};
-  color: ${({ variant, theme }) =>
-    variant === "green"
+      : variant === 'red'
+        ? theme.colors.red[1]
+        : variant === 'yellow'
+          ? theme.colors.yellow[1]
+          : variant === 'gray'
+            ? theme.colors.gray[4]
+            : variant === 'blue'
+              ? theme.colors.brandLightest
+              : theme.colors.gray[4]};
+  color: ${({ theme, variant }) =>
+    variant === 'green'
       ? theme.colors.green[0]
-      : variant === "red"
-      ? theme.colors.red[0]
-      : variant === "yellow"
-      ? theme.colors.yellow[2]
-      : variant === "gray"
-      ? theme.colors.gray[2]
-      : variant === "blue"
-      ? theme.colors.brandMain
-      : theme.colors.gray[2]};
+      : variant === 'red'
+        ? theme.colors.red[0]
+        : variant === 'yellow'
+          ? theme.colors.yellow[2]
+          : variant === 'gray'
+            ? theme.colors.gray[2]
+            : variant === 'blue'
+              ? theme.colors.brandMain
+              : theme.colors.gray[2]};
 `;

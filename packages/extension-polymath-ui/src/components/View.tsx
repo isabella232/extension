@@ -2,26 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ThemeProps } from "../types";
+import { ThemeProps } from '../types';
 
-import React, { useState } from "react";
-import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
-
+import React, { useState } from 'react';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 // FIXME We should not import from index when this one is imported there as well
-import { AvailableThemes, chooseTheme, themes, ThemeSwitchContext } from ".";
+import { AvailableThemes, chooseTheme, themes, ThemeSwitchContext } from '.';
 
 interface Props {
   children: React.ReactNode;
   className?: string;
 }
 
-function View({ children, className }: Props): React.ReactElement<Props> {
+function View ({ children, className }: Props): React.ReactElement<Props> {
   const [theme, setTheme] = useState(chooseTheme());
   const _theme = themes[theme];
 
   const switchTheme = (theme: AvailableThemes): void => {
-    localStorage.setItem("theme", theme);
+    localStorage.setItem('theme', theme);
     setTheme(theme);
   };
 

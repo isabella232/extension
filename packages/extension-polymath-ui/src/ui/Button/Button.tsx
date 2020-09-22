@@ -1,5 +1,5 @@
 import React, { ForwardRefRenderFunction } from 'react';
-import { styled }  from '../../styles';
+import { styled } from '../../styles';
 import { Icon } from '../Icon';
 import { buttonReset } from '../../styles/utils';
 import { getVariant, getIconStyle } from './styles';
@@ -7,7 +7,7 @@ import { ButtonProps, ButtonDefaultProps } from './definitions';
 
 const ButtonComponent: ForwardRefRenderFunction<HTMLButtonElement, React.PropsWithChildren<ButtonProps>> = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  { onClick, variant, fluid, RouterLink, iconPosition, href, ...otherProps },
+  { RouterLink, fluid, href, iconPosition, onClick, variant, ...otherProps },
   ref
 ) => {
   if (RouterLink) {
@@ -15,8 +15,8 @@ const ButtonComponent: ForwardRefRenderFunction<HTMLButtonElement, React.PropsWi
   } else {
     return (
       <button
-        ref={ref}
         onClick={onClick}
+        ref={ref}
         role={href && 'button'}
         {...(href && { type: undefined })}
         {...otherProps}
@@ -29,7 +29,7 @@ const ButtonWithRef = React.forwardRef(ButtonComponent);
 
 export const Button = styled(ButtonWithRef)<ButtonProps>(
   buttonReset,
-  ({ theme, fluid, tight, iconPosition }) => ({
+  ({ fluid, iconPosition, theme, tight }) => ({
     whiteSpace: 'nowrap',
     position: 'relative',
     display: 'inline-flex',
@@ -54,14 +54,14 @@ export const Button = styled(ButtonWithRef)<ButtonProps>(
       backgroundColor: theme.colors.disabled,
       color: theme.colors.inactive,
       boxShadow: 'none',
-      cursor: 'not-allowed',
+      cursor: 'not-allowed'
     },
 
     [Icon]: {
       ...(iconPosition && {
-        [`margin${getIconStyle(iconPosition)}`]: theme.space.s,
-      }),
-    },
+        [`margin${getIconStyle(iconPosition)}`]: theme.space.s
+      })
+    }
   }),
   getVariant
 );

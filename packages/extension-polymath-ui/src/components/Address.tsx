@@ -2,27 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountJson, AccountWithChildren } from "@polkadot/extension-base/background/types";
-import { Chain } from "@polkadot/extension-chains/types";
-import { SettingsStruct } from "@polkadot/ui-settings/types";
-import { ThemeProps } from "../types";
+import { AccountJson, AccountWithChildren } from '@polkadot/extension-base/background/types';
+import { Chain } from '@polkadot/extension-chains/types';
+import { SettingsStruct } from '@polkadot/ui-settings/types';
+import { ThemeProps } from '../types';
 
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
-import CopyToClipboard from "react-copy-to-clipboard";
-import styled from "styled-components";
-import { decodeAddress, encodeAddress } from "@polkadot/util-crypto";
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import styled from 'styled-components';
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
-import copyIcon from "../assets/copy.svg";
-import hiddenIcon from "../assets/hidden.svg";
-import details from "../assets/details.svg";
-import parentArrow from "../assets/arrowParentLabel.svg";
-import { AccountContext, SettingsContext } from "./contexts";
-import useOutsideClick from "../hooks/useOutsideClick";
-import useMetadata from "../hooks/useMetadata";
-import useToast from "../hooks/useToast";
-import Identicon from "./Identicon";
-import Menu from "./Menu";
-import Svg from "./Svg";
+import copyIcon from '../assets/copy.svg';
+import hiddenIcon from '../assets/hidden.svg';
+import details from '../assets/details.svg';
+import parentArrow from '../assets/arrowParentLabel.svg';
+import { AccountContext, SettingsContext } from './contexts';
+import useOutsideClick from '../hooks/useOutsideClick';
+import useMetadata from '../hooks/useMetadata';
+import useToast from '../hooks/useToast';
+import Identicon from './Identicon';
+import Menu from './Menu';
+import Svg from './Svg';
 
 interface Props {
   actions?: React.ReactNode;
@@ -46,14 +46,14 @@ interface Recoded {
 }
 
 // find an account in our list
-function findAccount(accounts: AccountJson[], publicKey: Uint8Array): AccountJson | null {
+function findAccount (accounts: AccountJson[], publicKey: Uint8Array): AccountJson | null {
   const pkStr = publicKey.toString();
 
   return accounts.find(({ address }): boolean => decodeAddress(address).toString() === pkStr) || null;
 }
 
 // recodes an supplied address using the prefix/genesisHash, include the actual saved account & chain
-function recodeAddress(
+function recodeAddress (
   address: string,
   accounts: AccountWithChildren[],
   chain: Chain | null,
@@ -70,13 +70,13 @@ function recodeAddress(
   return {
     account,
     formatted: encodeAddress(publicKey, prefix),
-    prefix,
+    prefix
   };
 }
 
 const ACCOUNTS_SCREEN_HEIGHT = 550;
 
-function Address({
+function Address ({
   actions,
   address,
   balance,
@@ -88,7 +88,7 @@ function Address({
   name,
   parentName,
   suri,
-  toggleActions,
+  toggleActions
 }: Props): React.ReactElement<Props> {
   const { accounts } = useContext(AccountContext);
   const settings = useContext(SettingsContext);
@@ -96,7 +96,7 @@ function Address({
   const [{ account, formatted, prefix }, setRecoded] = useState<Recoded>({
     account: null,
     formatted: null,
-    prefix: 42,
+    prefix: 42
   });
   const [showActionsMenu, setShowActionsMenu] = useState(false);
   const [moveMenuUp, setIsMovedMenu] = useState(false);
@@ -125,60 +125,64 @@ function Address({
     setShowActionsMenu(false);
   }, [toggleActions]);
 
-  const theme = ((chain && chain.icon) || "polkadot") as "polkadot";
+  const theme = ((chain && chain.icon) || 'polkadot') as 'polkadot';
   const _onClick = useCallback((): void => setShowActionsMenu(!showActionsMenu), [showActionsMenu]);
-  const _onCopy = useCallback((): void => show("Copied"), [show]);
+  const _onCopy = useCallback((): void => show('Copied'), [show]);
 
-  let displayedName = name || (account && account.name) || "<unknown>";
-  const balanceStr = balance !== undefined ? (balance / 1000000).toString() : "";
+  let displayedName = name || (account && account.name) || '<unknown>';
+  const balanceStr = balance !== undefined ? (balance / 1000000).toString() : '';
 
   displayedName += ` (${balanceStr} PolyX)`;
 
   return (
     <div className={className}>
-      <div className="infoRow">
+      <div className='infoRow'>
         <Identicon
-          className="identityIcon"
+          className='identityIcon'
           iconTheme={theme}
           onCopy={_onCopy}
           prefix={prefix}
           value={formatted || address}
         />
-        <div className="info">
+        <div className='info'>
           {parentName ? (
             <>
-              <div className="banner">
+              <div className='banner'>
                 <ArrowLabel />
-                <div className="parentName" data-field="parent">
-                  {parentName}&nbsp;&nbsp;{suri || ""}
+                <div className='parentName'
+                  data-field='parent'>
+                  {parentName}&nbsp;&nbsp;{suri || ''}
                 </div>
               </div>
-              <div className="name displaced">{displayedName}</div>
+              <div className='name displaced'>{displayedName}</div>
             </>
           ) : (
-            <div className="name" data-field="name">
+            <div className='name'
+              data-field='name'>
               {displayedName}
             </div>
           )}
           {chain?.genesisHash && (
             <div
-              className="banner chain"
-              data-field="chain"
+              className='banner chain'
+              data-field='chain'
               style={chain.definition.color ? { backgroundColor: chain.definition.color } : undefined}
             >
               {chain.name}
             </div>
           )}
-          <div className="addressDisplay">
-            <FullAddress data-field="address">{formatted || "<unknown>"}</FullAddress>
-            <CopyToClipboard text={(formatted && formatted) || ""}>
-              <Svg onClick={_onCopy} src={copyIcon} />
+          <div className='addressDisplay'>
+            <FullAddress data-field='address'>{formatted || '<unknown>'}</FullAddress>
+            <CopyToClipboard text={(formatted && formatted) || ''}>
+              <Svg onClick={_onCopy}
+                src={copyIcon} />
             </CopyToClipboard>
-            {isHidden && <Svg className="hiddenIcon" src={hiddenIcon} />}
+            {isHidden && <Svg className='hiddenIcon'
+              src={hiddenIcon} />}
           </div>
           {did && (
-            <div className="addressDisplay">
-              <FullAddress data-field="address">{"DID: " + did}</FullAddress>
+            <div className='addressDisplay'>
+              <FullAddress data-field='address'>{'DID: ' + did}</FullAddress>
             </div>
           )}
         </div>
@@ -186,7 +190,8 @@ function Address({
           <>
             <Settings onClick={_onClick}>{showActionsMenu ? <ActiveActionsIcon /> : <ActionsIcon />}</Settings>
             {showActionsMenu && (
-              <MovableMenu isMoved={moveMenuUp} reference={actionsRef}>
+              <MovableMenu isMoved={moveMenuUp}
+                reference={actionsRef}>
                 {actions}
               </MovableMenu>
             )}
@@ -209,7 +214,7 @@ const FullAddress = styled.div(
 `
 );
 
-FullAddress.displayName = "FullAddress";
+FullAddress.displayName = 'FullAddress';
 
 const Settings = styled.div(
   ({ theme }: ThemeProps) => `
@@ -242,7 +247,7 @@ const Settings = styled.div(
 `
 );
 
-Settings.displayName = "Details";
+Settings.displayName = 'Details';
 
 const ActionsIcon = styled(Svg).attrs(() => ({ src: details }))`
   background: ${({ theme }: ThemeProps): string => theme.accountDotsIconColor};
@@ -261,7 +266,7 @@ const ArrowLabel = styled(Svg).attrs(() => ({ src: parentArrow }))`
 `;
 
 const MovableMenu = styled(Menu)<{ isMoved: boolean }>`
-  ${({ isMoved }): string => (isMoved ? "bottom: 0;" : "top: 0;")}
+  ${({ isMoved }): string => (isMoved ? 'bottom: 0;' : 'top: 0;')}
   margin-top: -20px;
   right: 28px;
 `;
