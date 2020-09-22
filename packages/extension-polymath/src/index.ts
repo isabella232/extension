@@ -59,7 +59,7 @@ export function meshAccountsEnhancer (): void {
             const did = linkedKeyInfo.unwrapOrDefault().asUnique.toString();
 
             // eslint-disable-next-line
-            api.rpc.identity.isIdentityHasValidCdd(did)
+            (api.rpc as any).identity.isIdentityHasValidCdd(did)
               .then((cddStatus: CddStatus) => {
                 store.dispatch(identityActions.setIdentity({ data: {
                   cdd: cddStatus.isOk,
