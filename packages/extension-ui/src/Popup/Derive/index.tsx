@@ -8,7 +8,7 @@ import { useParams } from 'react-router';
 import { AccountContext, ActionContext, Address, BackButton, ButtonArea, NextStepButton, VerticalSpace } from '../../components';
 import useTranslation from '../../hooks/useTranslation';
 import { deriveAccount } from '../../messaging';
-import { HeaderWithSteps, Name } from '../../partials';
+import { HeaderWithSteps, Name, Password } from '../../partials';
 import { SelectParent } from './SelectParent';
 
 interface Props {
@@ -36,6 +36,7 @@ function Derive ({ isLocked }: Props): React.ReactElement<Props> {
   const [isBusy, setIsBusy] = useState(false);
   const [account, setAccount] = useState<null | PathState>(null);
   const [name, setName] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
   const [parentPassword, setParentPassword] = useState<string | null>(null);
 
   const parentGenesis = useMemo(
@@ -44,18 +45,18 @@ function Derive ({ isLocked }: Props): React.ReactElement<Props> {
   );
 
   const _onCreate = useCallback(() => {
-    if (!account || !name || !parentPassword) {
+    if (!account || !name || !password || !parentPassword) {
       return;
     }
 
     setIsBusy(true);
-    deriveAccount(parentAddress, account.suri, parentPassword, name, parentPassword, parentGenesis)
+    deriveAccount(parentAddress, account.suri, parentPassword, name, password, parentGenesis)
       .then(() => onAction('/'))
       .catch((error): void => {
         setIsBusy(false);
         console.error(error);
       });
-  }, [account, name, onAction, parentAddress, parentPassword, parentGenesis]);
+  }, [account, name, password, onAction, parentAddress, parentGenesis, parentPassword]);
 
   const _onDerivationConfirmed = useCallback(({ account, parentPassword }: ConfirmState) => {
     setAccount(account);
@@ -93,11 +94,13 @@ function Derive ({ isLocked }: Props): React.ReactElement<Props> {
             isFocused
             onChange={setName}
           />
+          <Password onChange={setPassword} />
           <VerticalSpace/>
           <ButtonArea>
             <BackButton onClick={_onBackClick}/>
             <NextStepButton
               isBusy={isBusy}
+              isDisabled={!password}
               onClick={_onCreate}
             >
               {t<string>('Create derived account')}

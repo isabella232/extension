@@ -122,7 +122,7 @@ const alias = packages.reduce((alias, pkg) => {
   return alias;
 }, {});
 
-alias['@polymath/extension'] = path.resolve(__dirname, '../extension-polymath');
+alias['@polymath/extension'] = path.resolve(__dirname, '../extension-polymath/src');
 alias['@polymath/extension-ui'] = path.resolve(__dirname, '../extension-polymath-ui/src');
 
 module.exports = createWebpack({

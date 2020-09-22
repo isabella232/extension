@@ -102,8 +102,8 @@ export async function cancelSignRequest (id: string): Promise<boolean> {
   return sendMessage('pri(signing.cancel)', { id });
 }
 
-export async function approveSignPassword (id: string, password: string): Promise<boolean> {
-  return sendMessage('pri(signing.approve.password)', { id, password });
+export async function approveSignPassword (id: string, password: string, isSavedPass: boolean): Promise<boolean> {
+  return sendMessage('pri(signing.approve.password)', { id, isSavedPass, password });
 }
 
 export async function approveSignSignature (id: string, signature: string): Promise<boolean> {
@@ -165,6 +165,14 @@ export async function rejectMetaRequest (id: string): Promise<boolean> {
 
 export async function subscribeAccounts (cb: (accounts: AccountJson[]) => void): Promise<boolean> {
   return sendMessage('pri(accounts.subscribe)', null, cb);
+}
+
+export async function subscribePolySelectedAccount (cb: (selected: string | undefined) => void): Promise<boolean> {
+  return sendMessage('pri(polySelectedAccount.subscribe)', null, cb);
+}
+
+export async function setPolySelectedAccount (account: string): Promise<boolean> {
+  return sendMessage('pri(polySelectedAccount.set)', { account });
 }
 
 export async function subscribeAuthorizeRequests (cb: (accounts: AuthorizeRequest[]) => void): Promise<boolean> {

@@ -26,6 +26,7 @@
     "build:zip:dst": "rm -rf ./master-build.zip && cd packages/extension/build && zip -r -FS ../../../master-build.zip .",
     "build:zip:src": "rm -rf ./master-src.zip && zip -r -x '*build/*' -x '*node_modules*' -FS ./master-src.zip packages .babelrc.js .editorconfig .eslintignore .eslintrc.js babel.config.js CHANGELOG.md CONTRIBUTING.md i18next-scanner.config.js jest.config.js lerna.json LICENSE package.json README.md tsconfig.json yarn.lock",
     "lint": "polkadot-dev-run-lint",
+    "lint:fix": "polkadot-dev-run-lint --fix",
     "lint:css": "stylelint './packages/**/src/**/*.tsx'",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
@@ -43,6 +44,7 @@
     "sinon-chrome": "^3.0.1",
     "stylelint": "^13.7.0",
     "stylelint-config-recommended": "^3.0.0",
-    "stylelint-config-styled-components": "^0.1.1"
+    "stylelint-config-styled-components": "^0.1.1",
+    "ts-jest": "^26.4.0"
   }
 }

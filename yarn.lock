@@ -3515,6 +3515,7 @@ __metadata:
     react-contexify: ^4.1.1
     react-dom: ^16.13.1
     react-dropzone: ^11.0.3
+    react-i18next: ^11.7.2
     react-is: ^16.13.1
     react-router: ^5.2.0
     react-router-dom: ^5.2.0
@@ -3957,7 +3958,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^26.0.13":
+"@types/jest@npm:26.x, @types/jest@npm:^26.0.13":
   version: 26.0.13
   resolution: "@types/jest@npm:26.0.13"
   dependencies:
@@ -6855,6 +6856,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bs-logger@npm:0.x":
+  version: 0.2.6
+  resolution: "bs-logger@npm:0.2.6"
+  dependencies:
+    fast-json-stable-stringify: 2.x
+  checksum: f5f2f1315d6ceac655c3945d149086a5f5a90b3c908780757e12e938aad0125a7aa563cae2f7153ccf43443adb1b88a44960a61063903c3973e1dfdda6fc2d8c
+  languageName: node
+  linkType: hard
+
 "bser@npm:2.1.1":
   version: 2.1.1
   resolution: "bser@npm:2.1.1"
@@ -6887,7 +6897,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer-from@npm:^1.0.0":
+"buffer-from@npm:1.x, buffer-from@npm:^1.0.0":
   version: 1.1.1
   resolution: "buffer-from@npm:1.1.1"
   checksum: 540ceb79c4f5bfcadaabbc18324fa84c50dc52905084be7c03596a339cf5a88513bee6831ce9b36ddd046fab09257a7c80686e129d0559a0cfd141da196ad956
@@ -10676,7 +10686,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-json-stable-stringify@npm:^2.0.0":
+"fast-json-stable-stringify@npm:2.x, fast-json-stable-stringify@npm:^2.0.0":
   version: 2.1.0
   resolution: "fast-json-stable-stringify@npm:2.1.0"
   checksum: 7df3fabfe445d65953b2d9d9d3958bd895438b215a40fb87dae8b2165c5169a897785eb5d51e6cf0eb03523af756e3d82ea01083f6ac6341fe16db532fee3016
@@ -14209,7 +14219,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-util@npm:^26.3.0":
+"jest-util@npm:^26.1.0, jest-util@npm:^26.3.0":
   version: 26.3.0
   resolution: "jest-util@npm:26.3.0"
   dependencies:
@@ -14429,6 +14439,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"json5@npm:2.x, json5@npm:^2.1.2":
+  version: 2.1.3
+  resolution: "json5@npm:2.1.3"
+  dependencies:
+    minimist: ^1.2.5
+  bin:
+    json5: lib/cli.js
+  checksum: 957e4937106cf59975aa0281e68911534d65c8a25be5b4d3559aa55eba351ccab516a943a60ba33e461e4b8af749939986e311de910cbcfd197410b57d971741
+  languageName: node
+  linkType: hard
+
 "json5@npm:^0.5.0, json5@npm:^0.5.1":
   version: 0.5.1
   resolution: "json5@npm:0.5.1"
@@ -14446,17 +14467,6 @@ __metadata:
   bin:
     json5: lib/cli.js
   checksum: df41624f9f40bfacc546f779eef6d161a3312fbb6ec1dbd69f8c4388e9807af653b753371ab19b6d2bab22af2ca7dde62fe03c791596acf76915e1fc4ee6fd88
-  languageName: node
-  linkType: hard
-
-"json5@npm:^2.1.2":
-  version: 2.1.3
-  resolution: "json5@npm:2.1.3"
-  dependencies:
-    minimist: ^1.2.5
-  bin:
-    json5: lib/cli.js
-  checksum: 957e4937106cf59975aa0281e68911534d65c8a25be5b4d3559aa55eba351ccab516a943a60ba33e461e4b8af749939986e311de910cbcfd197410b57d971741
   languageName: node
   linkType: hard
 
@@ -14929,7 +14939,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.memoize@npm:^4.1.2":
+"lodash.memoize@npm:4.x, lodash.memoize@npm:^4.1.2":
   version: 4.1.2
   resolution: "lodash.memoize@npm:4.1.2"
   checksum: 080c1095b7795b293a06078737550dc0c8138192cadbafb4e4b1303357d367ac589a1a570fad8de154175b008ca7b2b48d6a7f1755a143e13b764e20a7104080
@@ -15198,6 +15208,13 @@ __metadata:
   dependencies:
     semver: ^6.0.0
   checksum: 54b6f186c209c1b133d0d1710e6b04c41ebfcb0dac699e5a369ea1223f22c0574ef820b91db37cae6c245f5bda8aff9bfec94f6c23e7d75970446b34a58a79b0
+  languageName: node
+  linkType: hard
+
+"make-error@npm:1.x":
+  version: 1.3.6
+  resolution: "make-error@npm:1.3.6"
+  checksum: 2c780bab8409b865e8ee86697c599a2bf2765ec64d21eb67ccda27050e039f983feacad05a0d43aba3c966ea03d305d2612e94fec45474bcbc61181f57c5bb88
   languageName: node
   linkType: hard
 
@@ -15865,7 +15882,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:*, mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4, mkdirp@npm:~1.0.4":
+"mkdirp@npm:*, mkdirp@npm:1.x, mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4, mkdirp@npm:~1.0.4":
   version: 1.0.4
   resolution: "mkdirp@npm:1.0.4"
   bin:
@@ -19794,6 +19811,7 @@ __metadata:
     stylelint: ^13.7.0
     stylelint-config-recommended: ^3.0.0
     stylelint-config-styled-components: ^0.1.1
+    ts-jest: ^26.4.0
   languageName: unknown
   linkType: soft
 
@@ -20039,21 +20057,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"semver@npm:7.x, semver@npm:^7.2.1, semver@npm:^7.3.2":
+  version: 7.3.2
+  resolution: "semver@npm:7.3.2"
+  bin:
+    semver: bin/semver.js
+  checksum: bceb46d396d039afb5be2b2860bce1b0a43ecbadc72dde7ebe9c56dd9035ca50d9b8e086208ff9bbe53773ebde0bcfc6fc0842d7358398bca7054bb9ced801e3
+  languageName: node
+  linkType: hard
+
 "semver@npm:^6.0.0, semver@npm:^6.1.0, semver@npm:^6.2.0, semver@npm:^6.3.0":
   version: 6.3.0
   resolution: "semver@npm:6.3.0"
   bin:
     semver: ./bin/semver.js
   checksum: f0d155c06a67cc7e500c92d929339f1c6efd4ce9fe398aee6acc00a2333489cca0f5b4e76ee7292beba237fcca4b5a3d4a6153471f105f56299801bdab37289f
-  languageName: node
-  linkType: hard
-
-"semver@npm:^7.2.1, semver@npm:^7.3.2":
-  version: 7.3.2
-  resolution: "semver@npm:7.3.2"
-  bin:
-    semver: bin/semver.js
-  checksum: bceb46d396d039afb5be2b2860bce1b0a43ecbadc72dde7ebe9c56dd9035ca50d9b8e086208ff9bbe53773ebde0bcfc6fc0842d7358398bca7054bb9ced801e3
   languageName: node
   linkType: hard
 
@@ -22012,6 +22030,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-jest@npm:^26.4.0":
+  version: 26.4.0
+  resolution: "ts-jest@npm:26.4.0"
+  dependencies:
+    "@types/jest": 26.x
+    bs-logger: 0.x
+    buffer-from: 1.x
+    fast-json-stable-stringify: 2.x
+    jest-util: ^26.1.0
+    json5: 2.x
+    lodash.memoize: 4.x
+    make-error: 1.x
+    mkdirp: 1.x
+    semver: 7.x
+    yargs-parser: 20.x
+  peerDependencies:
+    jest: ">=26 <27"
+    typescript: ">=3.8 <5.0"
+  bin:
+    ts-jest: cli.js
+  checksum: 1c3d1aad6d62d016eaad42fdaeb9592fed2c19b3ed11a284667c1f8cfc74e8b7fd707fea3af6ca361b26b4e850a7b51a7bc856748061f4256193f3c11dec0f3a
+  languageName: node
+  linkType: hard
+
 "tsconfig-paths@npm:^3.9.0":
   version: 3.9.0
   resolution: "tsconfig-paths@npm:3.9.0"
@@ -23814,6 +23856,13 @@ __metadata:
   version: 1.10.0
   resolution: "yaml@npm:1.10.0"
   checksum: d4cc9f9724f8d0aebc2cf52e4e6aa7059f12d50deb54b5225d103462fb2af36e5c0bb419101ca4b1f0cd3b4db9e4139cf2c690e863ac6227648d39d6f4e2522c
+  languageName: node
+  linkType: hard
+
+"yargs-parser@npm:20.x":
+  version: 20.2.0
+  resolution: "yargs-parser@npm:20.2.0"
+  checksum: d707279bded5a5e1dec5ce8c22d8b9adadd8da1c2a3e0f87c297d13284973fdeb10de8d93df950465036a23fa98bc2c3d26e2d2fc4c9c75f1f6b24db65da489f
   languageName: node
   linkType: hard
 

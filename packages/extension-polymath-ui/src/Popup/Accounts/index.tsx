@@ -47,7 +47,7 @@ export default function Accounts (): React.ReactElement {
         return findSelected(account.children);
       }
     })[0];
-  });
+  }, []);
 
   useEffect(() => {
     setCurrentAccount(findSelected(hierarchy));

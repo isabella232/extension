@@ -16,8 +16,8 @@
       "@polkadot/extension-inject/*": ["packages/extension-inject/src/*"],
       "@polkadot/extension-ui": ["packages/extension-ui/src"],
       "@polkadot/extension-ui/*": ["packages/extension-ui/src/*"],
-      "@polymath/extension": ["packages/extension-polymath"],
-      "@polymath/extension/*": ["packages/extension-polymath/*"],
+      "@polymath/extension": ["packages/extension-polymath/src"],
+      "@polymath/extension/*": ["packages/extension-polymath/src/*"],
       "@polymath/extension-ui": ["packages/extension-polymath-ui/src"],
       "@polymath/extension-ui/*": ["packages/extension-polymath-ui/src/*"]
     },

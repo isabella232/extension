@@ -2,9 +2,9 @@ import React, { useCallback, useContext } from 'react';
 
 import { ActionContext } from '../../components';
 import { Header, Icon, Box, Heading, Text, Button } from '../../ui';
-import { SvgPolyNew } from '@polymath/extension-ui/assets/images/icons';
+import { SvgPolyNew } from '../../assets/images/icons';
 
-function AddAccount (): React.ReactElement<Props> {
+function AddAccount (): React.ReactElement {
   const onAction = useContext(ActionContext);
 
   const onCreateAccount = useCallback((): void => onAction('/account/create'), [onAction]);

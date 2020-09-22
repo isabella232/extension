@@ -1,8 +1,6 @@
 // Copyright 2019-2020 @polkadot/extension-ui authors & contributors
-// Copyright 2020 Polymath Inc
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-// This file has been modified by Polymath to edit names and descriptions
 
 import { ThemeProps } from '../types';
 
@@ -72,7 +70,7 @@ function Header ({ children, className, showAdd, showBackArrow, showSettings, te
               />
             )
           }
-          <span className='logoText'>{text || 'Polymesh'}</span>
+          <span className='logoText'>{text || 'polkadot{.js}'}</span>
         </div>
         <div className='popupMenus'>
           {showAdd && (

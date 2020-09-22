@@ -56,6 +56,6 @@ export const Text = Object.assign(TextComponent, {
 export type TextProps = StyledComponentProps<
   typeof Text,
 DefaultTheme,
-{},
+Record<string, any>,
 any
 >;
