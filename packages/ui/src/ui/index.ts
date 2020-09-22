@@ -1,4 +1,5 @@
 export { Button } from "./Button";
+export { ButtonSmall } from "./ButtonSmall";
 export { Box } from "./Box";
 export { Icon } from "./Icon";
 export { VerticalSpace } from "./VerticalSpace";
