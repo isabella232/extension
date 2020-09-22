@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { assert } from '@polkadot/util';
 
 import { AccountContext, ActionContext, Address, ButtonArea, Checkbox, InputWithLabel, Label, NextStepButton, VerticalSpace } from '../../components';
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 import { validateAccount, validateDerivationPath } from '../../messaging';
 import { nextDerivationPath } from '../../util/nextDerivationPath';
 import AddressDropdown from './AddressDropdown';

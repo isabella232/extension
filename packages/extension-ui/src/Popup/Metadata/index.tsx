@@ -5,7 +5,7 @@
 import React, { useContext } from 'react';
 
 import { Loading, MetadataReqContext } from '../../components';
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 import { Header } from '../../partials';
 import Request from './Request';
 

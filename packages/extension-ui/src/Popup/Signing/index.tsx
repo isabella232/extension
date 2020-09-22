@@ -7,7 +7,7 @@ import { SignerPayloadJSON } from '@polkadot/types/types';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { Loading, SigningReqContext } from '../../components';
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 import { Header } from '../../partials';
 import Request from './Request';
 import TransactionIndex from './TransactionIndex';

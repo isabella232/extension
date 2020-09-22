@@ -6,7 +6,7 @@ import React, { useCallback, useState } from 'react';
 
 import { ButtonArea, Checkbox, MnemonicSeed, NextStepButton, VerticalSpace, Warning } from '../../components';
 import useToast from '../../hooks/useToast';
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 
 interface Props {
   onNextStep: () => void;

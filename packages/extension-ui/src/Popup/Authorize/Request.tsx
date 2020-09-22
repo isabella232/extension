@@ -10,7 +10,7 @@ import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 
 import { ActionBar, ActionContext, Button, Icon, Link, Warning } from '../../components';
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 import { approveAuthRequest, rejectAuthRequest } from '../../messaging';
 
 interface Props {

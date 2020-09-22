@@ -13,7 +13,7 @@ import { formatNumber, bnToBn } from '@polkadot/util';
 
 import { Table } from '../../components';
 import useMetadata from '../../hooks/useMetadata';
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 
 interface Decoded {
   args: AnyJson | null;

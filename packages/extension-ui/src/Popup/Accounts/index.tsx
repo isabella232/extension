@@ -6,7 +6,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import { AccountContext } from '../../components';
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 import { Header } from '../../partials';
 import AccountsTree from './AccountsTree';
 import AddAccount from './AddAccount';

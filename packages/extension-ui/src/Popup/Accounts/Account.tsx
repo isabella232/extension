@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import genesisOptions from '@polkadot/extension-chains/genesisHashes';
 
 import { ActionContext, Address, Checkbox, Dropdown, Link, MenuDivider } from '../../components';
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 import { editAccount, showAccount, tieAccount } from '../../messaging';
 import { Name } from '../../partials';
 

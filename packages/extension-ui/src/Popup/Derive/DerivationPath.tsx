@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import lockIcon from '../../assets/lock.svg';
 import unlockIcon from '../../assets/unlock.svg';
 import { InputWithLabel, Svg, Button } from '../../components';
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 
 interface Props {
   className?: string;

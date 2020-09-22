@@ -5,7 +5,7 @@
 import styled from 'styled-components';
 import React from 'react';
 
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 
 interface Props {
   className?: string;

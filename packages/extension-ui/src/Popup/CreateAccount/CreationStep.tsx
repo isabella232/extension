@@ -8,7 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ActionText, Title } from '../../components';
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 
 interface Props {
   step: number;

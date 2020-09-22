@@ -6,7 +6,7 @@ import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { AccountContext, ActionContext, Address, BackButton, ButtonArea, NextStepButton, VerticalSpace } from '../../components';
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 import { deriveAccount } from '../../messaging';
 import { HeaderWithSteps, Name, Password } from '../../partials';
 import { SelectParent } from './SelectParent';
