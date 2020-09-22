@@ -10,7 +10,7 @@ import React, { useCallback, useContext, useState, useEffect } from 'react';
 import { TypeRegistry } from '@polkadot/types';
 
 import { ActionBar, ActionContext, Address, Button, ButtonArea, Checkbox, Link, VerticalSpace } from '../../components';
-import { useTranslation } from 'react-i18next';
+import useTranslation from '../../hooks/useTranslation';
 import { approveSignPassword, approveSignSignature, cancelSignRequest, isSignLocked } from '../../messaging';
 import Bytes from './Bytes';
 import Extrinsic from './Extrinsic';

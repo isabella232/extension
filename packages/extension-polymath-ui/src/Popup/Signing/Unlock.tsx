@@ -5,16 +5,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Button, InputWithLabel } from '../../components';
+import useTranslation from '../../hooks/useTranslation';
 
 interface Props {
+  buttonText: string;
+  children?: React.ReactNode;
   className?: string;
   error?: string | null;
+  isBusy: boolean;
   onSign: (password: string) => Promise<void>;
-  buttonText?: string;
 }
 
-function Unlock ({ buttonText = 'Sign the transaction', className, error, onSign }: Props): React.ReactElement<Props> {
-  const [isBusy, setIsBusy] = useState(false);
+function Unlock ({ buttonText, children, className, error, isBusy, onSign }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [ownError, setError] = useState<string | null>();
   const [password, setPassword] = useState('');
 
@@ -29,16 +32,9 @@ function Unlock ({ buttonText = 'Sign the transaction', className, error, onSign
     },
     []
   );
+
   const _onClick = useCallback(
-    (): void => {
-      setIsBusy(true);
-      onSign(password)
-        .then(() => setIsBusy(false))
-        .catch((error: Error): void => {
-          setIsBusy(false);
-          setError(error.message);
-        });
-    },
+    () => onSign(password),
     [onSign, password]
   );
 
@@ -48,11 +44,13 @@ function Unlock ({ buttonText = 'Sign the transaction', className, error, onSign
         disabled={isBusy}
         isError={!password || !!ownError}
         isFocused
-        label='Password for this account'
+        label={t<string>('Password for this account')}
         onChange={_onChangePassword}
         onEnter={_onClick}
         type='password'
+        withoutMargin={!!children}
       />
+      {children}
       <Button
         isBusy={isBusy}
         onClick={_onClick}
