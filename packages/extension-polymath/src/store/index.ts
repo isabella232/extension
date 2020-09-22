@@ -1,7 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import rootReducer from './rootReducer';
-// @ts-ignore
 import { localStorage } from 'redux-persist-webextension-storage';
 import { persistStore,
   persistReducer,
