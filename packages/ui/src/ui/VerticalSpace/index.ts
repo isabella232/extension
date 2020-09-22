@@ -1,1 +1,0 @@
-export { VerticalSpace } from './VerticalSpace';
