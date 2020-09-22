@@ -120,7 +120,7 @@ export const AccountView: FC<Props> = (props) => {
             <Box mx='1'>
               <Text color='gray.2'
                 variant='c2'>
-                <TextEllipsis size={12}>{did}</TextEllipsis>
+                {did && <TextEllipsis size={12}>{did}</TextEllipsis>}
               </Text>
             </Box>
           </Flex>

@@ -115,7 +115,7 @@ export default function Accounts (): React.ReactElement {
                     </Box>
                     <Text color='gray.2'
                       variant='c2'>
-                      <TextEllipsis size={12}>{currentAccount?.did}</TextEllipsis>
+                      { currentAccount?.did && <TextEllipsis size={12}>{currentAccount?.did}</TextEllipsis> }
                     </Text>
                   </Flex>
                   {renderStatus(false)}
