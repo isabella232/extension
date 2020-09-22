@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 
-import { ActionContext, Address, BackButton, ButtonArea, NextStepButton, VerticalSpace } from '../../components';
+import { AccountContext, ActionContext, Address, BackButton, ButtonArea, NextStepButton, VerticalSpace } from '../../components';
+import useTranslation from '../../hooks/useTranslation';
 import { deriveAccount } from '../../messaging';
 import { HeaderWithSteps, Name, Password } from '../../partials';
 import { SelectParent } from './SelectParent';
@@ -28,7 +29,9 @@ interface ConfirmState {
 }
 
 function Derive ({ isLocked }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const onAction = useContext(ActionContext);
+  const { accounts } = useContext(AccountContext);
   const { address: parentAddress } = useParams<AddressState>();
   const [isBusy, setIsBusy] = useState(false);
   const [account, setAccount] = useState<null | PathState>(null);
@@ -36,19 +39,24 @@ function Derive ({ isLocked }: Props): React.ReactElement<Props> {
   const [password, setPassword] = useState<string | null>(null);
   const [parentPassword, setParentPassword] = useState<string | null>(null);
 
+  const parentGenesis = useMemo(
+    () => accounts.find((a) => a.address === parentAddress)?.genesisHash || null,
+    [accounts, parentAddress]
+  );
+
   const _onCreate = useCallback(() => {
     if (!account || !name || !password || !parentPassword) {
       return;
     }
 
     setIsBusy(true);
-    deriveAccount(parentAddress, account.suri, parentPassword, name, password)
+    deriveAccount(parentAddress, account.suri, parentPassword, name, password, parentGenesis)
       .then(() => onAction('/'))
       .catch((error): void => {
         setIsBusy(false);
         console.error(error);
       });
-  }, [account, name, password, onAction, parentAddress, parentPassword]);
+  }, [account, name, password, onAction, parentAddress, parentGenesis, parentPassword]);
 
   const _onDerivationConfirmed = useCallback(({ account, parentPassword }: ConfirmState) => {
     setAccount(account);
@@ -63,30 +71,30 @@ function Derive ({ isLocked }: Props): React.ReactElement<Props> {
     <>
       <HeaderWithSteps
         step={account ? 2 : 1}
-        text='Add new account:&nbsp;'
+        text={t<string>('Add new account')}
       />
       {!account && (
         <SelectParent
           isLocked={isLocked}
           onDerivationConfirmed={_onDerivationConfirmed}
           parentAddress={parentAddress}
-        />
-      )}
-      {account && (
-        <Name
-          isFocused
-          onChange={setName}
-        />
-      )}
-      {account && name && <Password onChange={setPassword}/>}
-      {account && name && password && (
-        <Address
-          address={account.address}
-          name={name}
+          parentGenesis={parentGenesis}
         />
       )}
       {account && (
         <>
+          <div>
+            <Address
+              address={account.address}
+              genesisHash={parentGenesis}
+              name={name}
+            />
+          </div>
+          <Name
+            isFocused
+            onChange={setName}
+          />
+          <Password onChange={setPassword} />
           <VerticalSpace/>
           <ButtonArea>
             <BackButton onClick={_onBackClick}/>
@@ -95,7 +103,7 @@ function Derive ({ isLocked }: Props): React.ReactElement<Props> {
               isDisabled={!password}
               onClick={_onCreate}
             >
-              Create derived account
+              {t<string>('Create derived account')}
             </NextStepButton>
           </ButtonArea>
         </>
@@ -104,4 +112,4 @@ function Derive ({ isLocked }: Props): React.ReactElement<Props> {
   );
 }
 
-export default Derive;
+export default React.memo(Derive);
