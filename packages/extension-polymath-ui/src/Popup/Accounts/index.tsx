@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { AccountContext } from '../../components';
 import AccountsTree from './AccountsTree';
 import AddAccount from './AddAccount';
-import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, StatusBadge } from '../../ui';
+import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button, StatusBadge } from '../../ui';
 import { showAccount } from '../../messaging';
 import { AccountWithChildren } from '@polkadot/extension-base/background/types';
 import { SvgCheckboxMarkedCircle,
@@ -115,7 +115,7 @@ export default function Accounts (): React.ReactElement {
                     </Box>
                     <Text color='gray.2'
                       variant='c2'>
-                      { currentAccount?.did && <TextEllipsis size={12}>{currentAccount?.did}</TextEllipsis> }
+                      <TextEllipsis size={12}>{currentAccount?.did}</TextEllipsis>
                     </Text>
                   </Flex>
                   {renderStatus(false)}
