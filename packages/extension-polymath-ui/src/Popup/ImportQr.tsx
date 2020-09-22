@@ -6,10 +6,12 @@ import React, { useContext, useState } from 'react';
 import { QrScanAddress } from '@polkadot/react-qr';
 
 import { ActionContext, Address, NextStepButton, ButtonArea, VerticalSpace } from '../components';
+import useTranslation from '../hooks/useTranslation';
 import { createAccountExternal } from '../messaging';
 import { Header, Name } from '../partials';
 
 export default function ImportQr (): React.ReactElement {
+  const { t } = useTranslation();
   const onAction = useContext(ActionContext);
   const [account, setAccount] = useState<null | { content: string; genesisHash: string }>(null);
   const [name, setName] = useState<string | null>(null);
@@ -18,7 +20,7 @@ export default function ImportQr (): React.ReactElement {
   const _onCreate = (): void => {
     if (account && name) {
       createAccountExternal(name, account.content, account.genesisHash)
-        .then((): void => onAction('/'))
+        .then(() => onAction('/'))
         .catch((error: Error) => console.error(error));
     }
   };
@@ -27,7 +29,7 @@ export default function ImportQr (): React.ReactElement {
     <>
       <Header
         showBackArrow
-        text='Scan Address Qr'
+        text={t<string>('Scan Address Qr')}
       />
       {!account && (
         <div>
@@ -36,13 +38,15 @@ export default function ImportQr (): React.ReactElement {
       )}
       {account && (
         <>
+          <div>
+            <Address
+              {...account}
+              name={name}
+            />
+          </div>
           <Name
             isFocused
             onChange={setName}
-          />
-          <Address
-            {...account}
-            name={name}
           />
           <VerticalSpace />
           {name && (
@@ -50,7 +54,7 @@ export default function ImportQr (): React.ReactElement {
               <NextStepButton
                 onClick={_onCreate}
               >
-                Add the account with identified address
+                {t<string>('Add the account with identified address')}
               </NextStepButton>
             </ButtonArea>
           )}
