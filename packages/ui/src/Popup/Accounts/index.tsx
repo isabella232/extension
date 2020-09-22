@@ -6,7 +6,6 @@ import React, { useContext, useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 import { AccountContext, Link } from "../../components";
-import AccountsTree from "./AccountsTree";
 import AddAccount from "./AddAccount";
 import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button, StatusBadge } from "../../ui";
 import { showAccount } from "../../messaging";
@@ -86,9 +85,8 @@ export default function Accounts(): React.ReactElement {
     }, {});
 
   const groupedAccounts = groupAccounts('did')(polymeshAccounts);
-
-  console.log(groupedAccounts);
-
+  console.log('SELECTEDACCOUNT', currentAccount);
+  
   return (
     <>
       {hierarchy.length === 0 ? (
