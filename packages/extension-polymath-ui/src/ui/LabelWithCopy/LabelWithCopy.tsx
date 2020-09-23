@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { SvgContentCopy } from '@polymath/extension-ui/assets/images/icons';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import { Box } from '../Box';
 import { Flex } from '../Flex';
 import { Icon } from '../Icon';
@@ -41,13 +42,15 @@ export const LabelWithCopy: FC<Props> = ({ color, text, textSize, textVariant })
       </Box>
       {
         hover &&
-          <Box ml='xs'>
-            <Icon Asset={SvgContentCopy}
-              color={color}
-              height={16}
-              width={16}
-            />
-          </Box>
+          <CopyToClipboard text={text}>
+            <Box ml='xs'>
+              <Icon Asset={SvgContentCopy}
+                color={color}
+                height={16}
+                width={16}
+              />
+            </Box>
+          </CopyToClipboard>
       }
     </Flex>
   );
