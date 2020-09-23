@@ -9,10 +9,11 @@ import { AccountView } from './AccountView';
 
 export interface Props {
   headerText: string;
+  selectedAccount: string;
   accounts: IdentifiedAccount[];
 }
 
-export const AccountsContainer: FC<Props> = ({ accounts, headerText }) => {
+export const AccountsContainer: FC<Props> = ({ accounts, headerText, selectedAccount }) => {
   const history = useHistory();
 
   const renderMenuItems = () => {
@@ -94,7 +95,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerText }) => {
         {accounts.map((account: IdentifiedAccount, index) => {
           return (
             <AccountView account={account}
-              isSelected={false}
+              isSelected={account.address === selectedAccount}
               key={index}
             />
           );

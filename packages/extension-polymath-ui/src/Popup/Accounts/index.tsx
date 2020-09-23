@@ -2,13 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { AccountContext, Link } from '../../components';
 import AddAccount from './AddAccount';
-import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button, StatusBadge } from '../../ui';
-import { showAccount } from '../../messaging';
+import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button, StatusBadge, LabelWithCopy } from '../../ui';
 import { AccountWithChildren } from '@polkadot/extension-base/background/types';
 import { SvgCheckboxMarkedCircle,
   SvgAlertCircle,
@@ -18,44 +17,16 @@ import { SvgCheckboxMarkedCircle,
 import { formatters } from '../../util';
 import { IdentifiedAccount } from '@polymath/extension/types';
 import { AccountsContainer } from './AccountsContainer';
-import { useHistory } from 'react-router';
 
 export default function Accounts (): React.ReactElement {
-  const [currentAccountAddress, setCurrentAccountAddress] = useState('');
-  const [currentAccount, setCurrentAccount] = useState<AccountWithChildren>();
-  const { hierarchy, network, polymeshAccounts } = useContext(AccountContext);
-  const history = useHistory();
-
-  const select = (accounts: AccountWithChildren[], selectedAccount: string) => {
-    setCurrentAccountAddress(selectedAccount);
-    accounts.map((account) => {
-      showAccount(account.address, account.address === selectedAccount).catch(console.error);
-
-      if (account.children) {
-        select(account.children, selectedAccount);
-      }
-    });
-  };
-
-  const selectAccount = (accountAddress: string) => {
-    select(hierarchy, accountAddress);
-  };
-
-  const findSelected = useCallback((accounts: AccountWithChildren[]) => {
-    return accounts.map((account) => {
-      if (!account.isHidden) {
-        return account;
-      }
-
-      if (account.children) {
-        return findSelected(account.children);
-      }
-    })[0];
-  });
+  const [currentAccount, setCurrentAccount] = useState<IdentifiedAccount>();
+  const { hierarchy, network, polymeshAccounts, selectedAccount } = useContext(AccountContext);
 
   useEffect(() => {
-    setCurrentAccount(findSelected(hierarchy));
-  }, [currentAccountAddress, findSelected, hierarchy]);
+    setCurrentAccount(polymeshAccounts.find((account) => (account.address === selectedAccount)));
+  },
+  [polymeshAccounts, selectedAccount]
+  );
 
   const renderStatus = (isVerified: boolean) => {
     const color = isVerified ? 'success' : 'alert';
@@ -91,7 +62,8 @@ export default function Accounts (): React.ReactElement {
 
   const groupedAccounts = groupAccounts('did')(polymeshAccounts);
 
-  console.log('ACCOUNTS', groupedAccounts);
+  console.log('ACCOUNTS', polymeshAccounts);
+  console.log('SELECTED ACCOUNT', selectedAccount);
 
   return (
     <>
@@ -117,28 +89,39 @@ export default function Accounts (): React.ReactElement {
                   width={24} />
               </Flex>
             </Flex>
-            <Box bg='brandLightest'
-              borderRadius='2'>
-              {currentAccount && (
-                <Flex flexDirection='row'
-                  justifyContent='space-between'
-                  mx='1'>
-                  <Flex flexDirection='row'>
-                    <Box mr='1'>
-                      <Text color='brandMain'
-                        variant='c2m'>
-                        Did Label
+            {
+              currentAccount?.did &&
+              <Box bg='brandLightest'
+                borderRadius='2'>
+                {currentAccount && (
+                  <Flex flexDirection='row'
+                    justifyContent='space-between'
+                    mx='1'>
+                    <Flex flexDirection='row'>
+                      {
+                        currentAccount.didAlias &&
+                        <Box mr='1'>
+                          <Text color='brandMain'
+                            variant='c2m'>
+                            Did Label
+                          </Text>
+                        </Box>
+                      }
+                      <Text color='gray.2'
+                        variant='c2'>
+                        <TextEllipsis size={12}>{currentAccount?.did}</TextEllipsis>
                       </Text>
-                    </Box>
-                    <Text color='gray.2'
-                      variant='c2'>
-                      <TextEllipsis size={12}>{currentAccount?.did || 'hrjekwohrjkhjkethjkewthejlk'}</TextEllipsis>
-                    </Text>
+                    </Flex>
+                    {renderStatus(currentAccount.cdd)}
                   </Flex>
-                  {renderStatus(false)}
-                </Flex>
-              )}
-            </Box>
+                )}
+              </Box>
+            }
+            {
+              !currentAccount?.did &&
+                <Text color='brandLighter'
+                  variant='b2m'>Unassigned key</Text>
+            }
             <Flex flexDirection='row'
               mt='s'>
               <Text color='gray.0'
@@ -146,6 +129,13 @@ export default function Accounts (): React.ReactElement {
                 {currentAccount?.name}
               </Text>
             </Flex>
+            <Box>
+              <LabelWithCopy color='gray.0'
+                text={currentAccount?.address || ''}
+                textSize={30}
+                textVariant='b3'
+              />
+            </Box>
             <Flex alignItems='flex-end'
               flexDirection='row'
               mt='1'>
@@ -201,9 +191,12 @@ export default function Accounts (): React.ReactElement {
             </Flex>
             {
               Object.keys(groupedAccounts).sort((a) => (a === undefined ? 1 : -1)).map((did: string, index) => {
-                return <AccountsContainer accounts={groupedAccounts[did]}
+                return <AccountsContainer
+                  accounts={groupedAccounts[did]}
                   headerText={did}
-                  key={index} />;
+                  key={index}
+                  selectedAccount={selectedAccount || ''}
+                />;
               })
             }
           </AccountsArea>

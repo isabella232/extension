@@ -7,8 +7,8 @@ import { SvgAccount,
   SvgPencilOutline,
   SvgWindowClose,
   SvgCheck } from '@polymath/extension-ui/assets/images/icons';
-import { editAccount } from '../../messaging';
-import { ActionContext } from '../../components';
+import { editAccount, setPolySelectedAccount } from '../../messaging';
+import { ActionContext, Link } from '../../components';
 
 export interface Props {
   account: IdentifiedAccount;
@@ -60,6 +60,15 @@ export const AccountView: FC<Props> = ({ account, isSelected }) => {
 
   const mouseLeave = () => {
     setHover(false);
+  };
+
+  const selectAccount = () => {
+    console.log('SELECTING', address);
+    setPolySelectedAccount(address)
+      .then(() => {
+        onAction();
+      })
+      .catch(console.error);
   };
 
   const renderAccountInfo = () => {
@@ -146,7 +155,7 @@ export const AccountView: FC<Props> = ({ account, isSelected }) => {
           justifyContent='space-between'
         >
           <Box>
-          {isEditing && (
+            {isEditing && (
               <Flex flexDirection='row'>
                 <TextInput defaultValue={name}
                   onChange={handleNameChange}
@@ -197,8 +206,10 @@ export const AccountView: FC<Props> = ({ account, isSelected }) => {
   };
 
   return (
-    <Box bg={isSelected ? 'gray.5' : 'gray.0'}
+    <Box
+      bg={isSelected ? 'gray.5' : 'gray.0'}
       mt='s'
+      onClick={selectAccount}
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}
       px='s'>

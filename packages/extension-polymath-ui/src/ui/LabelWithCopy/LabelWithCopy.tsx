@@ -18,12 +18,10 @@ export const LabelWithCopy: FC<Props> = ({ color, text, textSize, textVariant })
   const [hover, setHover] = useState(false);
 
   const onMouseOver = () => {
-    console.log('over');
     setHover(true);
   };
 
   const onMouseOut = () => {
-    console.log('out');
     setHover(true);
   };
 

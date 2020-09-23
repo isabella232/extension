@@ -47,6 +47,7 @@ export type AccountsContext = {
   polymeshAccounts: IdentifiedAccount[];
   network: string;
   master?: AccountJson;
+  selectedAccount?: string;
 }
 
 export interface AuthorizeRequest {
