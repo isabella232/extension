@@ -20,6 +20,7 @@ import { createSubscription, unsubscribe } from './subscriptions';
 import { subscribeSelectedAccount } from '@polymath/extension/store/subscribers';
 import { prioritize } from '@polymath/extension/utils';
 import { getSelectedAccount } from '@polymath/extension/store/getters';
+import meshApi from '@polymath/extension/meshApi';
 
 function transformAccounts (accounts: SubjectInfo): InjectedAccount[] {
   return Object
@@ -89,6 +90,13 @@ export default class Tabs {
   private extrinsicSign (url: string, request: SignerPayloadJSON): Promise<ResponseSigning> {
     const address = request.address;
     const pair = this.getSigningPair(address);
+
+    meshApi.then((api) => {
+      console.log('IN API');
+      const res = api.registry.createType('Call', request.method);
+
+      console.log('XXX res', res);
+    }).catch(console.error);
 
     return this.#state.sign(url, new RequestExtrinsicSign(request), { address, ...pair.meta });
   }

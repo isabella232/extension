@@ -48,6 +48,8 @@ export default function Request ({ account: { isExternal }, buttonText, isFirst,
   const [isLocked, setIsLocked] = useState<boolean | null>(null);
   const [isSavedPass, setIsSavedPass] = useState(false);
 
+  console.log('>>> Request', request);
+
   useEffect((): void => {
     setIsLocked(null);
 

@@ -46,6 +46,8 @@ function decodeMethod (data: string, isDecoded: boolean, chain: Chain | null, sp
 }
 
 function renderMethod (data: string, { args, method }: Decoded, t: TFunction): React.ReactNode {
+  console.log('>>> renderMethod, args, method', args, method);
+
   if (!args || !method) {
     return (
       <tr>
@@ -109,6 +111,8 @@ function Extrinsic ({ className, isDecoded, payload: { era, nonce, tip }, reques
     () => decodeMethod(method, isDecoded, chain, specVersion),
     [method, isDecoded, chain, specVersion]
   );
+
+  console.log('>> Decoded', decoded);
 
   return (
     <Table
