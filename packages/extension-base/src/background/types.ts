@@ -11,7 +11,6 @@ import { KeyringPair, KeyringPair$Json, KeyringPair$Meta } from '@polkadot/keyri
 import { SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 import { TypeRegistry } from '@polkadot/types';
 import { IdentifiedAccount, NetworkName } from '@polymath/extension/types';
-import { IdentifiedAccount } from '@polymath/extension-core/types';
 
 type KeysWithDefinedValues<T> = {
   [K in keyof T]: T[K] extends undefined ? never : K

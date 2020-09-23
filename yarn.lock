@@ -3032,7 +3032,7 @@ __metadata:
     "@polkadot/extension-inject": 0.34.0-beta.10
     "@polkadot/keyring": ^3.4.1
     "@polkadot/ui-keyring": ^0.59.0-beta.2
-    "@polymath/extension-core": 0.1.0
+    "@polymath/extension": 0.1.0
   languageName: unknown
   linkType: soft
 
@@ -3140,7 +3140,7 @@ __metadata:
     "@polkadot/dev": ^0.55.49
     "@polkadot/extension-base": 0.34.0-beta.10
     "@polkadot/extension-inject": 0.34.0-beta.10
-    "@polymath/extension-core": 0.1.0
+    "@polymath/extension": 0.1.0
     "@polymath/extension-ui": 0.1.0
     babel-loader: ^8.1.0
     extract-loader: ^5.1.0
@@ -3483,21 +3483,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polymath/extension-core@0.1.0, @polymath/extension-core@workspace:packages/extension-core":
-  version: 0.0.0-use.local
-  resolution: "@polymath/extension-core@workspace:packages/extension-core"
-  dependencies:
-    "@reduxjs/toolkit": ^1.4.0
-    "@types/lodash-es": ^4.17.3
-    "@types/redux-logger": ^3.0.8
-    "@types/redux-persist": ^4.3.1
-    lodash-es: ^4.17.15
-    redux-logger: ^3.0.6
-    redux-persist: ^6.0.0
-    redux-persist-webextension-storage: ^1.0.2
-  languageName: unknown
-  linkType: soft
-
 "@polymath/extension-ui@0.1.0, @polymath/extension-ui@workspace:packages/extension-polymath-ui":
   version: 0.0.0-use.local
   resolution: "@polymath/extension-ui@workspace:packages/extension-polymath-ui"
@@ -3536,6 +3521,21 @@ __metadata:
     sinon-chrome: ^3.0.1
     styled-components: ^5.1.1
     styled-system: ^5.1.5
+  languageName: unknown
+  linkType: soft
+
+"@polymath/extension@0.1.0, @polymath/extension@workspace:packages/extension-polymath":
+  version: 0.0.0-use.local
+  resolution: "@polymath/extension@workspace:packages/extension-polymath"
+  dependencies:
+    "@reduxjs/toolkit": ^1.4.0
+    "@types/lodash-es": ^4.17.3
+    "@types/redux-logger": ^3.0.8
+    "@types/redux-persist": ^4.3.1
+    lodash-es: ^4.17.15
+    redux-logger: ^3.0.6
+    redux-persist: ^6.0.0
+    redux-persist-webextension-storage: ^1.0.2
   languageName: unknown
   linkType: soft
 

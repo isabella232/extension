@@ -1,5 +1,5 @@
 import React, { FC, useState, useContext } from 'react';
-import { IdentifiedAccount } from '@polymath/extension-core/types';
+import { IdentifiedAccount } from '@polymath/extension/types';
 import { formatters } from '../../util';
 import { Box, Text, TextEllipsis, Flex, Icon, StatusBadge, TextInput, ButtonSmall } from '../../ui';
 import { SvgAccount,

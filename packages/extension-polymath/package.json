@@ -1,5 +1,5 @@
 {
-  "name": "@polymath/extension-core",
+  "name": "@polymath/extension",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",

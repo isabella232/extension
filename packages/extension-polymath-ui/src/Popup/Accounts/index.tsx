@@ -16,7 +16,7 @@ import { SvgCheckboxMarkedCircle,
   SvgDotsVertical,
   SvgPlus } from '@polymath/extension-ui/assets/images/icons';
 import { formatters } from '../../util';
-import { IdentifiedAccount } from '@polymath/extension-core/types';
+import { IdentifiedAccount } from '@polymath/extension/types';
 import { AccountsContainer } from './AccountsContainer';
 import { useHistory } from 'react-router';
 

@@ -27,7 +27,7 @@ import RestoreJson from './RestoreJson';
 import Metadata from './Metadata';
 import Signing from './Signing';
 import Welcome from './Welcome';
-import { IdentifiedAccount } from '@polymath/extension-core/types';
+import { IdentifiedAccount } from '@polymath/extension/types';
 
 const startSettings = uiSettings.get();
 

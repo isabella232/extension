@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { IdentifiedAccount } from '@polymath/extension-core/types';
+import { IdentifiedAccount } from '@polymath/extension/types';
 import { Button } from 'react-aria-menubutton';
 import { useHistory } from 'react-router-dom';
 import { Box, Text, TextEllipsis, Flex, Icon, Menu, MenuItem, Wrapper } from '../../ui';
