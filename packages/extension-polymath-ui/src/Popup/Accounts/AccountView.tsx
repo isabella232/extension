@@ -1,7 +1,7 @@
 import React, { FC, useState, useContext } from 'react';
 import { IdentifiedAccount } from '@polymath/extension/types';
 import { formatters } from '../../util';
-import { Box, Text, TextEllipsis, Flex, Icon, StatusBadge, TextInput, ButtonSmall } from '../../ui';
+import { Box, Text, TextEllipsis, Flex, Icon, StatusBadge, TextInput, ButtonSmall, LabelWithCopy } from '../../ui';
 import { SvgAccount,
   SvgCheckboxMarkedCircle,
   SvgPencilOutline,
@@ -122,14 +122,11 @@ export const AccountView: FC<Props> = ({ account, isSelected }) => {
           flexDirection='row'
           justifyContent='space-between'
         >
-          <Box>
-            <Text color='gray.3'
-              variant='b3'>
-              <TextEllipsis size={13}>
-                {address}
-              </TextEllipsis>
-            </Text>
-          </Box>
+          <LabelWithCopy color='gray.3'
+            text={address}
+            textSize={13}
+            textVariant='b3'
+          />
           <Box>
             <Text color='gray.1'
               variant='b3'>
@@ -149,18 +146,47 @@ export const AccountView: FC<Props> = ({ account, isSelected }) => {
           justifyContent='space-between'
         >
           <Box>
-            <Text color='gray.1'
-              variant='b2m'>
-              {name}
-            </Text>
-            <Box>
-              <Text color='gray.3'
-                variant='b3'>
-                <TextEllipsis size={13}>
-                  {address}
-                </TextEllipsis>
-              </Text>
-            </Box>
+          {isEditing && (
+              <Flex flexDirection='row'>
+                <TextInput defaultValue={name}
+                  onChange={handleNameChange}
+                  value={newName} />
+                <Box ml='xs'>
+                  <Icon Asset={SvgCheck}
+                    color='gray.2'
+                    height={16}
+                    onClick={save}
+                    width={16} />
+                </Box>
+                <Box ml='xs'>
+                  <Icon Asset={SvgWindowClose}
+                    color='gray.2'
+                    height={16}
+                    onClick={cancelEditing}
+                    width={16} />
+                </Box>
+              </Flex>
+            )}
+            {!isEditing && (
+              <Flex flexDirection='row'>
+                <Text color='gray.1'
+                  variant='b2m'>
+                  {name}
+                </Text>
+                <Box ml='xs'>
+                  <Icon Asset={SvgPencilOutline}
+                    color='gray.2'
+                    height={16}
+                    onClick={editName}
+                    width={16} />
+                </Box>
+              </Flex>
+            )}
+            <LabelWithCopy color='gray.3'
+              text={address}
+              textSize={13}
+              textVariant='b3'
+            />
           </Box>
           <Box>
             <ButtonSmall variant='secondary'>Assign</ButtonSmall>

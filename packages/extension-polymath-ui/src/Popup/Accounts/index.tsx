@@ -91,7 +91,7 @@ export default function Accounts (): React.ReactElement {
 
   const groupedAccounts = groupAccounts('did')(polymeshAccounts);
 
-  console.log('SELECTEDACCOUNT', currentAccount);
+  console.log('ACCOUNTS', groupedAccounts);
 
   return (
     <>
@@ -170,7 +170,7 @@ export default function Accounts (): React.ReactElement {
                   justifyContent='center'>
                   <Text color='gray.0'
                     variant='b2m'>
-                    Manage your account
+                    View details
                   </Text>
                 </Flex>
               </Box>

@@ -121,8 +121,6 @@ export default function Popup (): React.ReactElement {
           : Accounts
     : Welcome;
 
-  console.log('ACCOUNTS', polymeshAccounts);
-
   return (
     <Loading>{accounts && authRequests && metaRequests && signRequests && (
       <ActionContext.Provider value={_onAction}>
