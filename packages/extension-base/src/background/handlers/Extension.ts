@@ -4,7 +4,7 @@
 
 import { MetadataDef } from '@polkadot/extension-inject/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { AccountJson, AuthorizeRequest, MessageTypes, MetadataRequest, RequestAccountCreateExternal, RequestAccountCreateSuri, RequestAccountEdit, RequestAccountExport, RequestAccountShow, RequestAccountTie, RequestAccountValidate, RequestAuthorizeApprove, RequestAuthorizeReject, RequestDeriveCreate, ResponseDeriveValidate, RequestMetadataApprove, RequestMetadataReject, RequestSigningApprovePassword, RequestSigningApproveSignature, RequestSigningCancel, RequestSigningIsLocked, RequestSeedCreate, RequestTypes, ResponseAccountExport, RequestAccountForget, ResponseSeedCreate, RequestSeedValidate, RequestDeriveValidate, ResponseSeedValidate, ResponseType, SigningRequest, RequestJsonRestore, ResponseJsonRestore, RequestAccountChangePassword, RequestPolyNetworkSet } from '../types';
+import { AccountJson, AuthorizeRequest, MessageTypes, MetadataRequest, RequestAccountCreateExternal, RequestAccountCreateSuri, RequestAccountEdit, RequestAccountExport, RequestAccountShow, RequestAccountTie, RequestAccountValidate, RequestAuthorizeApprove, RequestAuthorizeReject, RequestDeriveCreate, ResponseDeriveValidate, RequestMetadataApprove, RequestMetadataReject, RequestSigningApprovePassword, RequestSigningApproveSignature, RequestSigningCancel, RequestSigningIsLocked, RequestSeedCreate, RequestTypes, ResponseAccountExport, RequestAccountForget, ResponseSeedCreate, RequestSeedValidate, RequestDeriveValidate, ResponseSeedValidate, ResponseType, SigningRequest, RequestJsonRestore, ResponseJsonRestore, RequestAccountChangePassword, RequestPolyNetworkSet, RequestPolySelectedAccountSet } from '../types';
 
 import chrome from '@polkadot/extension-inject/chrome';
 import keyring from '@polkadot/ui-keyring';
@@ -17,8 +17,8 @@ import { keyExtractSuri, mnemonicGenerate, mnemonicValidate } from '@polkadot/ut
 import State from './State';
 import { createSubscription, unsubscribe } from './subscriptions';
 
-import { subscribeIdentifiedAccounts, subscribeNetwork } from '@polymath/extension/store/subscribers';
-import { setNetwork } from '@polymath/extension/store/setters';
+import { subscribeIdentifiedAccounts, subscribeNetwork, subscribeSelectedAccount } from '@polymath/extension/store/subscribers';
+import { setNetwork, setSelectedAccount } from '@polymath/extension/store/setters';
 import { IdentifiedAccount } from '@polymath/extension/types';
 
 type CachedUnlocks = Record<string, number>;
@@ -183,8 +183,26 @@ export default class Extension {
     return true;
   }
 
+  private polySelectedAccountSubscribe (id: string, port: chrome.runtime.Port): boolean {
+    const cb = createSubscription<'pri(polySelectedAccount.subscribe)'>(id, port);
+
+    const unsubscribe = subscribeSelectedAccount(cb);
+
+    port.onDisconnect.addListener((): void => {
+      unsubscribe();
+    });
+
+    return true;
+  }
+
   private polyNetworkSet ({ network }: RequestPolyNetworkSet): boolean {
     setNetwork(network);
+
+    return true;
+  }
+
+  private polySelectedAccount ({ account }: RequestPolySelectedAccountSet): boolean {
+    setSelectedAccount(account);
 
     return true;
   }
@@ -523,6 +541,14 @@ export default class Extension {
       // @TODO1 move to a separate request handler.
       case 'pri(polyNetwork.set)':
         return this.polyNetworkSet(request as RequestPolyNetworkSet);
+
+      // @TODO1 move to a separate request handler.
+      case 'pri(polySelectedAccount.subscribe)':
+        return this.polySelectedAccountSubscribe(id, port);
+
+      // @TODO1 move to a separate request handler.
+      case 'pri(polySelectedAccount.set)':
+        return this.polySelectedAccount(request as RequestPolySelectedAccountSet);
 
       case 'pri(accounts.tie)':
         return this.accountsTie(request as RequestAccountTie);

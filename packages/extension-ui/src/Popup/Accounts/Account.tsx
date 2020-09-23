@@ -23,7 +23,7 @@ interface EditState {
   toggleActions: number;
 }
 
-function Account ({ address, balance, className, did, genesisHash, isExternal, isHidden, parentName, suri }: Props): React.ReactElement<Props> {
+function Account ({ address, className, genesisHash, isExternal, isHidden, parentName, suri }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const onAction = useContext(ActionContext);
   const [{ isEditing, toggleActions }, setEditing] = useState<EditState>({ isEditing: false, toggleActions: 0 });
@@ -122,9 +122,7 @@ function Account ({ address, balance, className, did, genesisHash, isExternal, i
       <Address
         actions={_actions}
         address={address}
-        balance={balance}
         className='address'
-        did={did}
         genesisHash={genesisHash}
         isHidden={isHidden}
         name={editedName}

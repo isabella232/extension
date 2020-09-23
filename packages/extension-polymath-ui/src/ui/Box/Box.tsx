@@ -81,4 +81,4 @@ export const Box = styled.div<BoxThemeProps>(
   }
 );
 
-export type BoxProps = StyledComponentProps<typeof Box, Theme, {}, any>;
+export type BoxProps = StyledComponentProps<typeof Box, Theme, Record<string, any>, any>;

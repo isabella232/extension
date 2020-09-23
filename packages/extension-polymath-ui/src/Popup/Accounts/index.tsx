@@ -221,7 +221,6 @@ const AccountsArea = styled.div`
   padding-right: 0px;
   padding-left: 0px;
   scrollbar-width: none;
-
   &::-webkit-scrollbar {
     display: none;
   }

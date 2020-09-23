@@ -1,12 +1,13 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { MenuItem as ScMenuItem } from 'react-aria-menubutton';
-import { styled } from '@polymath/extension-ui/styles';
+import { styled } from '../../styles';
 
-export interface MenuProps {
+type Props = React.ComponentProps<typeof ScMenuItem>;
+export interface MenuProps extends Props {
   onSelection: () => void;
 }
 
-export const MenuItem = styled(ScMenuItem)({
+export const MenuItem: React.ReactElement<MenuProps> = styled(ScMenuItem)({
   cursor: 'pointer',
   color: '#555',
   padding: '0.5rem',

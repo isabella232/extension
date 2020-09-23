@@ -81,7 +81,9 @@ export interface RequestSignatures {
   'pri(accounts.subscribe)': [RequestAccountSubscribe, boolean, AccountJson[]];
   'pri(polyAccounts.subscribe)': [RequestPolyAccountsSubscribe, boolean, IdentifiedAccount[]];
   'pri(polyNetwork.subscribe)': [RequestPolyNetworkSubscribe, boolean, NetworkName];
-  'pri(polyNetwork.set)': [RequestPolyNetworkSet, boolean]
+  'pri(polySelectedAccount.subscribe)': [RequestPolySelectedAccountSubscribe, boolean, string | undefined]
+  'pri(polyNetwork.set)': [RequestPolyNetworkSet, boolean];
+  'pri(polySelectedAccount.set)': [RequestPolySelectedAccountSet, boolean];
   'pri(accounts.validate)': [RequestAccountValidate, boolean];
   'pri(accounts.changePassword)': [RequestAccountChangePassword, boolean];
   'pri(authorize.approve)': [RequestAuthorizeApprove, boolean];
@@ -236,8 +238,14 @@ export type RequestPolyAccountsSubscribe = null;
 
 export type RequestPolyNetworkSubscribe = null;
 
+export type RequestPolySelectedAccountSubscribe = null;
+
 export interface RequestPolyNetworkSet {
   network: NetworkName
+}
+
+export interface RequestPolySelectedAccountSet {
+  account: string
 }
 
 export interface RequestRpcSend {
