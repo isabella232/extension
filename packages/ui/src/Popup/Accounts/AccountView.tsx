@@ -1,23 +1,21 @@
 import React, { FC, useState, useContext } from 'react';
 import { IdentifiedAccount } from '@polymath/extension-core/types';
-import { formatters } from "../../util";
+import { formatters } from '../../util';
 import { Box, Text, TextEllipsis, Flex, Icon, StatusBadge, TextInput, ButtonSmall } from '../../ui';
-import {
-  SvgAccount,
+import { SvgAccount,
   SvgCheckboxMarkedCircle,
   SvgPencilOutline,
   SvgWindowClose,
-  SvgCheck,
-} from "@polymath/ui/assets/images/icons";
-import { editAccount } from "../../messaging";
-import { ActionContext } from "../../components";
+  SvgCheck } from '@polymath/ui/assets/images/icons';
+import { editAccount } from '../../messaging';
+import { ActionContext } from '../../components';
 
 export interface Props {
   account: IdentifiedAccount;
   isSelected?: boolean;
 }
 
-export const AccountView: FC<Props> = ({account, isSelected}) => {
+export const AccountView: FC<Props> = ({ account, isSelected }) => {
   const { address, balance, did, keyType, name } = account;
 
   const onAction = useContext(ActionContext);
@@ -68,53 +66,73 @@ export const AccountView: FC<Props> = ({account, isSelected}) => {
     return (
       <>
         <Flex
-          justifyContent="space-between"
-          flexDirection="row"
+          flexDirection='row'
+          justifyContent='space-between'
         >
-          <Flex flexDirection="row">
+          <Flex flexDirection='row'>
             {isEditing && (
-              <Flex flexDirection="row">
-                <TextInput defaultValue={name} value={newName} onChange={handleNameChange} />
-                <Box ml="xs">
-                  <Icon Asset={SvgCheck} width={16} height={16} color="gray.2" onClick={save} />
+              <Flex flexDirection='row'>
+                <TextInput defaultValue={name}
+                  onChange={handleNameChange}
+                  value={newName} />
+                <Box ml='xs'>
+                  <Icon Asset={SvgCheck}
+                    color='gray.2'
+                    height={16}
+                    onClick={save}
+                    width={16} />
                 </Box>
-                <Box ml="xs">
-                  <Icon Asset={SvgWindowClose} width={16} height={16} color="gray.2" onClick={cancelEditing} />
+                <Box ml='xs'>
+                  <Icon Asset={SvgWindowClose}
+                    color='gray.2'
+                    height={16}
+                    onClick={cancelEditing}
+                    width={16} />
                 </Box>
               </Flex>
             )}
             {!isEditing && (
-              <Flex flexDirection="row">
-                <Text variant="b2m" color="gray.1">
+              <Flex flexDirection='row'>
+                <Text color='gray.1'
+                  variant='b2m'>
                   {name}
                 </Text>
-                <Box ml="xs">
-                  <Icon Asset={SvgPencilOutline} width={16} height={16} color="gray.2" onClick={editName} />
+                <Box ml='xs'>
+                  <Icon Asset={SvgPencilOutline}
+                    color='gray.2'
+                    height={16}
+                    onClick={editName}
+                    width={16} />
                 </Box>
               </Flex>
             )}
-            <Box ml="s">
+            <Box ml='s'>
               {renderType(keyType)}
             </Box>
           </Flex>
           {
-            isSelected && 
-              <Icon Asset={SvgCheck} width={24} height={24} color="brandMain" />
+            isSelected &&
+              <Icon Asset={SvgCheck}
+                color='brandMain'
+                height={24}
+                width={24} />
           }
         </Flex>
         <Flex
-          flexDirection="row"
-          justifyContent="space-between"
+          flexDirection='row'
+          justifyContent='space-between'
         >
           <Box>
-            <Text variant="b3" color="gray.3">
+            <Text color='gray.3'
+              variant='b3'>
               <TextEllipsis size={13}>
                 {address}
               </TextEllipsis>
             </Text>
           </Box>
           <Box>
-            <Text variant="b3" color="gray.1">
+            <Text color='gray.1'
+              variant='b3'>
               {formatters.formatAmount(balance, 2, true)} POLYX
             </Text>
           </Box>
@@ -127,15 +145,17 @@ export const AccountView: FC<Props> = ({account, isSelected}) => {
     return (
       <>
         <Flex
-          justifyContent="space-between"
-          flexDirection="row"
+          flexDirection='row'
+          justifyContent='space-between'
         >
           <Box>
-            <Text variant="b2m" color="gray.1">
+            <Text color='gray.1'
+              variant='b2m'>
               {name}
             </Text>
             <Box>
-              <Text variant="b3" color="gray.3">
+              <Text color='gray.3'
+                variant='b3'>
                 <TextEllipsis size={13}>
                   {address}
                 </TextEllipsis>
@@ -143,34 +163,41 @@ export const AccountView: FC<Props> = ({account, isSelected}) => {
             </Box>
           </Box>
           <Box>
-            <ButtonSmall variant="secondary">Assign</ButtonSmall>
+            <ButtonSmall variant='secondary'>Assign</ButtonSmall>
           </Box>
         </Flex>
       </>
     );
-  }
+  };
 
   return (
-    <Box mt="s" bg={isSelected ? "gray.5" : "gray.0"} px="s" onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
-      <Flex justifyContent="space-between">
+    <Box bg={isSelected ? 'gray.5' : 'gray.0'}
+      mt='s'
+      onMouseEnter={mouseEnter}
+      onMouseLeave={mouseLeave}
+      px='s'>
+      <Flex justifyContent='space-between'>
         <Box>
           <Box
-            backgroundColor="brandLightest"
-            borderRadius="50%"
+            backgroundColor='brandLightest'
+            borderRadius='50%'
             height={32}
-            px="2"
+            px='2'
             width={32}
           >
-            <Flex justifyContent="center" pt="xs">
-              <Text variant="b2m" color="brandMain">{name.substr(0,1)}</Text>
+            <Flex justifyContent='center'
+              pt='xs'>
+              <Text color='brandMain'
+                variant='b2m'>{name.substr(0, 1)}</Text>
             </Flex>
           </Box>
         </Box>
-        <Box ml="s" width="100%">
-          {(!hover || did)  && renderAccountInfo()}
+        <Box ml='s'
+          width='100%'>
+          {(!hover || did) && renderAccountInfo()}
           {(hover && !did) && renderHoverAccountInfo()}
         </Box>
       </Flex>
     </Box>
   );
-}
+};

@@ -2,7 +2,7 @@
 import * as styledComponents from 'styled-components';
 
 const {
-  default: styled,
+  default: styled
 } = styledComponents;
 
 export { styled };

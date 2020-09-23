@@ -22,12 +22,12 @@ export interface Props
 }
 
 export const Checkbox: FC<Props> = ({
-  name,
-  defaultChecked,
   checked,
-  onChange,
-  label,
+  defaultChecked,
   indeterminate,
+  label,
+  name,
+  onChange,
   ...other
 }) => {
   let checkedProps;
@@ -50,27 +50,27 @@ export const Checkbox: FC<Props> = ({
         <sc.Input
           {...other}
           {...checkedProps}
-          type="checkbox"
           id={name}
           name={name}
           onChange={handleChange}
+          type='checkbox'
         />
         <sc.CheckboxInput
           {...(indeterminate ? { className: 'indeterminate' } : {})}
         >
           <sc.CheckStateIcon
             Asset={SvgMinusBox}
-            color="brandMain"
-            width="1.3em"
-            height="1.3em"
-            className="minusIcon"
+            className='minusIcon'
+            color='brandMain'
+            height='1.3em'
+            width='1.3em'
           />
           <sc.CheckStateIcon
             Asset={SvgCheckmark}
-            color="white"
-            width="0.9em"
-            height="0.9em"
-            className="checkIcon"
+            className='checkIcon'
+            color='white'
+            height='0.9em'
+            width='0.9em'
           />
         </sc.CheckboxInput>
         {label && (

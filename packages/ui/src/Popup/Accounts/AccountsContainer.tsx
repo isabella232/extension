@@ -3,10 +3,8 @@ import { IdentifiedAccount } from '@polymath/extension-core/types';
 import { Button } from 'react-aria-menubutton';
 import { useHistory } from 'react-router-dom';
 import { Box, Text, TextEllipsis, Flex, Icon, Menu, MenuItem, Wrapper } from '../../ui';
-import {
-  SvgDotsVertical,
-  SvgAlertCircle,
-} from '@polymath/ui/assets/images/icons';
+import { SvgDotsVertical,
+  SvgAlertCircle } from '@polymath/ui/assets/images/icons';
 import { AccountView } from './AccountView';
 
 export interface Props {
@@ -20,8 +18,8 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerText }) => {
   const renderMenuItems = () => {
     return (
       <>
-        <MenuItem value="export">Export account</MenuItem>
-        <MenuItem value="forget">Forget account</MenuItem>
+        <MenuItem value='export'>Export account</MenuItem>
+        <MenuItem value='forget'>Forget account</MenuItem>
       </>
     );
   };
@@ -30,34 +28,47 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerText }) => {
     const { address } = accounts[0];
 
     switch (event) {
-      case "export":
+      case 'export':
         return history.push(`/account/export/${address}`);
-      case "forget":
+      case 'forget':
         return history.push(`/account/forget/${address}`);
     }
   };
 
-  const colors = ["#F2E6FF", "#F1FEE1", "#FFEBF1", "#FFEAE1", "#E6F9FE", "#FAF5FF", "#E6FFFA", "#EBF4FF", "#DCEFFE"];
+  const colors = ['#F2E6FF', '#F1FEE1', '#FFEBF1', '#FFEAE1', '#E6F9FE', '#FAF5FF', '#E6FFFA', '#EBF4FF', '#DCEFFE'];
 
   const renderContainerHeader = (isAssigned: boolean) => {
     if (isAssigned) {
       return (
-        <Box borderRadius="2" bg="brandLightest" mx="s" mt="xs" px="s" py="xs">
-          <Flex flexDirection="row" justifyContent="space-between">
-            <Text variant="c2" color="brandMain">
-              <TextEllipsis size="30">{headerText}</TextEllipsis>
+        <Box bg='brandLightest'
+          borderRadius='2'
+          mt='xs'
+          mx='s'
+          px='s'
+          py='xs'>
+          <Flex flexDirection='row'
+            justifyContent='space-between'>
+            <Text color='brandMain'
+              variant='c2'>
+              <TextEllipsis size='30'>{headerText}</TextEllipsis>
             </Text>
             <Box>
-              <Flex flexDirection="row">
+              <Flex flexDirection='row'>
                 {
                   !accounts[0].cdd &&
-                    <Box mr="m">
-                      <Icon Asset={SvgAlertCircle} width={14} height={14} color="alert" />
+                    <Box mr='m'>
+                      <Icon Asset={SvgAlertCircle}
+                        color='alert'
+                        height={14}
+                        width={14} />
                     </Box>
                 }
                 <Wrapper onSelection={handleMenuClick}>
                   <Button>
-                    <Icon Asset={SvgDotsVertical} width={16} height={16} color="gray.1" />
+                    <Icon Asset={SvgDotsVertical}
+                      color='gray.1'
+                      height={16}
+                      width={16} />
                   </Button>
                   <Menu>{renderMenuItems()}</Menu>
                 </Wrapper>
@@ -68,8 +79,9 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerText }) => {
       );
     } else {
       return (
-        <Box mx="xs">
-          <Text variant="c2" color="gray.1">Unassigned keys</Text>
+        <Box mx='xs'>
+          <Text color='gray.1'
+            variant='c2'>Unassigned keys</Text>
         </Box>
       );
     }
@@ -88,10 +100,14 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerText }) => {
         })}
       </>
     );
-  }
+  };
 
   return (
-    <Box boxShadow="3" m="s" borderRadius="2" pt="xs" pb="xs">
+    <Box borderRadius='2'
+      boxShadow='3'
+      m='s'
+      pb='xs'
+      pt='xs'>
       {renderContainerHeader(accounts[0].cdd)}
       {renderAccounts()}
     </Box>
