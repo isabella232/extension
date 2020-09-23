@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { IdentifiedAccount } from '@polymath/extension/types';
 import { Button } from 'react-aria-menubutton';
 import { useHistory } from 'react-router-dom';
-import { Box, Text, TextEllipsis, Flex, Icon, Menu, MenuItem, Wrapper } from '../../ui';
+import { Box, Text, TextEllipsis, Flex, Icon, Menu, MenuItem, Wrapper, LabelWithCopy } from '../../ui';
 import { SvgDotsVertical,
   SvgAlertCircle } from '@polymath/extension-ui/assets/images/icons';
 import { AccountView } from './AccountView';
@@ -48,10 +48,11 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerText }) => {
           py='xs'>
           <Flex flexDirection='row'
             justifyContent='space-between'>
-            <Text color='brandMain'
-              variant='c2'>
-              <TextEllipsis size='30'>{headerText}</TextEllipsis>
-            </Text>
+            <LabelWithCopy color='brandMain'
+              text={headerText}
+              textSize={30}
+              textVariant='c2'
+            />
             <Box>
               <Flex flexDirection='row'>
                 {
