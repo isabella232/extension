@@ -3141,7 +3141,7 @@ __metadata:
     "@polkadot/extension-base": 0.34.0-beta.10
     "@polkadot/extension-inject": 0.34.0-beta.10
     "@polymath/extension-core": 0.1.0
-    "@polymath/ui": 0.34.0-beta.10
+    "@polymath/extension-ui": 0.1.0
     babel-loader: ^8.1.0
     extract-loader: ^5.1.0
     file-loader: ^6.1.0
@@ -3498,9 +3498,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polymath/ui@0.34.0-beta.10, @polymath/ui@workspace:packages/ui":
+"@polymath/extension-ui@0.1.0, @polymath/extension-ui@workspace:packages/extension-polymath-ui":
   version: 0.0.0-use.local
-  resolution: "@polymath/ui@workspace:packages/ui"
+  resolution: "@polymath/extension-ui@workspace:packages/extension-polymath-ui"
   dependencies:
     "@babel/runtime": ^7.11.2
     "@polkadot/extension-base": 0.33.0-beta.6

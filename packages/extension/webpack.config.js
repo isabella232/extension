@@ -19,8 +19,6 @@ const packages = [
   'extension-ui'
 ];
 
-const polymathPackages = ['ui', 'extension-polymath'];
-
 function createWebpack ({ alias = {}, context }) {
   const ENV = process.env.NODE_ENV || 'development';
   const isProd = ENV === 'production';
@@ -118,19 +116,16 @@ function createWebpack ({ alias = {}, context }) {
   };
 }
 
-const polkadotAliases = packages.reduce((alias, pkg) => {
+const alias = packages.reduce((alias, pkg) => {
   alias[`@polkadot/${pkg}`] = path.resolve(__dirname, `../${pkg}/src`);
 
   return alias;
 }, {});
 
-const polymathAliases = polymathPackages.reduce((alias, pkg) => {
-  alias[`@polymath/${pkg}`] = path.resolve(__dirname, `../${pkg}/src`);
-
-  return alias;
-}, {});
+alias['@polymath/extension'] = path.resolve(__dirname, '../extension-polymath/src');
+alias['@polymath/extension-ui'] = path.resolve(__dirname, '../extension-polymath-ui/src');
 
 module.exports = createWebpack({
-  alias: { ...polkadotAliases, ...polymathAliases },
+  alias,
   context: __dirname
 });

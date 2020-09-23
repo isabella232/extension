@@ -6,7 +6,7 @@ import { SvgAccount,
   SvgCheckboxMarkedCircle,
   SvgPencilOutline,
   SvgWindowClose,
-  SvgCheck } from '@polymath/ui/assets/images/icons';
+  SvgCheck } from '@polymath/extension-ui/assets/images/icons';
 import { editAccount } from '../../messaging';
 import { ActionContext } from '../../components';
 

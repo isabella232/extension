@@ -14,7 +14,7 @@ import { SvgCheckboxMarkedCircle,
   SvgAlertCircle,
   SvgViewDashboard,
   SvgDotsVertical,
-  SvgPlus } from '@polymath/ui/assets/images/icons';
+  SvgPlus } from '@polymath/extension-ui/assets/images/icons';
 import { formatters } from '../../util';
 import { IdentifiedAccount } from '@polymath/extension-core/types';
 import { AccountsContainer } from './AccountsContainer';

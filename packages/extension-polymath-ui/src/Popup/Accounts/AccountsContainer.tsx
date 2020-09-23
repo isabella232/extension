@@ -4,7 +4,7 @@ import { Button } from 'react-aria-menubutton';
 import { useHistory } from 'react-router-dom';
 import { Box, Text, TextEllipsis, Flex, Icon, Menu, MenuItem, Wrapper } from '../../ui';
 import { SvgDotsVertical,
-  SvgAlertCircle } from '@polymath/ui/assets/images/icons';
+  SvgAlertCircle } from '@polymath/extension-ui/assets/images/icons';
 import { AccountView } from './AccountView';
 
 export interface Props {
