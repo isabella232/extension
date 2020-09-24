@@ -4,7 +4,7 @@
 
 import { MetadataDef } from '@polkadot/extension-inject/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { AccountJson, AuthorizeRequest, MessageTypes, MetadataRequest, RequestAccountCreateExternal, RequestAccountCreateSuri, RequestAccountEdit, RequestAccountExport, RequestAccountShow, RequestAccountTie, RequestAccountValidate, RequestAuthorizeApprove, RequestAuthorizeReject, RequestDeriveCreate, ResponseDeriveValidate, RequestMetadataApprove, RequestMetadataReject, RequestSigningApprovePassword, RequestSigningApproveSignature, RequestSigningCancel, RequestSigningIsLocked, RequestSeedCreate, RequestTypes, ResponseAccountExport, RequestAccountForget, ResponseSeedCreate, RequestSeedValidate, RequestDeriveValidate, ResponseSeedValidate, ResponseType, SigningRequest, RequestJsonRestore, ResponseJsonRestore, RequestAccountChangePassword, RequestPolyNetworkSet, RequestPolySelectedAccountSet, RequestPolyCallDetails, ResponsePolyCallDetails } from '../types';
+import { AccountJson, AuthorizeRequest, MessageTypes, MetadataRequest, RequestAccountCreateExternal, RequestAccountCreateSuri, RequestAccountEdit, RequestAccountExport, RequestAccountShow, RequestAccountTie, RequestAccountValidate, RequestAuthorizeApprove, RequestAuthorizeReject, RequestDeriveCreate, ResponseDeriveValidate, RequestMetadataApprove, RequestMetadataReject, RequestSigningApprovePassword, RequestSigningApproveSignature, RequestSigningCancel, RequestSigningIsLocked, RequestSeedCreate, RequestTypes, ResponseAccountExport, RequestAccountForget, ResponseSeedCreate, RequestSeedValidate, RequestDeriveValidate, ResponseSeedValidate, ResponseType, SigningRequest, RequestJsonRestore, ResponseJsonRestore, RequestAccountChangePassword, RequestPolyNetworkSet, RequestPolySelectedAccountSet, RequestPolyCallDetails, ResponsePolyCallDetails, RequestPolyIdentityRename } from '../types';
 
 import chrome from '@polkadot/extension-inject/chrome';
 import keyring from '@polkadot/ui-keyring';
@@ -18,9 +18,8 @@ import State from './State';
 import { createSubscription, unsubscribe } from './subscriptions';
 
 import { subscribeAccountsCount, subscribeIdentifiedAccounts, subscribeNetwork, subscribeSelectedAccount } from '@polymath/extension/store/subscribers';
-import { setNetwork, setSelectedAccount } from '@polymath/extension/store/setters';
+import { setNetwork, setSelectedAccount, renameIdentity } from '@polymath/extension/store/setters';
 import { callDetails } from '@polymath/extension/api';
-import { getAccountsCount } from '@polymath/extension/store/getters';
 
 type CachedUnlocks = Record<string, number>;
 
@@ -196,8 +195,8 @@ export default class Extension {
 
     // Store is ready once accounts count in Redux match the one of keyring.
 
-    const reduxUnsub = subscribeAccountsCount(() => {
-      if (Object.values(accountsObservable.subject.value).length === getAccountsCount()) {
+    const reduxUnsub = subscribeAccountsCount((count) => {
+      if (Object.values(accountsObservable.subject.value).length === count) {
         unsubscribe(id);
         reduxUnsub();
         cb();
@@ -214,6 +213,12 @@ export default class Extension {
 
   private polyNetworkSet ({ network }: RequestPolyNetworkSet): boolean {
     setNetwork(network);
+
+    return true;
+  }
+
+  private polyIdentityRename ({ did, name, network }: RequestPolyIdentityRename): boolean {
+    renameIdentity(network, did, name);
 
     return true;
   }
@@ -573,6 +578,9 @@ export default class Extension {
 
       case 'pri(polyIsReady.subscribe)':
         return this.polyIsReadySubscribe(id, port);
+
+      case 'pri(polyIdentity.rename)':
+        return this.polyIdentityRename(request as RequestPolyIdentityRename);
 
         /** End of Polymesh endpoints  */
 

@@ -84,6 +84,7 @@ export interface RequestSignatures {
   'pri(polyNetwork.set)': [RequestPolyNetworkSet, boolean];
   'pri(polySelectedAccount.set)': [RequestPolySelectedAccountSet, boolean];
   'pri(polyCallDetails.get)': [RequestPolyCallDetails, ResponsePolyCallDetails];
+  'pri(polyIdentity.rename)': [RequestPolyIdentityRename, boolean];
   'pri(accounts.validate)': [RequestAccountValidate, boolean];
   'pri(accounts.changePassword)': [RequestAccountChangePassword, boolean];
   'pri(authorize.approve)': [RequestAuthorizeApprove, boolean];
@@ -252,6 +253,12 @@ export interface RequestPolySelectedAccountSet {
 
 export interface RequestPolyCallDetails {
   request: SignerPayloadJSON;
+}
+
+export interface RequestPolyIdentityRename {
+  network: NetworkName,
+  did: string,
+  name: string
 }
 
 export interface RequestRpcSend {
