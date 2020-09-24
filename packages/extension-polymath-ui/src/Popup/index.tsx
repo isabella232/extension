@@ -74,7 +74,7 @@ export default function Popup (): React.ReactElement {
   const [settingsCtx, setSettingsCtx] = useState<SettingsStruct>(startSettings);
   const [network, setNetwork] = useState('');
   const [polymeshAccounts, setPolymeshAccounts] = useState<IdentifiedAccount[]>([]);
-  const [selectedAccounAddresss, setSelectedAccountAddress] = useState<string>();
+  const [selectedAccountAddress, setSelectedAccountAddress] = useState<string>();
   const [isPolyReady, setIsPolyReady] = useState<boolean>(false);
 
   const _onAction = (to?: string): void => {
@@ -107,8 +107,8 @@ export default function Popup (): React.ReactElement {
   }, []);
 
   useEffect((): void => {
-    setAccountCtx(initAccountContext(accounts || [], network, polymeshAccounts, selectedAccounAddresss || ''));
-  }, [accounts, network, polymeshAccounts, selectedAccounAddresss]);
+    setAccountCtx(initAccountContext(accounts || [], network, polymeshAccounts, selectedAccountAddress || ''));
+  }, [accounts, network, polymeshAccounts, selectedAccountAddress]);
 
   useEffect((): void => {
     requestMediaAccess(cameraOn)
