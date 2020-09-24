@@ -48,8 +48,6 @@ function decodeMethod (data: string, isDecoded: boolean, chain: Chain | null, sp
 }
 
 function renderMethod (data: string, { args, method }: Decoded, t: TFunction): React.ReactNode {
-  console.log('>>> renderMethod, args, method', args, method);
-
   if (!args || !method) {
     return (
       <tr>
