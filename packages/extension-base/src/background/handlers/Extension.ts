@@ -19,7 +19,6 @@ import { createSubscription, unsubscribe } from './subscriptions';
 
 import { subscribeIdentifiedAccounts, subscribeNetwork, subscribeSelectedAccount } from '@polymath/extension/store/subscribers';
 import { setNetwork, setSelectedAccount } from '@polymath/extension/store/setters';
-import { IdentifiedAccount } from '@polymath/extension/types';
 import { callDetails } from '@polymath/extension/api';
 
 type CachedUnlocks = Record<string, number>;
@@ -193,10 +192,8 @@ export default class Extension {
     return true;
   }
 
-  private polyCallDetailsGet ({ request }: RequestPolyCallDetails): ResponsePolyCallDetails {
-    callDetails(request).then((res) => {
-
-    }).catch(console.error);
+  private polyCallDetailsGet ({ request }: RequestPolyCallDetails): Promise<ResponsePolyCallDetails> {
+    return callDetails(request);
   }
 
   private authorizeApprove ({ id }: RequestAuthorizeApprove): boolean {

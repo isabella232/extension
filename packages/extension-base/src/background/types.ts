@@ -377,5 +377,7 @@ export interface ResponseJsonRestore {
 
 export interface ResponsePolyCallDetails {
   networkFee: string,
-  protocolFee: string
+  protocolFee: string,
+  module: string,
+  method: string,
 }

@@ -5,23 +5,37 @@ import { ResponsePolyCallDetails } from '@polkadot/extension-base/background/typ
 
 async function callDetails (request: SignerPayloadJSON): Promise<ResponsePolyCallDetails> {
   const api = await apiPromise;
+  let protocolFee = '0';
+  let networkFee = '0';
 
-  console.log('IN API');
+  // Parse method
   const res = api.registry.createType('Call', request.method);
   const { args, method, section } = res;
 
-  // Protocol fees
-  const opName = upperFirst(section) + upperFirst(method);
-  const fee = await api.query.protocolFee.baseFees(opName);
+  // Protocol fee
+  try {
+    const opName = upperFirst(section) + upperFirst(method);
+
+    protocolFee = (await api.query.protocolFee.baseFees(opName)).toString();
+  } catch (error) {
+    console.error(`Error: Protocol fee retrieval for method ${section}:${method} has failed`, error);
+  }
 
   // Network fee
-  const extrinsic = api.tx[section][method](args);
-  const { partialFee } = await extrinsic.paymentInfo(request.address);
+  try {
+    const extrinsic = api.tx[section][method](...args);
+    const { partialFee } = await extrinsic.paymentInfo(request.address);
+
+    networkFee = partialFee.toString();
+  } catch (error) {
+    console.error(`Error: Network fee retrieval for method ${section}:${method} has failed`, error);
+  }
 
   return {
-
-    protocolFee: fee.toString(),
-    networkFee: partialFee.toString()
+    protocolFee,
+    networkFee,
+    module: section,
+    method
   };
 }
 
