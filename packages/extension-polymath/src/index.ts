@@ -3,9 +3,10 @@ import accountsObservable from '@polkadot/ui-keyring/observable/accounts';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { Option } from '@polkadot/types/codec';
 import difference from 'lodash-es/difference';
+import intersection from 'lodash-es/intersection';
 
-import meshApi from './meshApi';
-import { DidRecord, LinkedKeyInfo, CddStatus } from './meshTypes';
+import apiPromise from './api/apiPromise';
+import { DidRecord, LinkedKeyInfo, CddStatus } from './api/apiPromise/types';
 import { AccountInfo } from '@polkadot/types/interfaces/system';
 import { encodeAddress } from '@polkadot/util-crypto';
 
@@ -16,9 +17,14 @@ import { AccountData, IdentityData, UnsubCallback } from './types';
 import { subscribeDidsList } from './store/subscribers';
 import { getNetwork } from './store/getters';
 
-function observeAccounts (cb: (accounts: string[]) => void) {
+type KeyringAccountData = {
+  address: string,
+  name?: string,
+}
+
+function observeAccounts (cb: (accounts: KeyringAccountData[]) => void) {
   return accountsObservable.subject.subscribe((accountsSubject: SubjectInfo) => {
-    const accounts = Object.values(accountsSubject).map(({ json: { address } }) => address);
+    const accounts = Object.values(accountsSubject).map(({ json: { address, meta: { name } } }) => ({ address, name }));
 
     cb(accounts);
   });
@@ -26,23 +32,30 @@ function observeAccounts (cb: (accounts: string[]) => void) {
 
 // @TODO convert into a thunk? https://redux-toolkit.js.org/tutorials/advanced-tutorial#thinking-in-thunks
 export function meshAccountsEnhancer (): void {
-  meshApi.then((api) => {
+  apiPromise.then((api) => {
     const unsubCallbacks: Record<string, UnsubCallback> = {};
     let prevAccounts: string[] = [];
     let prevDids: string[] = [];
     const network = getNetwork();
 
     // @TODO manage this subscription. Perhaps on port disconnect
-    observeAccounts((accounts: string[]) => {
+    observeAccounts((accountsData: KeyringAccountData[]) => {
+      function accountName (_address: string): string | undefined {
+        return accountsData.find(({ address }) => address === _address)?.name;
+      }
+
+      const accounts = accountsData.map(({ address }) => address);
       const newAccounts = difference(accounts, prevAccounts);
       const removedAccounts = difference(prevAccounts, accounts);
+      const preExistingAccounts = intersection(prevAccounts, accounts);
 
+      // A) If account is removed, clean up any associated subscriptions
       removedAccounts.forEach((account) => {
         unsubCallbacks[account]();
         store.dispatch(accountActions.removeAccount({ address: account, network }));
       });
 
-      prevAccounts = accounts;
+      // B) Subscribe to new accounts
       newAccounts.forEach((account) => {
         api.queryMulti([
           [api.query.system.account, account],
@@ -50,7 +63,8 @@ export function meshAccountsEnhancer (): void {
         ], ([accData, linkedKeyInfo]: [AccountInfo, Option<LinkedKeyInfo>]) => {
           const accountData: AccountData = {
             address: account,
-            balance: accData.data.free.toString()
+            balance: accData.data.free.toString(),
+            name: accountName(account)
           };
 
           store.dispatch(accountActions.setAccount({ data: accountData, network }));
@@ -75,6 +89,18 @@ export function meshAccountsEnhancer (): void {
           unsubCallbacks[account] = unsub;
         }).catch(console.error);
       });
+
+      // C) Update data of pre-existing accounts.
+      preExistingAccounts.forEach((account) => {
+        const accountData: AccountData = {
+          address: account,
+          name: accountName(account)
+        };
+
+        store.dispatch(accountActions.setAccount({ data: accountData, network }));
+      });
+
+      prevAccounts = accounts;
     });
 
     // @TODO manage this subscription.

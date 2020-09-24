@@ -85,6 +85,7 @@ export interface RequestSignatures {
   'pri(polySelectedAccount.subscribe)': [RequestPolySelectedAccountSubscribe, boolean, string | undefined]
   'pri(polyNetwork.set)': [RequestPolyNetworkSet, boolean];
   'pri(polySelectedAccount.set)': [RequestPolySelectedAccountSet, boolean];
+  'pri(polyCallDetails.get)': [RequestPolyCallDetails, ResponsePolyCallDetails];
   'pri(accounts.validate)': [RequestAccountValidate, boolean];
   'pri(accounts.changePassword)': [RequestAccountChangePassword, boolean];
   'pri(authorize.approve)': [RequestAuthorizeApprove, boolean];
@@ -249,6 +250,10 @@ export interface RequestPolySelectedAccountSet {
   account: string
 }
 
+export interface RequestPolyCallDetails {
+  request: SignerPayloadJSON;
+}
+
 export interface RequestRpcSend {
   method: string;
   params: unknown[];
@@ -371,4 +376,11 @@ export interface RequestJsonRestore {
 
 export interface ResponseJsonRestore {
   error: string | null;
+}
+
+export interface ResponsePolyCallDetails {
+  networkFee: string,
+  protocolFee: string,
+  module: string,
+  method: string,
 }
