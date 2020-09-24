@@ -4,7 +4,7 @@
 
 import { MetadataDef } from '@polkadot/extension-inject/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { AccountJson, AuthorizeRequest, MessageTypes, MetadataRequest, RequestAccountCreateExternal, RequestAccountCreateSuri, RequestAccountEdit, RequestAccountExport, RequestAccountShow, RequestAccountTie, RequestAccountValidate, RequestAuthorizeApprove, RequestAuthorizeReject, RequestDeriveCreate, ResponseDeriveValidate, RequestMetadataApprove, RequestMetadataReject, RequestSigningApprovePassword, RequestSigningApproveSignature, RequestSigningCancel, RequestSigningIsLocked, RequestSeedCreate, RequestTypes, ResponseAccountExport, RequestAccountForget, ResponseSeedCreate, RequestSeedValidate, RequestDeriveValidate, ResponseSeedValidate, ResponseType, SigningRequest, RequestJsonRestore, ResponseJsonRestore, RequestAccountChangePassword, RequestPolyNetworkSet, RequestPolySelectedAccountSet, RequestPolyCallDetails, ResponsePolyCallDetails } from '../types';
+import { AccountJson, AuthorizeRequest, MessageTypes, MetadataRequest, RequestAccountCreateExternal, RequestAccountCreateSuri, RequestAccountEdit, RequestAccountExport, RequestAccountShow, RequestAccountTie, RequestAccountValidate, RequestAuthorizeApprove, RequestAuthorizeReject, RequestDeriveCreate, ResponseDeriveValidate, RequestMetadataApprove, RequestMetadataReject, RequestSigningApprovePassword, RequestSigningApproveSignature, RequestSigningCancel, RequestSigningIsLocked, RequestSeedCreate, RequestTypes, ResponseAccountExport, RequestAccountForget, ResponseSeedCreate, RequestSeedValidate, RequestDeriveValidate, ResponseSeedValidate, ResponseType, SigningRequest, RequestJsonRestore, ResponseJsonRestore, RequestAccountChangePassword, RequestPolyNetworkSet, RequestPolySelectedAccountSet, RequestPolyCallDetails, ResponsePolyCallDetails, RequestPolyIdentityRename } from '../types';
 
 import chrome from '@polkadot/extension-inject/chrome';
 import keyring from '@polkadot/ui-keyring';
@@ -17,8 +17,8 @@ import { keyExtractSuri, mnemonicGenerate, mnemonicValidate } from '@polkadot/ut
 import State from './State';
 import { createSubscription, unsubscribe } from './subscriptions';
 
-import { subscribeIdentifiedAccounts, subscribeNetwork, subscribeSelectedAccount } from '@polymath/extension/store/subscribers';
-import { setNetwork, setSelectedAccount } from '@polymath/extension/store/setters';
+import { subscribeAccountsCount, subscribeIdentifiedAccounts, subscribeNetwork, subscribeSelectedAccount } from '@polymath/extension/store/subscribers';
+import { setNetwork, setSelectedAccount, renameIdentity } from '@polymath/extension/store/setters';
 import { callDetails } from '@polymath/extension/api';
 
 type CachedUnlocks = Record<string, number>;
@@ -159,10 +159,15 @@ export default class Extension {
   private polyNetworkSubscribe (id: string, port: chrome.runtime.Port): boolean {
     const cb = createSubscription<'pri(polyNetwork.subscribe)'>(id, port);
 
-    const unsubscribe = subscribeNetwork(cb);
+    const reduxUnsub = subscribeNetwork((network) => {
+      cb(network);
+      reduxUnsub();
+      unsubscribe(id);
+    });
 
     port.onDisconnect.addListener((): void => {
-      unsubscribe();
+      reduxUnsub();
+      unsubscribe(id);
     });
 
     return true;
@@ -171,10 +176,36 @@ export default class Extension {
   private polySelectedAccountSubscribe (id: string, port: chrome.runtime.Port): boolean {
     const cb = createSubscription<'pri(polySelectedAccount.subscribe)'>(id, port);
 
-    const unsubscribe = subscribeSelectedAccount(cb);
+    const reduxUnsub = subscribeSelectedAccount((selected) => {
+      cb(selected);
+      unsubscribe(id);
+      reduxUnsub();
+    });
 
     port.onDisconnect.addListener((): void => {
-      unsubscribe();
+      reduxUnsub();
+      unsubscribe(id);
+    });
+
+    return true;
+  }
+
+  private polyIsReadySubscribe (id: string, port: chrome.runtime.Port): boolean {
+    const cb: (data: void) => void = createSubscription<'pri(polyIsReady.subscribe)'>(id, port);
+
+    // Store is ready once accounts count in Redux match the one of keyring.
+
+    const reduxUnsub = subscribeAccountsCount((count) => {
+      if (Object.values(accountsObservable.subject.value).length === count) {
+        unsubscribe(id);
+        reduxUnsub();
+        cb();
+      }
+    });
+
+    port.onDisconnect.addListener((): void => {
+      unsubscribe(id);
+      reduxUnsub();
     });
 
     return true;
@@ -182,6 +213,12 @@ export default class Extension {
 
   private polyNetworkSet ({ network }: RequestPolyNetworkSet): boolean {
     setNetwork(network);
+
+    return true;
+  }
+
+  private polyIdentityRename ({ did, name, network }: RequestPolyIdentityRename): boolean {
+    renameIdentity(network, did, name);
 
     return true;
   }
@@ -519,28 +556,33 @@ export default class Extension {
       case 'pri(accounts.subscribe)':
         return this.accountsSubscribe(id, port);
 
-      // @TODO1 move to a separate request handler.
+        /** Polymesh endpoints  */
+
       case 'pri(polyAccounts.subscribe)':
         return this.polyAccountsSubscribe(id, port);
 
-      // @TODO1 move to a separate request handler.
       case 'pri(polyNetwork.subscribe)':
         return this.polyNetworkSubscribe(id, port);
 
-      // @TODO1 move to a separate request handler.
       case 'pri(polyNetwork.set)':
         return this.polyNetworkSet(request as RequestPolyNetworkSet);
 
-      // @TODO1 move to a separate request handler.
       case 'pri(polySelectedAccount.subscribe)':
         return this.polySelectedAccountSubscribe(id, port);
 
-      // @TODO1 move to a separate request handler.
       case 'pri(polySelectedAccount.set)':
         return this.polySelectedAccount(request as RequestPolySelectedAccountSet);
 
       case 'pri(polyCallDetails.get)':
         return this.polyCallDetailsGet(request as RequestPolyCallDetails);
+
+      case 'pri(polyIsReady.subscribe)':
+        return this.polyIsReadySubscribe(id, port);
+
+      case 'pri(polyIdentity.rename)':
+        return this.polyIdentityRename(request as RequestPolyIdentityRename);
+
+        /** End of Polymesh endpoints  */
 
       case 'pri(accounts.tie)':
         return this.accountsTie(request as RequestAccountTie);

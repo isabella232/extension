@@ -14,6 +14,7 @@ import { metadataExpand } from '@polkadot/extension-chains';
 import chrome from '@polkadot/extension-inject/chrome';
 import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { SignerPayloadJSON } from '@polkadot/types/types';
+import { NetworkName } from '@polymath/extension/types';
 
 interface Handler {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -176,8 +177,20 @@ export async function subscribePolySelectedAccount (cb: (selected: string | unde
   return sendMessage('pri(polySelectedAccount.subscribe)', null, cb);
 }
 
+export async function subscribeIsReady (cb: () => void): Promise<boolean> {
+  return sendMessage('pri(polyIsReady.subscribe)', null, cb);
+}
+
 export async function setPolySelectedAccount (account: string): Promise<boolean> {
   return sendMessage('pri(polySelectedAccount.set)', { account });
+}
+
+export async function setPolyNetwork (network: NetworkName): Promise<boolean> {
+  return sendMessage('pri(polyNetwork.set)', { network });
+}
+
+export async function renameIdentity (network: NetworkName, did: string, name: string): Promise<boolean> {
+  return sendMessage('pri(polyIdentity.rename)', { network, did, name });
 }
 
 export async function getPolyCallDetails (request: SignerPayloadJSON): Promise<ResponsePolyCallDetails> {

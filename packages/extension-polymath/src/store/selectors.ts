@@ -44,6 +44,11 @@ export const accounts = createSelector(
   (network, accounts) => accounts[network]
 );
 
+export const accountsCount = createSelector(
+  accounts,
+  (accounts): number => Object.values(accounts).length
+);
+
 export const identifiedAccounts = createSelector(
   accounts,
   reversedDidList,

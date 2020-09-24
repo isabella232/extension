@@ -1,4 +1,4 @@
-import { network, networkUrl, selectedAccount } from './selectors';
+import { accountsCount, network, networkUrl, selectedAccount } from './selectors';
 
 import store from '.';
 import { NetworkName } from '../types';
@@ -15,8 +15,13 @@ function getSelectedAccount (): string | undefined {
   return selectedAccount(store.getState());
 }
 
+function getAccountsCount (): number {
+  return accountsCount(store.getState());
+}
+
 export {
   getNetwork,
   getNetworkUrl,
-  getSelectedAccount
+  getSelectedAccount,
+  getAccountsCount
 };
