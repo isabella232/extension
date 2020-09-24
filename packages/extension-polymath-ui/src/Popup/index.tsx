@@ -93,7 +93,7 @@ export default function Popup (): React.ReactElement {
       subscribeAuthorizeRequests(setAuthRequests),
       subscribeMetadataRequests(setMetaRequests),
       subscribeSigningRequests(setSignRequests),
-      subscribePolySelectedAccount(setSelectedAccountAddress)
+      subscribePolySelectedAccount(setSelectedAccountAddress),
       subscribeIsReady(() => setIsPolyReady(true))
     ]).catch(console.error);
 
