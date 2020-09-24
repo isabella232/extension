@@ -13,7 +13,7 @@ import { setSS58Format } from '@polkadot/util-crypto';
 import { Loading } from '../components';
 import { AccountContext, ActionContext, AuthorizeReqContext, MediaContext, MetadataReqContext, SettingsContext, SigningReqContext } from '../components/contexts';
 import ToastProvider from '../components/Toast/ToastProvider';
-import { subscribeAccounts, subscribeAuthorizeRequests, subscribeMetadataRequests, subscribeSigningRequests } from '../messaging';
+import { subscribeAccounts, subscribeAuthorizeRequests, subscribeIsReady, subscribeMetadataRequests, subscribeSigningRequests } from '../messaging';
 import { buildHierarchy } from '../util/buildHierarchy';
 import Accounts from './Accounts';
 import Authorize from './Authorize';
@@ -68,6 +68,7 @@ export default function Popup (): React.ReactElement {
   const [signRequests, setSignRequests] = useState<null | SigningRequest[]>(null);
   const [isWelcomeDone, setWelcomeDone] = useState(false);
   const [settingsCtx, setSettingsCtx] = useState<SettingsStruct>(startSettings);
+  const [isPolyReady, setIsPolyReady] = useState<boolean>(false);
 
   const _onAction = (to?: string): void => {
     setWelcomeDone(window.localStorage.getItem('welcome_read') === 'ok');
@@ -82,7 +83,8 @@ export default function Popup (): React.ReactElement {
       subscribeAccounts(setAccounts),
       subscribeAuthorizeRequests(setAuthRequests),
       subscribeMetadataRequests(setMetaRequests),
-      subscribeSigningRequests(setSignRequests)
+      subscribeSigningRequests(setSignRequests),
+      subscribeIsReady(() => setIsPolyReady(true))
     ]).catch(console.error);
 
     uiSettings.on('change', (settings): void => {
