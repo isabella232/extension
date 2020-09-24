@@ -148,22 +148,7 @@ export default class Extension {
   private polyAccountsSubscribe (id: string, port: chrome.runtime.Port): boolean {
     const cb = createSubscription<'pri(polyAccounts.subscribe)'>(id, port);
 
-    function appendAccountNames (accounts: IdentifiedAccount[]) {
-      const keyringAccounts = transformAccounts(accountsObservable.subject.getValue());
-
-      accounts = accounts.map((account) => {
-        const keyringAccount = keyringAccounts.find((keyringAccount) => keyringAccount.address === account.address);
-
-        if (keyringAccount) {
-          return { ...account, name: keyringAccount.name };
-        }
-
-        return account;
-      });
-      cb(accounts);
-    }
-
-    const unsubscribe = subscribeIdentifiedAccounts(appendAccountNames);
+    const unsubscribe = subscribeIdentifiedAccounts(cb);
 
     port.onDisconnect.addListener((): void => {
       unsubscribe();

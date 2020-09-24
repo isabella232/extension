@@ -21,9 +21,10 @@ const accountsSlice = createSlice({
     setAccount (state, action: PayloadAction<SetAccountPayload>) {
       const { data, network } = action.payload;
       const prev = state[network][data.address];
+      const next = merge(prev, data);
 
-      if (!isEqual(data, prev)) {
-        state[network][data.address] = merge(prev, data);
+      if (!isEqual(next, prev)) {
+        state[network][data.address] = next;
       }
     },
     removeAccount (state, action: PayloadAction<RemoveAccountPayload>) {

@@ -6,7 +6,8 @@ export enum DidType {
 export type AccountData = {
   address: string;
   didType?: DidType;
-  balance: string;
+  balance?: string;
+  name?: string;
 }
 
 export type IdentityData = {
@@ -24,7 +25,8 @@ export type IdentifiedAccount = {
   address: string;
   didType?: DidType;
   didAlias: string;
-  balance: string;
+  balance?: string;
+  name?: string;
 }
 
 export type UnsubCallback = () => void;
