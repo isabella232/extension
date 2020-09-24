@@ -4,7 +4,7 @@
 
 import { MetadataDef } from '@polkadot/extension-inject/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { AccountJson, AuthorizeRequest, MessageTypes, MetadataRequest, RequestAccountCreateExternal, RequestAccountCreateSuri, RequestAccountEdit, RequestAccountExport, RequestAccountShow, RequestAccountTie, RequestAccountValidate, RequestAuthorizeApprove, RequestAuthorizeReject, RequestDeriveCreate, ResponseDeriveValidate, RequestMetadataApprove, RequestMetadataReject, RequestSigningApprovePassword, RequestSigningApproveSignature, RequestSigningCancel, RequestSigningIsLocked, RequestSeedCreate, RequestTypes, ResponseAccountExport, RequestAccountForget, ResponseSeedCreate, RequestSeedValidate, RequestDeriveValidate, ResponseSeedValidate, ResponseType, SigningRequest, RequestJsonRestore, ResponseJsonRestore, RequestAccountChangePassword, RequestPolyNetworkSet, RequestPolySelectedAccountSet } from '../types';
+import { AccountJson, AuthorizeRequest, MessageTypes, MetadataRequest, RequestAccountCreateExternal, RequestAccountCreateSuri, RequestAccountEdit, RequestAccountExport, RequestAccountShow, RequestAccountTie, RequestAccountValidate, RequestAuthorizeApprove, RequestAuthorizeReject, RequestDeriveCreate, ResponseDeriveValidate, RequestMetadataApprove, RequestMetadataReject, RequestSigningApprovePassword, RequestSigningApproveSignature, RequestSigningCancel, RequestSigningIsLocked, RequestSeedCreate, RequestTypes, ResponseAccountExport, RequestAccountForget, ResponseSeedCreate, RequestSeedValidate, RequestDeriveValidate, ResponseSeedValidate, ResponseType, SigningRequest, RequestJsonRestore, ResponseJsonRestore, RequestAccountChangePassword, RequestPolyNetworkSet, RequestPolySelectedAccountSet, RequestPolyCallDetails, ResponsePolyCallDetails } from '../types';
 
 import chrome from '@polkadot/extension-inject/chrome';
 import keyring from '@polkadot/ui-keyring';
@@ -19,7 +19,7 @@ import { createSubscription, unsubscribe } from './subscriptions';
 
 import { subscribeIdentifiedAccounts, subscribeNetwork, subscribeSelectedAccount } from '@polymath/extension/store/subscribers';
 import { setNetwork, setSelectedAccount } from '@polymath/extension/store/setters';
-import { IdentifiedAccount } from '@polymath/extension/types';
+import { callDetails } from '@polymath/extension/api';
 
 type CachedUnlocks = Record<string, number>;
 
@@ -190,6 +190,10 @@ export default class Extension {
     setSelectedAccount(account);
 
     return true;
+  }
+
+  private polyCallDetailsGet ({ request }: RequestPolyCallDetails): Promise<ResponsePolyCallDetails> {
+    return callDetails(request);
   }
 
   private authorizeApprove ({ id }: RequestAuthorizeApprove): boolean {
@@ -534,6 +538,9 @@ export default class Extension {
       // @TODO1 move to a separate request handler.
       case 'pri(polySelectedAccount.set)':
         return this.polySelectedAccount(request as RequestPolySelectedAccountSet);
+
+      case 'pri(polyCallDetails.get)':
+        return this.polyCallDetailsGet(request as RequestPolyCallDetails);
 
       case 'pri(accounts.tie)':
         return this.accountsTie(request as RequestAccountTie);

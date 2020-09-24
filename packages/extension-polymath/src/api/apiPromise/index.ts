@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import meshSchema from './meshSchema';
-import { getNetworkUrl } from './store/getters';
+import meshSchema from './schema';
+import { getNetworkUrl } from '../../store/getters';
 
 const url = getNetworkUrl();
 const provider = new WsProvider(url);
 
-const meshApi:Promise<ApiPromise> = new Promise((resolve, reject): void => {
+const apiPromise:Promise<ApiPromise> = new Promise((resolve, reject): void => {
   ApiPromise.create({
     provider,
     rpc: meshSchema.rpc,
@@ -21,4 +21,4 @@ const meshApi:Promise<ApiPromise> = new Promise((resolve, reject): void => {
   }).catch((err) => reject(err));
 });
 
-export default meshApi;
+export default apiPromise;

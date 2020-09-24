@@ -5,8 +5,8 @@ import { Option } from '@polkadot/types/codec';
 import difference from 'lodash-es/difference';
 import intersection from 'lodash-es/intersection';
 
-import meshApi from './meshApi';
-import { DidRecord, LinkedKeyInfo, CddStatus } from './meshTypes';
+import apiPromise from './api/apiPromise';
+import { DidRecord, LinkedKeyInfo, CddStatus } from './api/apiPromise/types';
 import { AccountInfo } from '@polkadot/types/interfaces/system';
 import { encodeAddress } from '@polkadot/util-crypto';
 
@@ -32,7 +32,7 @@ function observeAccounts (cb: (accounts: KeyringAccountData[]) => void) {
 
 // @TODO convert into a thunk? https://redux-toolkit.js.org/tutorials/advanced-tutorial#thinking-in-thunks
 export function meshAccountsEnhancer (): void {
-  meshApi.then((api) => {
+  apiPromise.then((api) => {
     const unsubCallbacks: Record<string, UnsubCallback> = {};
     let prevAccounts: string[] = [];
     let prevDids: string[] = [];

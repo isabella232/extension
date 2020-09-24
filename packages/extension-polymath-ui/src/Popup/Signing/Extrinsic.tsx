@@ -7,13 +7,15 @@ import { Call, ExtrinsicEra, ExtrinsicPayload } from '@polkadot/types/interfaces
 import { AnyJson, SignerPayloadJSON } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { TFunction } from 'i18next';
 import { formatNumber, bnToBn } from '@polkadot/util';
 
 import { Table } from '../../components';
 import useMetadata from '../../hooks/useMetadata';
 import useTranslation from '../../hooks/useTranslation';
+import { getPolyCallDetails } from '@polymath/extension-ui/messaging';
+import { ResponsePolyCallDetails } from '@polkadot/extension-base/background/types';
 
 interface Decoded {
   args: AnyJson | null;
@@ -100,15 +102,22 @@ function mortalityAsString (era: ExtrinsicEra, hexBlockNumber: string, t: TFunct
   });
 }
 
-function Extrinsic ({ className, isDecoded, payload: { era, nonce, tip }, request: { blockNumber, genesisHash, method, specVersion: hexSpec }, url }: Props): React.ReactElement<Props> {
+function Extrinsic ({ className, isDecoded, payload: { era, nonce, tip }, request, url }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { blockNumber, genesisHash, method, specVersion: hexSpec } = request;
+  const [callDetails, setCallDetails] = useState<ResponsePolyCallDetails>();
   const chain = useMetadata(genesisHash);
   const specVersion = useRef(bnToBn(hexSpec)).current;
-
   const decoded = useMemo(
     () => decodeMethod(method, isDecoded, chain, specVersion),
     [method, isDecoded, chain, specVersion]
   );
+
+  useEffect(() => {
+    getPolyCallDetails(request)
+      .then(setCallDetails)
+      .catch(console.error);
+  }, [request]);
 
   return (
     <Table
