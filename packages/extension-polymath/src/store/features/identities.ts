@@ -12,6 +12,7 @@ const initialState: State = {
 
 type SetIdentityPayload = { network: NetworkName, data: IdentityData };
 type RemoveIdentityPayload = { network: NetworkName, did: string };
+type RenameIdentityPayload = { network: NetworkName, did: string, name: string };
 
 const identitiesSlice = createSlice({
   name: 'identities',
@@ -29,6 +30,11 @@ const identitiesSlice = createSlice({
       const { did, network } = action.payload;
 
       delete state[network][did];
+    },
+    renameIdentity (state, action: PayloadAction<RenameIdentityPayload>) {
+      const { did, name, network } = action.payload;
+
+      state[network][did].alias = name;
     }
   }
 });

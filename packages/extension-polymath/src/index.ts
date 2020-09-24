@@ -12,7 +12,7 @@ import { encodeAddress } from '@polkadot/util-crypto';
 
 import { actions as accountActions } from './store/features/accounts';
 import { actions as identityActions } from './store/features/identities';
-import store from './store';
+import store, { Dispatch } from './store';
 import { AccountData, IdentityData, UnsubCallback } from './types';
 import { subscribeDidsList } from './store/subscribers';
 import { getNetwork } from './store/getters';
@@ -30,8 +30,7 @@ function observeAccounts (cb: (accounts: KeyringAccountData[]) => void) {
   });
 }
 
-// @TODO convert into a thunk? https://redux-toolkit.js.org/tutorials/advanced-tutorial#thinking-in-thunks
-export function meshAccountsEnhancer (): void {
+function meshAccountsEnhancer (dispatch: Dispatch): void {
   apiPromise.then((api) => {
     const unsubCallbacks: Record<string, UnsubCallback> = {};
     let prevAccounts: string[] = [];
@@ -52,7 +51,7 @@ export function meshAccountsEnhancer (): void {
       // A) If account is removed, clean up any associated subscriptions
       removedAccounts.forEach((account) => {
         unsubCallbacks[account]();
-        store.dispatch(accountActions.removeAccount({ address: account, network }));
+        dispatch(accountActions.removeAccount({ address: account, network }));
       });
 
       // B) Subscribe to new accounts
@@ -67,7 +66,7 @@ export function meshAccountsEnhancer (): void {
             name: accountName(account)
           };
 
-          store.dispatch(accountActions.setAccount({ data: accountData, network }));
+          dispatch(accountActions.setAccount({ data: accountData, network }));
 
           if (!linkedKeyInfo.unwrapOrDefault().isEmpty) {
             const did = linkedKeyInfo.unwrapOrDefault().asUnique.toString();
@@ -75,7 +74,7 @@ export function meshAccountsEnhancer (): void {
             // eslint-disable-next-line
             (api.rpc as any).identity.isIdentityHasValidCdd(did)
               .then((cddStatus: CddStatus) => {
-                store.dispatch(identityActions.setIdentity({ data: {
+                dispatch(identityActions.setIdentity({ data: {
                   cdd: cddStatus.isOk,
                   did,
                   priKey: account,
@@ -97,7 +96,7 @@ export function meshAccountsEnhancer (): void {
           name: accountName(account)
         };
 
-        store.dispatch(accountActions.setAccount({ data: accountData, network }));
+        dispatch(accountActions.setAccount({ data: accountData, network }));
       });
 
       prevAccounts = accounts;
@@ -123,7 +122,7 @@ export function meshAccountsEnhancer (): void {
             secKeys
           };
 
-          store.dispatch(identityActions.setIdentity({ data: identityData, network }));
+          dispatch(identityActions.setIdentity({ data: identityData, network }));
         })
           .then((unsub) => {
             unsubCallbacks[did] = unsub;
@@ -139,4 +138,8 @@ export function meshAccountsEnhancer (): void {
     });
     console.log('meshAccountsEnhancer initialization completed');
   }).catch((err) => console.error('meshAccountsEnhancer initialization failed', err));
+}
+
+export default function init (): void {
+  store.dispatch(meshAccountsEnhancer);
 }

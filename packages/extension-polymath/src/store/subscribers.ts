@@ -1,7 +1,7 @@
 import { Unsubscribe } from '@reduxjs/toolkit';
 import { IdentifiedAccount, NetworkName } from '../types';
 import reduxSubscribe from './reduxSubscribe';
-import { didsList, identifiedAccounts, network, selectedAccount } from './selectors';
+import { accountsCount, didsList, identifiedAccounts, network, selectedAccount } from './selectors';
 
 export function subscribeDidsList (cb: (dids: string[]) => void): Unsubscribe {
   return reduxSubscribe(didsList, cb);
@@ -17,4 +17,8 @@ export function subscribeNetwork (cb: (network: NetworkName) => void): Unsubscri
 
 export function subscribeSelectedAccount (cb: (selected: string | undefined) => void): Unsubscribe {
   return reduxSubscribe(selectedAccount, cb);
+}
+
+export function subscribeAccountsCount (cb: (count: number) => void): Unsubscribe {
+  return reduxSubscribe(accountsCount, cb);
 }
