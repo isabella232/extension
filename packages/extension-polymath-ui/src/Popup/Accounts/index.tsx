@@ -8,7 +8,6 @@ import styled from 'styled-components';
 import { AccountContext, Link } from '../../components';
 import AddAccount from './AddAccount';
 import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button, StatusBadge, LabelWithCopy } from '../../ui';
-import { AccountWithChildren } from '@polkadot/extension-base/background/types';
 import { SvgCheckboxMarkedCircle,
   SvgAlertCircle,
   SvgViewDashboard,
@@ -109,7 +108,7 @@ export default function Accounts (): React.ReactElement {
                       }
                       <Text color='gray.2'
                         variant='c2'>
-                        <TextEllipsis size={12}>{currentAccount?.did}</TextEllipsis>
+                        <TextEllipsis size={29}>{currentAccount?.did}</TextEllipsis>
                       </Text>
                     </Flex>
                     {renderStatus(currentAccount.cdd)}
