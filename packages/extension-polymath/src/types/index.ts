@@ -19,6 +19,7 @@ export type IdentityData = {
 }
 
 export type IdentifiedAccount = {
+  name: string;
   did?: string;
   keyType?: DidType;
   cdd?: boolean;

@@ -5,7 +5,9 @@
         "package.json",
         "packages/extension-dapp/package.json",
         "packages/extension-ui/package.json",
-        "packages/extension/package.json"
+        "packages/extension/package.json",
+        "packages/extension-polymath-ui/package.json",
+        "packages/extension-polymath/package.json"
       ]
     }
   }

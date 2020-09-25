@@ -11,9 +11,9 @@ import uiSettings from '@polkadot/ui-settings';
 import { setSS58Format } from '@polkadot/util-crypto';
 
 import { Loading } from '../components';
-import { AccountContext, ActionContext, AuthorizeReqContext, MediaContext, MetadataReqContext, SettingsContext, SigningReqContext } from '../components/contexts';
+import { AccountContext, ActionContext, AuthorizeReqContext, MediaContext, MetadataReqContext, SettingsContext, SigningReqContext, PolymeshContext } from '../components/contexts';
 import ToastProvider from '../components/Toast/ToastProvider';
-import { subscribeAccounts, subscribeAuthorizeRequests, subscribeIsReady, subscribeMetadataRequests, subscribeSigningRequests } from '../messaging';
+import { subscribeAccounts, subscribeIsReady, subscribeAuthorizeRequests, subscribeMetadataRequests, subscribeSigningRequests, subscribePolymeshAccounts, subscribeNetwork, subscribePolySelectedAccount } from '../messaging';
 import { buildHierarchy } from '../util/buildHierarchy';
 import Accounts from './Accounts';
 import Authorize from './Authorize';
@@ -27,7 +27,8 @@ import RestoreJson from './RestoreJson';
 import Metadata from './Metadata';
 import Signing from './Signing';
 import Welcome from './Welcome';
-
+import { IdentifiedAccount } from '@polymath/extension/types';
+import { PolymeshContext as PolymeshContextType } from '../types';
 const startSettings = uiSettings.get();
 
 // Request permission for video, based on access we can hide/show import
@@ -58,9 +59,18 @@ function initAccountContext (accounts: AccountJson[]): AccountsContext {
   };
 }
 
+function initPolymeshContext (network: string, polymeshAccounts:IdentifiedAccount[], selectedAccount: string): PolymeshContextType {
+  return {
+    network,
+    polymeshAccounts,
+    selectedAccount
+  };
+}
+
 export default function Popup (): React.ReactElement {
   const [accounts, setAccounts] = useState<null | AccountJson[]>(null);
   const [accountCtx, setAccountCtx] = useState<AccountsContext>({ accounts: [], hierarchy: [] });
+  const [polymeshCtx, setPolymeshCtx] = useState<PolymeshContextType>({ network: '', polymeshAccounts: [] });
   const [authRequests, setAuthRequests] = useState<null | AuthorizeRequest[]>(null);
   const [cameraOn, setCameraOn] = useState(startSettings.camera === 'on');
   const [mediaAllowed, setMediaAllowed] = useState(false);
@@ -68,6 +78,9 @@ export default function Popup (): React.ReactElement {
   const [signRequests, setSignRequests] = useState<null | SigningRequest[]>(null);
   const [isWelcomeDone, setWelcomeDone] = useState(false);
   const [settingsCtx, setSettingsCtx] = useState<SettingsStruct>(startSettings);
+  const [network, setNetwork] = useState('');
+  const [polymeshAccounts, setPolymeshAccounts] = useState<IdentifiedAccount[]>([]);
+  const [selectedAccountAddress, setSelectedAccountAddress] = useState<string>();
   const [isPolyReady, setIsPolyReady] = useState<boolean>(false);
 
   const _onAction = (to?: string): void => {
@@ -80,11 +93,14 @@ export default function Popup (): React.ReactElement {
 
   useEffect((): void => {
     Promise.all([
+      subscribeIsReady(setIsPolyReady),
+      subscribePolymeshAccounts(setPolymeshAccounts),
+      subscribeNetwork(setNetwork),
       subscribeAccounts(setAccounts),
       subscribeAuthorizeRequests(setAuthRequests),
       subscribeMetadataRequests(setMetaRequests),
       subscribeSigningRequests(setSignRequests),
-      subscribeIsReady(() => setIsPolyReady(true))
+      subscribePolySelectedAccount(setSelectedAccountAddress)
     ]).catch(console.error);
 
     uiSettings.on('change', (settings): void => {
@@ -98,7 +114,8 @@ export default function Popup (): React.ReactElement {
 
   useEffect((): void => {
     setAccountCtx(initAccountContext(accounts || []));
-  }, [accounts]);
+    setPolymeshCtx(initPolymeshContext(network, polymeshAccounts, selectedAccountAddress || ''));
+  }, [accounts, network, polymeshAccounts, selectedAccountAddress]);
 
   useEffect((): void => {
     requestMediaAccess(cameraOn)
@@ -117,7 +134,7 @@ export default function Popup (): React.ReactElement {
     : Welcome;
 
   return (
-    <Loading>{accounts && authRequests && metaRequests && signRequests && (
+    <Loading>{accounts && authRequests && metaRequests && signRequests && isPolyReady && (
       <ActionContext.Provider value={_onAction}>
         <SettingsContext.Provider value={settingsCtx}>
           <AccountContext.Provider value={accountCtx}>
@@ -125,24 +142,26 @@ export default function Popup (): React.ReactElement {
               <MediaContext.Provider value={cameraOn && mediaAllowed}>
                 <MetadataReqContext.Provider value={metaRequests}>
                   <SigningReqContext.Provider value={signRequests}>
-                    <ToastProvider>
-                      <Switch>
-                        <Route path='/account/create'><CreateAccount /></Route>
-                        <Route path='/account/forget/:address'><Forget /></Route>
-                        <Route path='/account/export/:address'><Export /></Route>
-                        <Route path='/account/import-qr'><ImportQr /></Route>
-                        <Route path='/account/import-seed'><ImportSeed /></Route>
-                        <Route path='/account/restore-json'><RestoreJson /></Route>
-                        <Route path='/account/derive/:address/locked'><Derive isLocked /></Route>
-                        <Route path='/account/derive/:address'><Derive /></Route>
-                        <Route
-                          exact
-                          path='/'
-                        >
-                          <Root />
-                        </Route>
-                      </Switch>
-                    </ToastProvider>
+                    <PolymeshContext.Provider value={polymeshCtx}>
+                      <ToastProvider>
+                        <Switch>
+                          <Route path='/account/create'><CreateAccount /></Route>
+                          <Route path='/account/forget/:address'><Forget /></Route>
+                          <Route path='/account/export/:address'><Export /></Route>
+                          <Route path='/account/import-qr'><ImportQr /></Route>
+                          <Route path='/account/import-seed'><ImportSeed /></Route>
+                          <Route path='/account/restore-json'><RestoreJson /></Route>
+                          <Route path='/account/derive/:address/locked'><Derive isLocked /></Route>
+                          <Route path='/account/derive/:address'><Derive /></Route>
+                          <Route
+                            exact
+                            path='/'
+                          >
+                            <Root />
+                          </Route>
+                        </Switch>
+                      </ToastProvider>
+                    </PolymeshContext.Provider>
                   </SigningReqContext.Provider>
                 </MetadataReqContext.Provider>
               </MediaContext.Provider>

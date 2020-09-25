@@ -80,7 +80,7 @@ export interface RequestSignatures {
   'pri(polyAccounts.subscribe)': [RequestPolyAccountsSubscribe, boolean, IdentifiedAccount[]];
   'pri(polyNetwork.subscribe)': [RequestPolyNetworkSubscribe, boolean, NetworkName];
   'pri(polySelectedAccount.subscribe)': [RequestPolySelectedAccountSubscribe, boolean, string | undefined];
-  'pri(polyIsReady.subscribe)': [RequestPolyIsReadySubscribe, boolean, void]
+  'pri(polyIsReady.subscribe)': [RequestPolyIsReadySubscribe, boolean, boolean]
   'pri(polyNetwork.set)': [RequestPolyNetworkSet, boolean];
   'pri(polySelectedAccount.set)': [RequestPolySelectedAccountSet, boolean];
   'pri(polyCallDetails.get)': [RequestPolyCallDetails, ResponsePolyCallDetails];

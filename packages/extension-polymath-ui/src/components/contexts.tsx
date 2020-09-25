@@ -8,6 +8,7 @@ import { AvailableThemes } from './themes';
 
 import React from 'react';
 import settings from '@polkadot/ui-settings';
+import { PolymeshContext as PolymeshContextType } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const noop = (): void => undefined;
@@ -21,6 +22,7 @@ const SettingsContext = React.createContext<SettingsStruct>(settings.get());
 const SigningReqContext = React.createContext<SigningRequest[]>([]);
 const ThemeSwitchContext = React.createContext<(theme: AvailableThemes) => void>(noop);
 const ToastContext = React.createContext<({show: (message: string) => void})>({ show: noop });
+const PolymeshContext = React.createContext<PolymeshContextType>({ network: '', polymeshAccounts: [] });
 
 export {
   AccountContext,
@@ -31,5 +33,6 @@ export {
   SettingsContext,
   SigningReqContext,
   ThemeSwitchContext,
-  ToastContext
+  ToastContext,
+  PolymeshContext
 };

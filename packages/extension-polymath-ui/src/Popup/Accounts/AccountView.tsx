@@ -1,71 +1,47 @@
 import React, { FC, useState, useContext } from 'react';
-import { Box, Text, Flex, TextEllipsis, Icon, Wrapper, Menu, MenuItem, TextInput } from '../../ui';
-import { AccountJson } from '@polkadot/extension-base/background/types';
-import { SvgAccount,
-  SvgCheck,
-  SvgCheckboxMarkedCircle,
-  SvgDotsVertical,
-  SvgWindowClose,
-  SvgAlertCircle } from '@polymath/extension-ui/assets/images/icons';
-import { editAccount } from '../../messaging';
-import { Button } from 'react-aria-menubutton';
-import { useHistory } from 'react-router-dom';
+import { IdentifiedAccount } from '@polymath/extension/types';
 import { formatters } from '../../util';
-import { ActionContext } from '../../components';
+import { Box, Text, TextEllipsis, Flex, Icon, StatusBadge, TextInput, ButtonSmall, LabelWithCopy } from '../../ui';
+import { SvgAccount,
+  SvgCheckboxMarkedCircle,
+  SvgPencilOutline,
+  SvgWindowClose,
+  SvgCheck } from '@polymath/extension-ui/assets/images/icons';
+import { editAccount, setPolySelectedAccount } from '../../messaging';
+import { ActionContext, Link } from '../../components';
 
-const colors = ['#F2E6FF', '#F1FEE1', '#FFEBF1', '#FFEAE1', '#E6F9FE', '#FAF5FF', '#E6FFFA', '#EBF4FF', '#DCEFFE'];
-
-export interface Props extends AccountJson {
-  className?: string;
-  parentName?: string;
-  selectAccount: (accountAddress: string) => void;
+export interface Props {
+  account: IdentifiedAccount;
+  isSelected?: boolean;
 }
 
-export const AccountView: FC<Props> = (props) => {
-  const { address, balance, did, isExternal, isHidden, name, selectAccount } = props;
-  const history = useHistory();
-  const [isEditing, setEditing] = useState(false);
-  const [newName, setNewName] = useState(name);
+export const AccountView: FC<Props> = ({ account, isSelected }) => {
+  const { address, balance, did, keyType, name } = account;
+
   const onAction = useContext(ActionContext);
 
-  const stringToColor = (str: string) => {
-    let hash = 0;
+  const [isEditing, setEditing] = useState(false);
+  const [newName, setNewName] = useState(name);
+  const [hover, setHover] = useState(false);
 
-    for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
+  const renderType = (keyType: string) => {
+    const color = keyType === 'primary' ? 'green' : 'blue';
+    const text = keyType === 'primary' ? 'Master' : 'Secondary';
 
-    let colorIndex = (hash >> 8) & 0xf;
-
-    if (colorIndex >= colors.length) {
-      colorIndex = colorIndex - colors.length;
-    }
-
-    return colors[colorIndex];
-  };
-
-  const handleMenuClick = (event: any) => {
-    console.log('click', event);
-
-    switch (event) {
-      case 'select':
-        return selectAccount(address);
-      case 'derive':
-        return history.push(`/account/derive/${address}/locked`);
-      case 'export':
-        return history.push(`/account/export/${address}`);
-      case 'forget':
-        return history.push(`/account/forget/${address}`);
-      case 'rename':
-        return setEditing(true);
-    }
+    return (
+      !isEditing && did && <StatusBadge variant={color}>{text}</StatusBadge>
+    );
   };
 
   const cancelEditing = () => {
     setEditing(false);
   };
 
-  const handleNameChange = (e: any) => {
+  const editName = () => {
+    setEditing(true);
+  };
+
+  const handleNameChange = (e) => {
     setNewName(e.target.value);
   };
 
@@ -78,128 +54,187 @@ export const AccountView: FC<Props> = (props) => {
       .catch(console.error);
   };
 
-  const renderMenuItems = () => {
+  const mouseEnter = () => {
+    setHover(true);
+  };
+
+  const mouseLeave = () => {
+    setHover(false);
+  };
+
+  const selectAccount = () => {
+    console.log('SELECTING', address);
+    setPolySelectedAccount(address)
+      .then(() => {
+        onAction();
+      })
+      .catch(console.error);
+  };
+
+  const renderAccountInfo = () => {
     return (
       <>
-        <MenuItem value='select'>Select</MenuItem>
-        <MenuItem value='rename'>Rename</MenuItem>
-        {!isExternal && <MenuItem value='derive'>Derive new account</MenuItem>}
-        <MenuItem value='export'>Export account</MenuItem>
-        <MenuItem value='forget'>Forget account</MenuItem>
-      </>
-    );
-  };
-
-  const renderStatus = (isVerified: boolean) => {
-    const color = isVerified ? 'success' : 'alert';
-    const iconAsset = isVerified ? SvgCheckboxMarkedCircle : SvgAlertCircle;
-
-    return <Icon Asset={iconAsset}
-      color={color}
-      height={14}
-      width={14} />;
-  };
-
-  return (
-    <Box borderRadius='2'
-      boxShadow='3'
-      m='s'
-      pb='s'
-      pt='s'>
-      <Box bg={stringToColor(address)}
-        borderRadius='2'
-        mx='s'>
-        <Flex flexDirection='row'
-          justifyContent='space-between'>
-          <Flex flexDirection='row'
-            px='1'>
-            <Text color='brandMain'
-              variant='c2'>
-              Did Label
-            </Text>
-            <Box mx='1'>
-              <Text color='gray.2'
-                variant='c2'>
-                {did && <TextEllipsis size={12}>{did}</TextEllipsis>}
-              </Text>
-            </Box>
-          </Flex>
-          <Flex flexDirection='row'
-            justifyContent='space-between'>
-            <Box mr='1'>{renderStatus(false)}</Box>
-            <Box mr='1'>
-              <Wrapper onSelection={handleMenuClick}>
-                <Button>
-                  <Icon Asset={SvgDotsVertical}
-                    color='gray.1'
-                    height={16}
-                    width={16} />
-                </Button>
-                <Menu>{renderMenuItems()}</Menu>
-              </Wrapper>
-            </Box>
-          </Flex>
-        </Flex>
-      </Box>
-      <Box bg={isHidden ? 'gray.0' : 'gray.5'}
-        mt='s'
-        px='s'>
-        <Flex flexDirection='row'
-          justifyContent='space-between'>
+        <Flex
+          flexDirection='row'
+          justifyContent='space-between'
+        >
           <Flex flexDirection='row'>
-            <Box backgroundColor='brandLightest'
-              borderRadius='50%'
-              height={32}
-              px='2'
-              width={32}>
-              <Icon Asset={SvgAccount}
-                color='brandMain'
-                height={14}
-                width={14} />
-            </Box>
-            <Box ml='s'>
-              {isEditing && (
-                <Flex flexDirection='row'>
-                  <TextInput defaultValue={name}
-                    onChange={handleNameChange}
-                    value={newName} />
-                  <Box ml='xs'>
-                    <Icon Asset={SvgCheck}
-                      color='gray.2'
-                      height={16}
-                      onClick={save}
-                      width={16} />
-                  </Box>
-                  <Box ml='xs'>
-                    <Icon Asset={SvgWindowClose}
-                      color='gray.2'
-                      height={16}
-                      onClick={cancelEditing}
-                      width={16} />
-                  </Box>
-                </Flex>
-              )}
-              {!isEditing && (
+            {isEditing && (
+              <Flex flexDirection='row'>
+                <TextInput defaultValue={name}
+                  onChange={handleNameChange}
+                  value={newName} />
+                <Box ml='xs'>
+                  <Icon Asset={SvgCheck}
+                    color='gray.2'
+                    height={16}
+                    onClick={save}
+                    width={16} />
+                </Box>
+                <Box ml='xs'>
+                  <Icon Asset={SvgWindowClose}
+                    color='gray.2'
+                    height={16}
+                    onClick={cancelEditing}
+                    width={16} />
+                </Box>
+              </Flex>
+            )}
+            {!isEditing && (
+              <Flex flexDirection='row'>
                 <Text color='gray.1'
                   variant='b2m'>
                   {name}
                 </Text>
-              )}
-
-              <Box>
-                <Text color='gray.3'
-                  variant='b3'>
-                  {formatters.formatAmount(balance, 2, true)} POLYX
-                </Text>
-              </Box>
+                <Box ml='xs'>
+                  <Icon Asset={SvgPencilOutline}
+                    color='gray.2'
+                    height={16}
+                    onClick={editName}
+                    width={16} />
+                </Box>
+              </Flex>
+            )}
+            <Box ml='s'>
+              {renderType(keyType)}
             </Box>
           </Flex>
-          <Box>{!isHidden && <Icon Asset={SvgCheck}
-            color='brandMain'
-            height={24}
-            width={24} />}</Box>
+          {
+            isSelected &&
+              <Icon Asset={SvgCheck}
+                color='brandMain'
+                height={24}
+                width={24} />
+          }
         </Flex>
-      </Box>
+        <Flex
+          flexDirection='row'
+          justifyContent='space-between'
+        >
+          <LabelWithCopy color='gray.3'
+            text={address}
+            textSize={13}
+            textVariant='b3'
+          />
+          <Box>
+            <Text color='gray.1'
+              variant='b3'>
+              {formatters.formatAmount(balance, 2, true)} POLYX
+            </Text>
+          </Box>
+        </Flex>
+      </>
+    );
+  };
+
+  const renderHoverAccountInfo = () => {
+    return (
+      <>
+        <Flex
+          flexDirection='row'
+          justifyContent='space-between'
+        >
+          <Box>
+            {isEditing && (
+              <Flex flexDirection='row'>
+                <TextInput defaultValue={name}
+                  onChange={handleNameChange}
+                  value={newName} />
+                <Box ml='xs'>
+                  <Icon Asset={SvgCheck}
+                    color='gray.2'
+                    height={16}
+                    onClick={save}
+                    width={16} />
+                </Box>
+                <Box ml='xs'>
+                  <Icon Asset={SvgWindowClose}
+                    color='gray.2'
+                    height={16}
+                    onClick={cancelEditing}
+                    width={16} />
+                </Box>
+              </Flex>
+            )}
+            {!isEditing && (
+              <Flex flexDirection='row'>
+                <Text color='gray.1'
+                  variant='b2m'>
+                  {name}
+                </Text>
+                <Box ml='xs'>
+                  <Icon Asset={SvgPencilOutline}
+                    color='gray.2'
+                    height={16}
+                    onClick={editName}
+                    width={16} />
+                </Box>
+              </Flex>
+            )}
+            <LabelWithCopy color='gray.3'
+              text={address}
+              textSize={13}
+              textVariant='b3'
+            />
+          </Box>
+          <Box>
+            <ButtonSmall variant='secondary'>Assign</ButtonSmall>
+          </Box>
+        </Flex>
+      </>
+    );
+  };
+
+  return (
+    <Box
+      bg={isSelected ? 'gray.5' : 'gray.0'}
+      mt='s'
+      onClick={selectAccount}
+      onMouseEnter={mouseEnter}
+      onMouseLeave={mouseLeave}
+      px='s'>
+      <Flex justifyContent='space-between'>
+        <Box>
+          <Box
+            backgroundColor='brandLightest'
+            borderRadius='50%'
+            height={32}
+            px='2'
+            width={32}
+          >
+            <Flex justifyContent='center'
+              pt='xs'>
+              <Text color='brandMain'
+                variant='b2m'>{name.substr(0, 1)}</Text>
+            </Flex>
+          </Box>
+        </Box>
+        <Box ml='s'
+          width='100%'>
+          {(!hover || did) && renderAccountInfo()}
+          {(hover && !did) && renderHoverAccountInfo()}
+        </Box>
+      </Flex>
     </Box>
   );
 };

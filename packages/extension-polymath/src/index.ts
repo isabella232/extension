@@ -12,6 +12,7 @@ import { encodeAddress } from '@polkadot/util-crypto';
 
 import { actions as accountActions } from './store/features/accounts';
 import { actions as identityActions } from './store/features/identities';
+import { actions as statusActions } from './store/features/status';
 import store, { Dispatch } from './store';
 import { AccountData, IdentityData, UnsubCallback } from './types';
 import { subscribeDidsList } from './store/subscribers';
@@ -84,6 +85,8 @@ function meshAccountsEnhancer (dispatch: Dispatch): void {
               })
               .catch(console.error);
           }
+
+          dispatch(statusActions.setIsReady(true));
         }).then((unsub) => {
           unsubCallbacks[account] = unsub;
         }).catch(console.error);

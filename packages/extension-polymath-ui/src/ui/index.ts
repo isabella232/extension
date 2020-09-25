@@ -1,4 +1,5 @@
 export { Button } from './Button';
+export { ButtonSmall } from './ButtonSmall';
 export { Box } from './Box';
 export { Icon } from './Icon';
 export { VerticalSpace } from './VerticalSpace';
@@ -14,3 +15,4 @@ export { Wrapper, Menu, MenuItem } from './Menu';
 export { StatusBadge } from './StatusBadge';
 export { BaseInput } from './BaseInput';
 export { TextInput } from './TextInput';
+export { LabelWithCopy } from './LabelWithCopy';
