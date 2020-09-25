@@ -17,7 +17,7 @@ import { keyExtractSuri, mnemonicGenerate, mnemonicValidate } from '@polkadot/ut
 import State from './State';
 import { createSubscription, unsubscribe } from './subscriptions';
 
-import { subscribeAccountsCount, subscribeIdentifiedAccounts, subscribeNetwork, subscribeSelectedAccount } from '@polymath/extension/store/subscribers';
+import { subscribeIdentifiedAccounts, subscribeIsReady, subscribeNetwork, subscribeSelectedAccount } from '@polymath/extension/store/subscribers';
 import { setNetwork, setSelectedAccount, renameIdentity } from '@polymath/extension/store/setters';
 import { callDetails } from '@polymath/extension/api';
 
@@ -161,7 +161,6 @@ export default class Extension {
 
     const reduxUnsub = subscribeNetwork((network) => {
       cb(network);
-      reduxUnsub();
       unsubscribe(id);
     });
 
@@ -179,7 +178,6 @@ export default class Extension {
     const reduxUnsub = subscribeSelectedAccount((selected) => {
       cb(selected);
       unsubscribe(id);
-      reduxUnsub();
     });
 
     port.onDisconnect.addListener((): void => {
@@ -191,21 +189,16 @@ export default class Extension {
   }
 
   private polyIsReadySubscribe (id: string, port: chrome.runtime.Port): boolean {
-    const cb: (data: void) => void = createSubscription<'pri(polyIsReady.subscribe)'>(id, port);
+    const cb = createSubscription<'pri(polyIsReady.subscribe)'>(id, port);
 
-    // Store is ready once accounts count in Redux match the one of keyring.
-
-    const reduxUnsub = subscribeAccountsCount((count) => {
-      if (Object.values(accountsObservable.subject.value).length === count) {
-        unsubscribe(id);
-        reduxUnsub();
-        cb();
-      }
+    const reduxUnsub = subscribeIsReady((isReady) => {
+      cb(isReady);
+      unsubscribe(id);
     });
 
     port.onDisconnect.addListener((): void => {
-      unsubscribe(id);
       reduxUnsub();
+      unsubscribe(id);
     });
 
     return true;

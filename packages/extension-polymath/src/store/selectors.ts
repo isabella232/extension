@@ -70,3 +70,8 @@ export const selectedAccount = createSelector(
     return undefined;
   }
 );
+
+export const isReady = createSelector(
+  (state: RootState) => state.status.isReady,
+  (isReady) => isReady
+);

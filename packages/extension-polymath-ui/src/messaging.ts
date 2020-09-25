@@ -191,7 +191,7 @@ export async function subscribePolySelectedAccount (cb: (selected: string | unde
   return sendMessage('pri(polySelectedAccount.subscribe)', null, cb);
 }
 
-export async function subscribeIsReady (cb: () => void): Promise<boolean> {
+export async function subscribeIsReady (cb: (isReady: boolean) => void): Promise<boolean> {
   return sendMessage('pri(polyIsReady.subscribe)', null, cb);
 }
 
