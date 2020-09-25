@@ -5,11 +5,12 @@
 import React from 'react';
 
 interface Props {
+  showLoading?: boolean;
   children?: React.ReactNode;
 }
 
-export default function Loading ({ children }: Props): React.ReactElement<Props> {
-  if (!children) {
+export default function Loading ({ children, showLoading }: Props): React.ReactElement<Props> {
+  if (!children || showLoading) {
     return (
       <div>... loading ...</div>
     );

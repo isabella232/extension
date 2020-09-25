@@ -44,8 +44,8 @@ export type AccountWithChildren = AccountJson & {
 export type AccountsContext = {
   accounts: AccountJson[];
   hierarchy: AccountWithChildren[];
-  polymeshAccounts: IdentifiedAccount[];
-  network: string;
+  polymeshAccounts?: IdentifiedAccount[];
+  network?: string;
   master?: AccountJson;
   selectedAccount?: string;
 }

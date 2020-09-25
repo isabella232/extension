@@ -26,7 +26,7 @@ const ButtonComponent: ForwardRefRenderFunction<HTMLButtonElement, React.PropsWi
 };
 
 const ButtonWithRef = React.forwardRef(ButtonComponent);
-
+console.log('BUTTON RESET', buttonReset);
 export const Button = styled(ButtonWithRef)<ButtonProps>(
   buttonReset,
   ({ fluid, iconPosition, theme, tight }) => ({

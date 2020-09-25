@@ -93,7 +93,7 @@ export default function Popup (): React.ReactElement {
       subscribeAuthorizeRequests(setAuthRequests),
       subscribeMetadataRequests(setMetaRequests),
       subscribeSigningRequests(setSignRequests),
-      subscribePolySelectedAccount(setSelectedAccountAddress)
+      subscribePolySelectedAccount(setSelectedAccountAddress),
       subscribeIsReady(() => setIsPolyReady(true))
     ]).catch(console.error);
 
@@ -127,7 +127,7 @@ export default function Popup (): React.ReactElement {
     : Welcome;
 
   return (
-    <Loading>{accounts && authRequests && metaRequests && signRequests && (
+    <Loading showLoading={isPolyReady}>{accounts && authRequests && metaRequests && signRequests && (
       <ActionContext.Provider value={_onAction}>
         <SettingsContext.Provider value={settingsCtx}>
           <AccountContext.Provider value={accountCtx}>

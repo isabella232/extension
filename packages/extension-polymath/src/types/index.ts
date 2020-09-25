@@ -19,7 +19,7 @@ export type IdentityData = {
 }
 
 export type IdentifiedAccount = {
-  name: string;
+  name?: string;
   did?: string;
   keyType?: DidType;
   cdd?: boolean;
@@ -27,7 +27,6 @@ export type IdentifiedAccount = {
   didType?: DidType;
   didAlias: string;
   balance?: string;
-  name?: string;
 }
 
 export type UnsubCallback = () => void;

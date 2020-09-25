@@ -4,7 +4,7 @@
 
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
-
+import BigNumber from 'bignumber.js';
 import { AccountContext, Link } from '../../components';
 import AddAccount from './AddAccount';
 import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button, StatusBadge, LabelWithCopy } from '../../ui';
@@ -22,7 +22,7 @@ export default function Accounts (): React.ReactElement {
   const { hierarchy, network, polymeshAccounts, selectedAccount } = useContext(AccountContext);
 
   useEffect(() => {
-    setCurrentAccount(polymeshAccounts.find((account) => (account.address === selectedAccount)));
+    polymeshAccounts && setCurrentAccount(polymeshAccounts.find((account) => (account.address === selectedAccount)));
   },
   [polymeshAccounts, selectedAccount]
   );
@@ -140,7 +140,7 @@ export default function Accounts (): React.ReactElement {
               mt='1'>
               <Heading color='gray.0'
                 variant='h5'>
-                {formatters.formatAmount(currentAccount?.balance, 2, true)}
+                {formatters.formatAmount(new BigNumber(currentAccount?.balance || 0), 2, true)}
               </Heading>
               <Box ml='s'>
                 <Text color='gray.0'
