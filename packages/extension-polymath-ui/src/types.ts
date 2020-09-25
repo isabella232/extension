@@ -3,9 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Theme } from './components/themes';
+import { IdentifiedAccount } from '@polymath/extension/types';
 
 export { Theme };
 
 export interface ThemeProps {
   theme: Theme;
+}
+
+export type PolymeshContext = {
+  selectedAccount?: string;
+  polymeshAccounts?: IdentifiedAccount[];
+  network?: string;
 }

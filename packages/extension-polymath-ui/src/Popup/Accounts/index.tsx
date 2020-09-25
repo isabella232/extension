@@ -5,7 +5,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { AccountContext, Link } from '../../components';
+import { AccountContext, Link, PolymeshContext } from '../../components';
 import AddAccount from './AddAccount';
 import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button, StatusBadge, LabelWithCopy } from '../../ui';
 import { SvgCheckboxMarkedCircle,
@@ -19,7 +19,8 @@ import { AccountsContainer } from './AccountsContainer';
 
 export default function Accounts (): React.ReactElement {
   const [currentAccount, setCurrentAccount] = useState<IdentifiedAccount>();
-  const { hierarchy, network, polymeshAccounts, selectedAccount } = useContext(AccountContext);
+  const { hierarchy } = useContext(AccountContext);
+  const { network, polymeshAccounts, selectedAccount } = useContext(PolymeshContext);
 
   useEffect(() => {
     setCurrentAccount(polymeshAccounts.find((account) => (account.address === selectedAccount)));
