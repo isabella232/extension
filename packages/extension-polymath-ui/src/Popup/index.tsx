@@ -87,14 +87,14 @@ export default function Popup (): React.ReactElement {
 
   useEffect((): void => {
     Promise.all([
+      subscribeIsReady(setIsPolyReady),
       subscribePolymeshAccounts(setPolymeshAccounts),
       subscribeNetwork(setNetwork),
       subscribeAccounts(setAccounts),
       subscribeAuthorizeRequests(setAuthRequests),
       subscribeMetadataRequests(setMetaRequests),
       subscribeSigningRequests(setSignRequests),
-      subscribePolySelectedAccount(setSelectedAccountAddress),
-      subscribeIsReady(() => setIsPolyReady(true))
+      subscribePolySelectedAccount(setSelectedAccountAddress)
     ]).catch(console.error);
 
     uiSettings.on('change', (settings): void => {
@@ -127,7 +127,7 @@ export default function Popup (): React.ReactElement {
     : Welcome;
 
   return (
-    <Loading>{accounts && authRequests && metaRequests && signRequests && (
+    <Loading>{accounts && authRequests && metaRequests && signRequests && isPolyReady && (
       <ActionContext.Provider value={_onAction}>
         <SettingsContext.Provider value={settingsCtx}>
           <AccountContext.Provider value={accountCtx}>

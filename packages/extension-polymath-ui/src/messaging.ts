@@ -14,7 +14,7 @@ import { metadataExpand } from '@polkadot/extension-chains';
 import chrome from '@polkadot/extension-inject/chrome';
 import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { SignerPayloadJSON } from '@polkadot/types/types';
-import { NetworkName } from '@polymath/extension/types';
+import { NetworkName, IdentifiedAccount } from '@polymath/extension/types';
 
 interface Handler {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -191,7 +191,7 @@ export async function subscribePolySelectedAccount (cb: (selected: string | unde
   return sendMessage('pri(polySelectedAccount.subscribe)', null, cb);
 }
 
-export async function subscribeIsReady (cb: () => void): Promise<boolean> {
+export async function subscribeIsReady (cb: (isReady: boolean) => void): Promise<boolean> {
   return sendMessage('pri(polyIsReady.subscribe)', null, cb);
 }
 
