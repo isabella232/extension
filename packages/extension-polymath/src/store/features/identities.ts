@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IdentityData, NetworkName } from '../../types';
+import { CDD, IdentityData, NetworkName } from '../../types';
 import isEqual from 'lodash/isEqual';
 import merge from 'lodash/merge';
 
@@ -13,6 +13,7 @@ const initialState: State = {
 type SetIdentityPayload = { network: NetworkName, data: IdentityData };
 type RemoveIdentityPayload = { network: NetworkName, did: string };
 type RenameIdentityPayload = { network: NetworkName, did: string, name: string };
+type SetIdentityCddPayload = { network: NetworkName, did: string, cdd?: CDD };
 
 const identitiesSlice = createSlice({
   name: 'identities',
@@ -35,6 +36,9 @@ const identitiesSlice = createSlice({
       const { did, name, network } = action.payload;
 
       state[network][did].alias = name;
+    },
+    setIdentityCdd (state, { payload: { cdd, did, network } }: PayloadAction<SetIdentityCddPayload>) {
+      state[network][did].cdd = cdd;
     }
   }
 });
