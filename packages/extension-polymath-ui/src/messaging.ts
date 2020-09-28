@@ -14,7 +14,7 @@ import { metadataExpand } from '@polkadot/extension-chains';
 import chrome from '@polkadot/extension-inject/chrome';
 import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { SignerPayloadJSON } from '@polkadot/types/types';
-import { NetworkName, IdentifiedAccount } from '@polymath/extension/types';
+import { IdentifiedAccount, NetworkName } from '@polymath/extension/types';
 
 interface Handler {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

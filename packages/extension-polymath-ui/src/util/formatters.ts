@@ -21,5 +21,5 @@ export const formatAmount = (amount: BigNumber, minimumFractionDigits = 0, scale
     minimumFractionDigits
   });
 
-  return formattter.format(parseFloat((scaleDown ? amount / 1000000 : amount).toString()));
+  return formattter.format(parseFloat((scaleDown ? amount.div(1000000) : amount).toString()));
 };

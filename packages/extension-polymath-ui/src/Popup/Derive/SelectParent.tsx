@@ -15,6 +15,7 @@ import DerivationPath from './DerivationPath';
 interface Props {
   isLocked?: boolean;
   parentAddress: string;
+  parentGenesis: string | null;
   onDerivationConfirmed: (derivation: { account: { address: string; suri: string }; parentPassword: string }) => void;
 }
 

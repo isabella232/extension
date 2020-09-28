@@ -4,10 +4,10 @@
 
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
-
+import BigNumber from 'bignumber.js';
 import { AccountContext, Link, PolymeshContext } from '../../components';
 import AddAccount from './AddAccount';
-import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button, StatusBadge, LabelWithCopy } from '../../ui';
+import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, StatusBadge, LabelWithCopy } from '../../ui';
 import { SvgCheckboxMarkedCircle,
   SvgAlertCircle,
   SvgViewDashboard,
@@ -16,6 +16,7 @@ import { SvgCheckboxMarkedCircle,
 import { formatters } from '../../util';
 import { IdentifiedAccount } from '@polymath/extension/types';
 import { AccountsContainer } from './AccountsContainer';
+import { hasKey } from '@polymath/extension-ui/styles/utils';
 
 export default function Accounts (): React.ReactElement {
   const [currentAccount, setCurrentAccount] = useState<IdentifiedAccount>();
@@ -23,7 +24,7 @@ export default function Accounts (): React.ReactElement {
   const { network, polymeshAccounts, selectedAccount } = useContext(PolymeshContext);
 
   useEffect(() => {
-    setCurrentAccount(polymeshAccounts.find((account) => (account.address === selectedAccount)));
+    polymeshAccounts && setCurrentAccount(polymeshAccounts.find((account) => (account.address === selectedAccount)));
   },
   [polymeshAccounts, selectedAccount]
   );
@@ -51,19 +52,22 @@ export default function Accounts (): React.ReactElement {
     );
   };
 
-  const groupAccounts = (key: string) => (array:IdentifiedAccount[]) =>
-    array.reduce((groupedAccounts: IdentifiedAccount[], account: IdentifiedAccount) => {
-      const value = account[key];
+  const groupAccounts = () => (array:IdentifiedAccount[]) =>
+    array.reduce((groupedAccounts: Record<string, IdentifiedAccount[]>, account: IdentifiedAccount) => {
+      const value = account.did ? account.did : 'unassigned';
 
       groupedAccounts[value] = (groupedAccounts[value] || []).concat(account);
 
       return groupedAccounts;
     }, {});
 
-  const groupedAccounts = groupAccounts('did')(polymeshAccounts);
+  const groupedAccounts = polymeshAccounts ? groupAccounts()(polymeshAccounts) : {};
 
-  console.log('ACCOUNTS', polymeshAccounts);
-  console.log('SELECTED ACCOUNT', selectedAccount);
+  const getHeaderColor = (index: number) => {
+    const colors = ['#DCEFFE', '#F2E6FF', '#F1FEE1', '#FFEBF1', '#FFEAE1', '#E6F9FE', '#FAF5FF', '#E6FFFA', '#EBF4FF'];
+
+    return colors[index % (colors.length - 1)];
+  };
 
   return (
     <>
@@ -141,7 +145,7 @@ export default function Accounts (): React.ReactElement {
               mt='1'>
               <Heading color='gray.0'
                 variant='h5'>
-                {formatters.formatAmount(currentAccount?.balance, 2, true)}
+                {formatters.formatAmount(new BigNumber(currentAccount?.balance || 0), 2, true)}
               </Heading>
               <Box ml='s'>
                 <Text color='gray.0'
@@ -190,9 +194,10 @@ export default function Accounts (): React.ReactElement {
               </Link>
             </Flex>
             {
-              Object.keys(groupedAccounts).sort((a) => (a === undefined ? 1 : -1)).map((did: string, index) => {
+              Object.keys(groupedAccounts).sort((a) => (a === 'unassigned' ? 1 : -1)).map((did: string, index) => {
                 return <AccountsContainer
-                  accounts={groupedAccounts[did]}
+                  accounts={hasKey(groupedAccounts, did) ? groupedAccounts[did] : []}
+                  headerColor={getHeaderColor(index)}
                   headerText={did}
                   key={index}
                   selectedAccount={selectedAccount || ''}

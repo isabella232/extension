@@ -17,7 +17,7 @@ export interface Props
    */
   checked?: boolean;
   name?: React.AllHTMLAttributes<HTMLInputElement>['name'];
-  label?: React.ComponentType | string;
+  label?: React.ReactNode | string;
   indeterminate?: boolean;
 }
 

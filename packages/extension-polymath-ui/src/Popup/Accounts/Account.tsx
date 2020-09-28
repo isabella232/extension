@@ -15,6 +15,8 @@ import { Name } from '../../partials';
 interface Props extends AccountJson {
   className?: string;
   parentName?: string;
+  balance: number;
+  did: string;
 }
 
 interface EditState {

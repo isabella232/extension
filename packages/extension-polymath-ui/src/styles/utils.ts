@@ -71,3 +71,7 @@ export const visuallyHidden: Styles = () => ({
   clip: 'rect(0, 0, 0, 0)',
   border: 0
 });
+
+export function hasKey<O> (obj: O, key: keyof any): key is keyof O {
+  return key in obj;
+}
