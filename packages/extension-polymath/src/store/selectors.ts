@@ -29,7 +29,7 @@ export const reversedDidList = createSelector(
 
       reversedList[identity.priKey] = { ...data, keyType: DidType.primary };
 
-      identity.secKeys.forEach((secKey) => {
+      identity.secKeys?.forEach((secKey) => {
         reversedList[secKey] = { ...data, keyType: DidType.secondary };
       });
 

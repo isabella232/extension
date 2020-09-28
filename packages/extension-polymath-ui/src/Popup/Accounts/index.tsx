@@ -112,7 +112,7 @@ export default function Accounts (): React.ReactElement {
                         <TextEllipsis size={29}>{currentAccount?.did}</TextEllipsis>
                       </Text>
                     </Flex>
-                    {renderStatus(currentAccount.cdd)}
+                    {renderStatus(currentAccount.cdd !== undefined)}
                   </Flex>
                 )}
               </Box>

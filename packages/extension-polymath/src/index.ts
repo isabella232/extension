@@ -6,7 +6,7 @@ import difference from 'lodash-es/difference';
 import intersection from 'lodash-es/intersection';
 
 import apiPromise from './api/apiPromise';
-import { DidRecord, LinkedKeyInfo, CddStatus } from './api/apiPromise/types';
+import { DidRecord, LinkedKeyInfo, CddStatus, IdentityClaim } from './api/apiPromise/types';
 import { AccountInfo } from '@polkadot/types/interfaces/system';
 import { encodeAddress } from '@polkadot/util-crypto';
 
@@ -37,6 +37,11 @@ function meshAccountsEnhancer (dispatch: Dispatch): void {
     let prevAccounts: string[] = [];
     let prevDids: string[] = [];
     const network = getNetwork();
+    let activeIssuers: string[] = [];
+
+    api.query.cddServiceProviders.activeMembers((members) => {
+      activeIssuers = (members as unknown as string[]).map((member) => member.toString());
+    }).then(console.log).catch(console.error);
 
     // @TODO manage this subscription. Perhaps on port disconnect
     observeAccounts((accountsData: KeyringAccountData[]) => {
@@ -70,20 +75,11 @@ function meshAccountsEnhancer (dispatch: Dispatch): void {
           dispatch(accountActions.setAccount({ data: accountData, network }));
 
           if (!linkedKeyInfo.unwrapOrDefault().isEmpty) {
-            const did = linkedKeyInfo.unwrapOrDefault().asUnique.toString();
-
-            // eslint-disable-next-line
-            (api.rpc as any).identity.isIdentityHasValidCdd(did)
-              .then((cddStatus: CddStatus) => {
-                dispatch(identityActions.setIdentity({ data: {
-                  cdd: cddStatus.isOk,
-                  did,
-                  priKey: account,
-                  secKeys: []
-                },
-                network }));
-              })
-              .catch(console.error);
+            dispatch(identityActions.setIdentity({ data: {
+              did: linkedKeyInfo.unwrapOrDefault().asUnique.toString(),
+              priKey: account
+            },
+            network }));
           }
 
           dispatch(statusActions.setIsReady(true));
@@ -111,6 +107,7 @@ function meshAccountsEnhancer (dispatch: Dispatch): void {
       const removedDids = difference(prevDids, dids);
 
       newDids.forEach((did) => {
+        // Get the keys associated with this DID.
         api.query.identity.didRecords<DidRecord>(did, (didRecords) => {
           const priKey = encodeAddress(didRecords.primary_key);
           const secKeys = didRecords.secondary_keys.toArray().reduce((keys, item) => {
@@ -131,14 +128,37 @@ function meshAccountsEnhancer (dispatch: Dispatch): void {
             unsubCallbacks[did] = unsub;
           })
           .catch(console.error);
+
+        // Get the claims associated with this DID.
+        (api.query.identity.claims.entries as any)(
+          { target: did, claim_type: 'CustomerDueDiligence' },
+          (res: [unknown, IdentityClaim][]) => {
+            const claims = res
+              .map(([, claim]) => claim)
+              .filter((claim) => activeIssuers.indexOf(claim.claim_issuer.toString()) !== -1)
+              .filter((claim) => claim.expiry.isEmpty || Number(claim.expiry.toString()) > Date.now());
+
+            const cdd = claims.length > 0 ? {
+              issuer: claims[0].claim_issuer.toString(),
+              expiry: !claims[0].expiry.isEmpty ? Number(claims[0].expiry.toString()) : undefined
+            } : undefined;
+
+            dispatch(identityActions.setIdentityCdd({ network, did, cdd }));
+          }
+        ).then((unsub) => {
+          unsubCallbacks[`${did}:cdd`] = unsub as unknown as UnsubCallback;
+        })
+          .catch(console.error);
       });
 
       removedDids.forEach((did) => {
         unsubCallbacks[did]();
+        unsubCallbacks[`${did}:cdd`]();
       });
 
       prevDids = dids;
     });
+
     console.log('meshAccountsEnhancer initialization completed');
   }).catch((err) => console.error('meshAccountsEnhancer initialization failed', err));
 }

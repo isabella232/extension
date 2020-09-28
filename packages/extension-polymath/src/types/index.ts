@@ -11,18 +11,17 @@ export type AccountData = {
 }
 
 export type IdentityData = {
-  cdd?: boolean;
+  cdd?: CDD;
   did: string;
   priKey: string;
-  secKeys: string[];
+  secKeys?: string[];
   alias?: string;
 }
 
 export type IdentifiedAccount = {
-  name: string;
   did?: string;
   keyType?: DidType;
-  cdd?: boolean;
+  cdd?: CDD;
   address: string;
   didType?: DidType;
   didAlias: string;
@@ -33,9 +32,14 @@ export type IdentifiedAccount = {
 export type UnsubCallback = () => void;
 
 export type ReversedDidList =
-  Record<string, {did: string, keyType: DidType, cdd: boolean | undefined, didAlias: string}>;
+  Record<string, {did: string, keyType: DidType, cdd?: CDD, didAlias: string}>;
 
 export enum NetworkName {
   pmf = 'pmf',
   alcyone = 'alcyone'
+}
+
+export type CDD = {
+  issuer: string,
+  expiry?: number
 }
