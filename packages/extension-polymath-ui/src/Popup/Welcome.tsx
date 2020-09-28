@@ -7,8 +7,8 @@ import { ThemeProps as Props } from '../types';
 import React, { useContext, useState } from 'react';
 
 import { ActionContext } from '../components';
-import { Button, Box, Checkbox, Text, Header, Icon } from '../ui';
-import { SvgBull } from '../assets/images/Bull';
+import { Button, Box, Checkbox, Text, Header, Heading, Icon, ScrollableContainer } from '../ui';
+import { SvgPolyNew } from '../assets/images/icons';
 
 export default function Welcome (): React.ReactElement<Props> {
   const onAction = useContext(ActionContext);
@@ -22,13 +22,36 @@ export default function Welcome (): React.ReactElement<Props> {
   };
 
   return (
-    <>
+    <ScrollableContainer>
       <Header>
-        <Icon Asset={SvgBull}
-          height={140}
-          width={328} />
+        <Box mt='m'
+          pb='m'>
+          <Box
+            backgroundColor='brandLightest'
+            border='solid'
+            borderColor='white'
+            borderRadius='50%'
+            borderWidth={4}
+            height={80}
+            padding={13}
+            width={80}
+          >
+            <Icon Asset={SvgPolyNew}
+              color='brandMain'
+              height={50}
+              width={50} />
+          </Box>
+          <Box pt='m'
+            width={220}>
+            <Heading color='white'
+              variant='h4'>
+              Welcome to the Polymesh Wallet!
+            </Heading>
+          </Box>
+        </Box>
       </Header>
-      <Box mt='m'>
+      <Box mt='m'
+        mx='s'>
         <Box>
           <Text color='gray.1'>A couple of things to note before we begin:</Text>
         </Box>
@@ -94,13 +117,14 @@ export default function Welcome (): React.ReactElement<Props> {
         </Box>
       </Box>
       <Box mb='m'
-        mt='l'>
+        mt='l'
+        mx='s'>
         <Button disabled={!isPPChecked || !isTSChecked}
           fluid
           onClick={_onClick}>
           Continue
         </Button>
       </Box>
-    </>
+    </ScrollableContainer>
   );
 }
