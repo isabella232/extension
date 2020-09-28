@@ -10,7 +10,6 @@ import { networkURLs } from '../../constants';
 const apiPromise: Record<NetworkName, Promise<ApiPromise>> =
   Object.keys(NetworkName).reduce((acc, network) => {
     acc[network as NetworkName] = new Promise((resolve, reject) => {
-      console.log('============ creating api PROMISE for', network);
       ApiPromise.create({
         provider: new WsProvider(networkURLs[network as NetworkName]),
         rpc: meshSchema.rpc,

@@ -17,7 +17,7 @@ import { formatters } from '../../util';
 import { IdentifiedAccount, NetworkName } from '@polymath/extension/types';
 import { AccountsContainer } from './AccountsContainer';
 import { hasKey } from '@polymath/extension-ui/styles/utils';
-import { networkNames } from '@polymath/extension/constants';
+import { defaultNetwork, networkLabels } from '@polymath/extension/constants';
 import { setPolyNetwork } from '@polymath/extension-ui/messaging';
 
 export default function Accounts (): React.ReactElement {
@@ -54,6 +54,17 @@ export default function Accounts (): React.ReactElement {
     );
   };
 
+  const renderNetworksSelector = (network: NetworkName = defaultNetwork) => {
+    return (
+      <select onChange={handleNetworkChange}
+        value={network}>
+        {Object.keys(networkLabels).map((_network) => <option key={_network}
+          value={_network}>{networkLabels[_network as NetworkName]}</option>
+        )}
+      </select>
+    );
+  };
+
   const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value as NetworkName;
 
@@ -79,11 +90,6 @@ export default function Accounts (): React.ReactElement {
     return colors[index % (colors.length - 1)];
   };
 
-  const networkOptions = Object.keys(networkNames).map((_network) => {
-    return <option key={_network}
-      value={_network}>{networkNames[_network as NetworkName]}</option>;
-  });
-
   return (
     <>
       {hierarchy.length === 0 ? (
@@ -95,10 +101,7 @@ export default function Accounts (): React.ReactElement {
               flexDirection='row'
               justifyContent='space-between'
               mb='m'>
-              <select onChange={handleNetworkChange}
-                value={network}>
-                {networkOptions}
-              </select>
+              {renderNetworksSelector(network as NetworkName)}
               <Flex flexDirection='row'
                 justifyContent='center'>
                 <Icon Asset={SvgViewDashboard}
