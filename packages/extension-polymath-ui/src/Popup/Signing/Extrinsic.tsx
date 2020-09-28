@@ -119,6 +119,9 @@ function Extrinsic ({ className, isDecoded, payload: { era, nonce, tip }, reques
       .catch(console.error);
   }, [request]);
 
+  // Added to remove build error, willbe removed once the variable is used
+  console.log(callDetails);
+
   return (
     <Table
       className={className}

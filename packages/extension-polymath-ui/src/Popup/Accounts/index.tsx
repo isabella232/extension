@@ -16,6 +16,7 @@ import { SvgCheckboxMarkedCircle,
 import { formatters } from '../../util';
 import { IdentifiedAccount } from '@polymath/extension/types';
 import { AccountsContainer } from './AccountsContainer';
+import { hasKey } from '@polymath/extension-ui/styles/utils';
 
 export default function Accounts (): React.ReactElement {
   const [currentAccount, setCurrentAccount] = useState<IdentifiedAccount>();
@@ -60,10 +61,13 @@ export default function Accounts (): React.ReactElement {
       return groupedAccounts;
     }, {});
 
-  const groupedAccounts = groupAccounts('did')(polymeshAccounts);
+  const groupedAccounts = polymeshAccounts ? groupAccounts('did')(polymeshAccounts) : {};
 
-  console.log('ACCOUNTS', polymeshAccounts);
-  console.log('SELECTED ACCOUNT', selectedAccount);
+  const getHeaderColor = (index: number) => {
+    const colors = ['#DCEFFE', '#F2E6FF', '#F1FEE1', '#FFEBF1', '#FFEAE1', '#E6F9FE', '#FAF5FF', '#E6FFFA', '#EBF4FF'];
+
+    return colors[index % (colors.length - 1)];
+  };
 
   return (
     <>
@@ -112,7 +116,7 @@ export default function Accounts (): React.ReactElement {
                         <TextEllipsis size={29}>{currentAccount?.did}</TextEllipsis>
                       </Text>
                     </Flex>
-                    {renderStatus(currentAccount.cdd)}
+                    {renderStatus(currentAccount.cdd || false)}
                   </Flex>
                 )}
               </Box>
@@ -192,7 +196,8 @@ export default function Accounts (): React.ReactElement {
             {
               Object.keys(groupedAccounts).sort((a) => (a === undefined ? 1 : -1)).map((did: string, index) => {
                 return <AccountsContainer
-                  accounts={groupedAccounts[did]}
+                  accounts={hasKey(groupedAccounts, did) ? groupedAccounts[did] : []}
+                  headerColor={getHeaderColor(index)}
                   headerText={did}
                   key={index}
                   selectedAccount={selectedAccount || ''}

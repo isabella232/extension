@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { IdentifiedAccount } from '@polymath/extension/types';
 import { Button } from 'react-aria-menubutton';
 import { useHistory } from 'react-router-dom';
-import { Box, Text, TextEllipsis, Flex, Icon, Menu, MenuItem, Wrapper, LabelWithCopy } from '../../ui';
+import { Box, Text, Flex, Icon, Menu, MenuItem, Wrapper, LabelWithCopy } from '../../ui';
 import { SvgDotsVertical,
   SvgAlertCircle } from '@polymath/extension-ui/assets/images/icons';
 import { AccountView } from './AccountView';
@@ -11,9 +11,10 @@ export interface Props {
   headerText: string;
   selectedAccount: string;
   accounts: IdentifiedAccount[];
+  headerColor: string;
 }
 
-export const AccountsContainer: FC<Props> = ({ accounts, headerText, selectedAccount }) => {
+export const AccountsContainer: FC<Props> = ({ accounts, headerColor, headerText, selectedAccount }) => {
   const history = useHistory();
 
   const renderMenuItems = () => {
@@ -36,12 +37,10 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerText, selectedAcc
     }
   };
 
-  const colors = ['#F2E6FF', '#F1FEE1', '#FFEBF1', '#FFEAE1', '#E6F9FE', '#FAF5FF', '#E6FFFA', '#EBF4FF', '#DCEFFE'];
-
   const renderContainerHeader = (isAssigned: boolean) => {
     if (isAssigned) {
       return (
-        <Box bg='brandLightest'
+        <Box bg={headerColor}
           borderRadius='2'
           mt='xs'
           mx='s'
@@ -110,7 +109,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerText, selectedAcc
       m='s'
       pb='xs'
       pt='xs'>
-      {renderContainerHeader(accounts[0].cdd)}
+      {renderContainerHeader(accounts[0].cdd || false)}
       {renderAccounts()}
     </Box>
   );

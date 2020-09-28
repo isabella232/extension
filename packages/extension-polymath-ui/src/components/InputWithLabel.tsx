@@ -22,6 +22,7 @@ interface Props {
   type?: 'text' | 'password';
   value?: string;
   placeholder?: string;
+  withoutMargin?: boolean;
 }
 
 function InputWithLabel ({ className, defaultValue, disabled, isError, isFocused, isReadOnly, label, onBlur, onChange, onEnter, placeholder, type = 'text', value }: Props): React.ReactElement<Props> {
