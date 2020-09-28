@@ -6,7 +6,7 @@ import difference from 'lodash-es/difference';
 import intersection from 'lodash-es/intersection';
 
 import apiPromise from './api/apiPromise';
-import { DidRecord, LinkedKeyInfo, CddStatus, IdentityClaim } from './api/apiPromise/types';
+import { DidRecord, LinkedKeyInfo, IdentityClaim } from './api/apiPromise/types';
 import { AccountInfo } from '@polkadot/types/interfaces/system';
 import { encodeAddress } from '@polkadot/util-crypto';
 
@@ -145,7 +145,7 @@ function meshAccountsEnhancer (dispatch: Dispatch): void {
 
             dispatch(identityActions.setIdentityCdd({ network, did, cdd }));
           }
-        ).then((unsub) => {
+        ).then((unsub: UnsubCallback) => {
           unsubCallbacks[`${did}:cdd`] = unsub as unknown as UnsubCallback;
         })
           .catch(console.error);

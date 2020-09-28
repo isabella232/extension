@@ -20,7 +20,9 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerColor, headerText
   const renderMenuItems = () => {
     return (
       <>
+        {/* @ts-ignore */}
         <MenuItem value='export'>Export account</MenuItem>
+        {/* @ts-ignore */}
         <MenuItem value='forget'>Forget account</MenuItem>
       </>
     );
@@ -64,6 +66,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerColor, headerText
                         width={14} />
                     </Box>
                 }
+                {/* @ts-ignore */}
                 <Wrapper onSelection={handleMenuClick}>
                   <Button>
                     <Icon Asset={SvgDotsVertical}
@@ -71,6 +74,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerColor, headerText
                       height={16}
                       width={16} />
                   </Button>
+                  {/* @ts-ignore */}
                   <Menu>{renderMenuItems()}</Menu>
                 </Wrapper>
               </Flex>

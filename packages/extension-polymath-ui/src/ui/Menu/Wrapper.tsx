@@ -7,6 +7,7 @@ export interface WrapperProps extends Props {
   onSelection: () => void;
 }
 
+// @ts-ignore
 export const Wrapper: React.ReactElement<WrapperProps> = styled(ScWrapper)({
   position: 'relative',
   display: 'inline-block'

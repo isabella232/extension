@@ -7,6 +7,7 @@ export interface MenuProps extends Props {
   onSelection: () => void;
 }
 
+// @ts-ignore
 export const MenuItem: React.ReactElement<MenuProps> = styled(ScMenuItem)({
   cursor: 'pointer',
   color: '#555',

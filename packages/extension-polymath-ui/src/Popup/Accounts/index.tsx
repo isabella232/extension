@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import BigNumber from 'bignumber.js';
 import { AccountContext, Link, PolymeshContext } from '../../components';
 import AddAccount from './AddAccount';
-import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, Button, StatusBadge, LabelWithCopy } from '../../ui';
+import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, StatusBadge, LabelWithCopy } from '../../ui';
 import { SvgCheckboxMarkedCircle,
   SvgAlertCircle,
   SvgViewDashboard,
@@ -52,16 +52,16 @@ export default function Accounts (): React.ReactElement {
     );
   };
 
-  const groupAccounts = (key: string) => (array:IdentifiedAccount[]) =>
-    array.reduce((groupedAccounts: IdentifiedAccount[], account: IdentifiedAccount) => {
-      const value = account[key];
+  const groupAccounts = () => (array:IdentifiedAccount[]) =>
+    array.reduce((groupedAccounts: Record<string, IdentifiedAccount[]>, account: IdentifiedAccount) => {
+      const value = account.did ? account.did : 'unassigned';
 
       groupedAccounts[value] = (groupedAccounts[value] || []).concat(account);
 
       return groupedAccounts;
     }, {});
 
-  const groupedAccounts = polymeshAccounts ? groupAccounts('did')(polymeshAccounts) : {};
+  const groupedAccounts = polymeshAccounts ? groupAccounts()(polymeshAccounts) : {};
 
   const getHeaderColor = (index: number) => {
     const colors = ['#DCEFFE', '#F2E6FF', '#F1FEE1', '#FFEBF1', '#FFEAE1', '#E6F9FE', '#FAF5FF', '#E6FFFA', '#EBF4FF'];
@@ -194,7 +194,7 @@ export default function Accounts (): React.ReactElement {
               </Link>
             </Flex>
             {
-              Object.keys(groupedAccounts).sort((a) => (a === undefined ? 1 : -1)).map((did: string, index) => {
+              Object.keys(groupedAccounts).sort((a) => (a === 'unassigned' ? 1 : -1)).map((did: string, index) => {
                 return <AccountsContainer
                   accounts={hasKey(groupedAccounts, did) ? groupedAccounts[did] : []}
                   headerColor={getHeaderColor(index)}
