@@ -81,8 +81,6 @@ function meshAccountsEnhancer (dispatch: Dispatch): void {
             },
             network }));
           }
-
-          dispatch(statusActions.setIsReady(true));
         }).then((unsub) => {
           unsubCallbacks[account] = unsub;
         }).catch(console.error);
@@ -98,6 +96,7 @@ function meshAccountsEnhancer (dispatch: Dispatch): void {
         dispatch(accountActions.setAccount({ data: accountData, network }));
       });
 
+      dispatch(statusActions.setIsReady(true));
       prevAccounts = accounts;
     });
 
