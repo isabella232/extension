@@ -12,11 +12,7 @@ const networkSlice = createSlice({
   initialState,
   reducers: {
     setNetwork (state, action: PayloadAction<NetworkName>) {
-      const networkName = action.payload;
-
-      if (!isEqual(state, networkName)) {
-        state = networkName;
-      }
+      return action.payload;
     }
   }
 });

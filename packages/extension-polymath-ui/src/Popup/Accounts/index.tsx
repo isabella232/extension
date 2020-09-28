@@ -14,9 +14,11 @@ import { SvgCheckboxMarkedCircle,
   SvgDotsVertical,
   SvgPlus } from '@polymath/extension-ui/assets/images/icons';
 import { formatters } from '../../util';
-import { IdentifiedAccount } from '@polymath/extension/types';
+import { IdentifiedAccount, NetworkName } from '@polymath/extension/types';
 import { AccountsContainer } from './AccountsContainer';
 import { hasKey } from '@polymath/extension-ui/styles/utils';
+import { networkNames } from '@polymath/extension/constants';
+import { setPolyNetwork } from '@polymath/extension-ui/messaging';
 
 export default function Accounts (): React.ReactElement {
   const [currentAccount, setCurrentAccount] = useState<IdentifiedAccount>();
@@ -52,6 +54,13 @@ export default function Accounts (): React.ReactElement {
     );
   };
 
+  const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value as NetworkName;
+
+    // @TODO handle this properly
+    setPolyNetwork(value).then(console.log).catch(console.error);
+  };
+
   const groupAccounts = () => (array:IdentifiedAccount[]) =>
     array.reduce((groupedAccounts: Record<string, IdentifiedAccount[]>, account: IdentifiedAccount) => {
       const value = account.did ? account.did : 'unassigned';
@@ -69,6 +78,11 @@ export default function Accounts (): React.ReactElement {
     return colors[index % (colors.length - 1)];
   };
 
+  const networkOptions = Object.keys(networkNames).map((_network: NetworkName) => {
+    return <option key={_network}
+      value={_network}>{networkNames[_network]}</option>;
+  });
+
   return (
     <>
       {hierarchy.length === 0 ? (
@@ -80,6 +94,11 @@ export default function Accounts (): React.ReactElement {
               flexDirection='row'
               justifyContent='space-between'
               mb='m'>
+              {/* HERE */}
+              <select onChange={handleNetworkChange}
+                value={network}>
+                {networkOptions}
+              </select>
               <StatusBadge variant='yellow'>{network}</StatusBadge>
               <Flex flexDirection='row'
                 justifyContent='center'>

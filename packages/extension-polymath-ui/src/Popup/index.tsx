@@ -95,7 +95,10 @@ export default function Popup (): React.ReactElement {
     Promise.all([
       subscribeIsReady(setIsPolyReady),
       subscribePolymeshAccounts(setPolymeshAccounts),
-      subscribeNetwork(setNetwork),
+      subscribeNetwork((network) => {
+        console.log('>>> subscribeNetwork', network);
+        setNetwork(network);
+      }),
       subscribeAccounts(setAccounts),
       subscribeAuthorizeRequests(setAuthRequests),
       subscribeMetadataRequests(setMetaRequests),

@@ -161,7 +161,6 @@ export default class Extension {
 
     const reduxUnsub = subscribeNetwork((network) => {
       cb(network);
-      unsubscribe(id);
     });
 
     port.onDisconnect.addListener((): void => {
