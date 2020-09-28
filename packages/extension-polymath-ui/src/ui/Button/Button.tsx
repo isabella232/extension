@@ -1,7 +1,6 @@
 import React, { ForwardRefRenderFunction } from 'react';
 import { styled } from '../../styles';
 import { Icon } from '../Icon';
-import { buttonReset } from '../../styles/utils';
 import { getVariant, getIconStyle } from './styles';
 import { ButtonProps, ButtonDefaultProps } from './definitions';
 
@@ -26,9 +25,8 @@ const ButtonComponent: ForwardRefRenderFunction<HTMLButtonElement, React.PropsWi
 };
 
 const ButtonWithRef = React.forwardRef(ButtonComponent);
-console.log('BUTTON RESET', buttonReset);
+
 export const Button = styled(ButtonWithRef)<ButtonProps>(
-  buttonReset,
   ({ fluid, iconPosition, theme, tight }) => ({
     whiteSpace: 'nowrap',
     position: 'relative',

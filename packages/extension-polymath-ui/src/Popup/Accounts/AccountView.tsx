@@ -1,14 +1,13 @@
 import React, { FC, useState, useContext } from 'react';
+import BigNumber from 'bignumber.js';
 import { IdentifiedAccount } from '@polymath/extension/types';
 import { formatters } from '../../util';
-import { Box, Text, TextEllipsis, Flex, Icon, StatusBadge, TextInput, ButtonSmall, LabelWithCopy } from '../../ui';
-import { SvgAccount,
-  SvgCheckboxMarkedCircle,
-  SvgPencilOutline,
+import { Box, Text, Flex, Icon, StatusBadge, TextInput, ButtonSmall, LabelWithCopy } from '../../ui';
+import { SvgPencilOutline,
   SvgWindowClose,
   SvgCheck } from '@polymath/extension-ui/assets/images/icons';
 import { editAccount, setPolySelectedAccount } from '../../messaging';
-import { ActionContext, Link } from '../../components';
+import { ActionContext } from '../../components';
 
 export interface Props {
   account: IdentifiedAccount;
@@ -41,12 +40,12 @@ export const AccountView: FC<Props> = ({ account, isSelected }) => {
     setEditing(true);
   };
 
-  const handleNameChange = (e) => {
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewName(e.target.value);
   };
 
   const save = () => {
-    editAccount(address, newName)
+    editAccount(address, newName || '')
       .then(() => {
         onAction();
         setEditing(false);
@@ -116,7 +115,7 @@ export const AccountView: FC<Props> = ({ account, isSelected }) => {
               </Flex>
             )}
             <Box ml='s'>
-              {renderType(keyType)}
+              {renderType(keyType || '')}
             </Box>
           </Flex>
           {
@@ -139,7 +138,7 @@ export const AccountView: FC<Props> = ({ account, isSelected }) => {
           <Box>
             <Text color='gray.1'
               variant='b3'>
-              {formatters.formatAmount(balance, 2, true)} POLYX
+              {formatters.formatAmount(new BigNumber(balance || 0), 2, true)} POLYX
             </Text>
           </Box>
         </Flex>
@@ -225,7 +224,7 @@ export const AccountView: FC<Props> = ({ account, isSelected }) => {
             <Flex justifyContent='center'
               pt='xs'>
               <Text color='brandMain'
-                variant='b2m'>{name.substr(0, 1)}</Text>
+                variant='b2m'>{name?.substr(0, 1)}</Text>
             </Flex>
           </Box>
         </Box>

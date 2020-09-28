@@ -109,7 +109,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, headerColor, headerText
       m='s'
       pb='xs'
       pt='xs'>
-      {renderContainerHeader(accounts[0].cdd || false)}
+      {renderContainerHeader(accounts[0].did !== undefined)}
       {renderAccounts()}
     </Box>
   );
