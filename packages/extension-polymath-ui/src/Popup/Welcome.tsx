@@ -30,21 +30,21 @@ export default function Welcome (): React.ReactElement<Props> {
       </Header>
       <Box mt='m'>
         <Box>
-          <Text>A couple of things to note before we begin:</Text>
+          <Text color='gray.1'>A couple of things to note before we begin:</Text>
         </Box>
         <Box m='s'>
           <Box>
             <li>
-              <Text>We do not collect keys and passwords in our servers.</Text>
+              <Text color='gray.1'>We do not collect keys and passwords in our servers.</Text>
             </li>
             <li>
-              <Text>
+              <Text color='gray.1'>
                 This wallet does not use any trackers or analytics; however, some applications you connect the wallet to
                 may use trackers or analytics.
               </Text>
             </li>
             <li>
-              <Text>
+              <Text color='gray.1'>
                 Please read our{' '}
                 <a
                   href='https://polymath.network/polymesh-aldebaran-testnet/privacy-policy'
@@ -62,7 +62,7 @@ export default function Welcome (): React.ReactElement<Props> {
           <Checkbox
             checked={isPPChecked}
             label={
-              <Text fontSize='0'>
+              <Text fontSize='0' color='gray.1'>
                 I have read and accept the Polymath{' '}
                 <a
                   href='https://polymath.network/polymesh-aldebaran-testnet/privacy-policy'
@@ -78,7 +78,7 @@ export default function Welcome (): React.ReactElement<Props> {
           <Checkbox
             checked={isTSChecked}
             label={
-              <Text fontSize='0'>
+              <Text color='gray.1' fontSize='0'>
                 I have read and accept the Polymath{' '}
                 <a
                   href='https://polymath.network/polymesh-aldebaran-testnet/wallet-terms'
