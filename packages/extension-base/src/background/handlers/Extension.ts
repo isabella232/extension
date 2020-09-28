@@ -147,10 +147,11 @@ export default class Extension {
   private polyAccountsSubscribe (id: string, port: chrome.runtime.Port): boolean {
     const cb = createSubscription<'pri(polyAccounts.subscribe)'>(id, port);
 
-    const unsubscribe = subscribeIdentifiedAccounts(cb);
+    const reduxUnsub = subscribeIdentifiedAccounts(cb);
 
     port.onDisconnect.addListener((): void => {
-      unsubscribe();
+      reduxUnsub();
+      unsubscribe(id);
     });
 
     return true;
@@ -159,9 +160,7 @@ export default class Extension {
   private polyNetworkSubscribe (id: string, port: chrome.runtime.Port): boolean {
     const cb = createSubscription<'pri(polyNetwork.subscribe)'>(id, port);
 
-    const reduxUnsub = subscribeNetwork((network) => {
-      cb(network);
-    });
+    const reduxUnsub = subscribeNetwork(cb);
 
     port.onDisconnect.addListener((): void => {
       reduxUnsub();
@@ -174,10 +173,7 @@ export default class Extension {
   private polySelectedAccountSubscribe (id: string, port: chrome.runtime.Port): boolean {
     const cb = createSubscription<'pri(polySelectedAccount.subscribe)'>(id, port);
 
-    const reduxUnsub = subscribeSelectedAccount((selected) => {
-      cb(selected);
-      unsubscribe(id);
-    });
+    const reduxUnsub = subscribeSelectedAccount(cb);
 
     port.onDisconnect.addListener((): void => {
       reduxUnsub();
@@ -190,10 +186,7 @@ export default class Extension {
   private polyIsReadySubscribe (id: string, port: chrome.runtime.Port): boolean {
     const cb = createSubscription<'pri(polyIsReady.subscribe)'>(id, port);
 
-    const reduxUnsub = subscribeIsReady((isReady) => {
-      cb(isReady);
-      unsubscribe(id);
-    });
+    const reduxUnsub = subscribeIsReady(cb);
 
     port.onDisconnect.addListener((): void => {
       reduxUnsub();
