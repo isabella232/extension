@@ -14,8 +14,6 @@ function reduxSubscribe<P> (selector: (state: RootState) => P, cb: (data: P) => 
   function storeListener () {
     const nextState: P = selector(store.getState());
 
-    console.log('>>> storeListener', 'prev', currentState, 'next', nextState);
-
     if (!isEqual(nextState, currentState)) {
       currentState = nextState;
       cb(currentState);

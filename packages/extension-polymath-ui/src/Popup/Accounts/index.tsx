@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import BigNumber from 'bignumber.js';
 import { AccountContext, Link, PolymeshContext } from '../../components';
 import AddAccount from './AddAccount';
-import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, StatusBadge, LabelWithCopy } from '../../ui';
+import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, LabelWithCopy } from '../../ui';
 import { SvgCheckboxMarkedCircle,
   SvgAlertCircle,
   SvgViewDashboard,
@@ -57,8 +57,9 @@ export default function Accounts (): React.ReactElement {
   const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value as NetworkName;
 
-    // @TODO handle this properly
-    setPolyNetwork(value).then(console.log).catch(console.error);
+    setPolyNetwork(value).then(() => {
+      // @TODO Handle this properly. Perhaps by showing a Loader until this promise has resolved?
+    }).catch(console.error);
   };
 
   const groupAccounts = () => (array:IdentifiedAccount[]) =>
@@ -78,9 +79,9 @@ export default function Accounts (): React.ReactElement {
     return colors[index % (colors.length - 1)];
   };
 
-  const networkOptions = Object.keys(networkNames).map((_network: NetworkName) => {
+  const networkOptions = Object.keys(networkNames).map((_network) => {
     return <option key={_network}
-      value={_network}>{networkNames[_network]}</option>;
+      value={_network}>{networkNames[_network as NetworkName]}</option>;
   });
 
   return (
@@ -94,12 +95,10 @@ export default function Accounts (): React.ReactElement {
               flexDirection='row'
               justifyContent='space-between'
               mb='m'>
-              {/* HERE */}
               <select onChange={handleNetworkChange}
                 value={network}>
                 {networkOptions}
               </select>
-              <StatusBadge variant='yellow'>{network}</StatusBadge>
               <Flex flexDirection='row'
                 justifyContent='center'>
                 <Icon Asset={SvgViewDashboard}

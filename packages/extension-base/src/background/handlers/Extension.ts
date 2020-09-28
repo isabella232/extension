@@ -20,6 +20,7 @@ import { createSubscription, unsubscribe } from './subscriptions';
 import { subscribeIdentifiedAccounts, subscribeIsReady, subscribeNetwork, subscribeSelectedAccount } from '@polymath/extension/store/subscribers';
 import { setNetwork, setSelectedAccount, renameIdentity } from '@polymath/extension/store/setters';
 import { callDetails } from '@polymath/extension/api';
+import { getNetwork } from '@polymath/extension/store/getters';
 
 type CachedUnlocks = Record<string, number>;
 
@@ -215,7 +216,9 @@ export default class Extension {
   }
 
   private polyCallDetailsGet ({ request }: RequestPolyCallDetails): Promise<ResponsePolyCallDetails> {
-    return callDetails(request);
+    const network = getNetwork();
+
+    return callDetails(request, network);
   }
 
   private authorizeApprove ({ id }: RequestAuthorizeApprove): boolean {
