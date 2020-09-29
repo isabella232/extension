@@ -16,3 +16,4 @@ export { StatusBadge } from './StatusBadge';
 export { BaseInput } from './BaseInput';
 export { TextInput } from './TextInput';
 export { LabelWithCopy } from './LabelWithCopy';
+export { ScrollableContainer } from './ScrollableContainer';
