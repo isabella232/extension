@@ -93,7 +93,6 @@ export default function Popup (): React.ReactElement {
 
   useEffect((): void => {
     Promise.all([
-      subscribeIsReady(setIsPolyReady),
       subscribePolymeshAccounts(setPolymeshAccounts),
       subscribeNetwork(setNetwork),
       subscribeAccounts(setAccounts),
