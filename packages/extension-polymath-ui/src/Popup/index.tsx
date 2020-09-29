@@ -13,7 +13,7 @@ import { setSS58Format } from '@polkadot/util-crypto';
 import { Loading } from '../components';
 import { AccountContext, ActionContext, AuthorizeReqContext, MediaContext, MetadataReqContext, SettingsContext, SigningReqContext, PolymeshContext } from '../components/contexts';
 import ToastProvider from '../components/Toast/ToastProvider';
-import { subscribeAccounts, subscribeIsReady, subscribeAuthorizeRequests, subscribeMetadataRequests, subscribeSigningRequests, subscribePolymeshAccounts, subscribeNetwork, subscribePolySelectedAccount } from '../messaging';
+import { subscribeAccounts, subscribePolyIsReady, subscribeAuthorizeRequests, subscribeMetadataRequests, subscribeSigningRequests, subscribePolyAccounts, subscribePolyNetwork, subscribePolySelectedAccount } from '../messaging';
 import { buildHierarchy } from '../util/buildHierarchy';
 import Accounts from './Accounts';
 import Authorize from './Authorize';
@@ -93,15 +93,14 @@ export default function Popup (): React.ReactElement {
 
   useEffect((): void => {
     Promise.all([
-      subscribeIsReady(setIsPolyReady),
-      subscribePolymeshAccounts(setPolymeshAccounts),
-      subscribeNetwork(setNetwork),
+      subscribePolyIsReady(setIsPolyReady),
+      subscribePolyAccounts(setPolymeshAccounts),
+      subscribePolyNetwork(setNetwork),
+      subscribePolySelectedAccount(setSelectedAccountAddress),
       subscribeAccounts(setAccounts),
       subscribeAuthorizeRequests(setAuthRequests),
       subscribeMetadataRequests(setMetaRequests),
-      subscribeSigningRequests(setSignRequests),
-      subscribePolySelectedAccount(setSelectedAccountAddress),
-      subscribeIsReady(setIsPolyReady)
+      subscribeSigningRequests(setSignRequests)
     ]).catch(console.error);
 
     uiSettings.on('change', (settings): void => {
