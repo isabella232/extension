@@ -7,16 +7,18 @@ import styled from 'styled-components';
 import BigNumber from 'bignumber.js';
 import { AccountContext, Link, PolymeshContext } from '../../components';
 import AddAccount from './AddAccount';
-import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, StatusBadge, LabelWithCopy } from '../../ui';
+import { Text, Box, Header, TextEllipsis, Flex, Icon, Heading, LabelWithCopy } from '../../ui';
 import { SvgCheckboxMarkedCircle,
   SvgAlertCircle,
   SvgViewDashboard,
   SvgDotsVertical,
   SvgPlus } from '@polymath/extension-ui/assets/images/icons';
 import { formatters } from '../../util';
-import { IdentifiedAccount } from '@polymath/extension/types';
+import { IdentifiedAccount, NetworkName } from '@polymath/extension/types';
 import { AccountsContainer } from './AccountsContainer';
 import { hasKey } from '@polymath/extension-ui/styles/utils';
+import { defaultNetwork, networkLabels } from '@polymath/extension/constants';
+import { setPolyNetwork } from '@polymath/extension-ui/messaging';
 
 export default function Accounts (): React.ReactElement {
   const [currentAccount, setCurrentAccount] = useState<IdentifiedAccount>();
@@ -52,6 +54,25 @@ export default function Accounts (): React.ReactElement {
     );
   };
 
+  const renderNetworksSelector = (network: NetworkName = defaultNetwork) => {
+    return (
+      <select onChange={handleNetworkChange}
+        value={network}>
+        {Object.keys(networkLabels).map((_network) => <option key={_network}
+          value={_network}>{networkLabels[_network as NetworkName]}</option>
+        )}
+      </select>
+    );
+  };
+
+  const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value as NetworkName;
+
+    setPolyNetwork(value).then(() => {
+      // @TODO Handle this properly. Perhaps by showing a Loader until this promise has resolved?
+    }).catch(console.error);
+  };
+
   const groupAccounts = () => (array:IdentifiedAccount[]) =>
     array.reduce((groupedAccounts: Record<string, IdentifiedAccount[]>, account: IdentifiedAccount) => {
       const value = account.did ? account.did : 'unassigned';
@@ -80,7 +101,7 @@ export default function Accounts (): React.ReactElement {
               flexDirection='row'
               justifyContent='space-between'
               mb='m'>
-              <StatusBadge variant='yellow'>{network}</StatusBadge>
+              {renderNetworksSelector(network as NetworkName)}
               <Flex flexDirection='row'
                 justifyContent='center'>
                 <Icon Asset={SvgViewDashboard}

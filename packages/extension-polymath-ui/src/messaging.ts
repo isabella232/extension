@@ -128,16 +128,14 @@ export async function createSeed (length?: SeedLengths, type?: KeypairType): Pro
   return sendMessage('pri(seed.create)', { length, type });
 }
 
-export async function subscribePolymeshAccounts (cb: (accounts: IdentifiedAccount[]) => void): Promise<boolean> {
+export async function subscribePolyAccounts (cb: (accounts: IdentifiedAccount[]) => void): Promise<boolean> {
   return sendMessage('pri(polyAccounts.subscribe)', null, cb);
 }
 
-// @TODO2 remove this once we've applied a similar change to Polymesh UI
-export async function subscribeNetwork (cb: (network: NetworkName) => void): Promise<boolean> {
+export async function subscribePolyNetwork (cb: (network: NetworkName) => void): Promise<boolean> {
   return sendMessage('pri(polyNetwork.subscribe)', null, cb);
 }
 
-// @TODO2 remove this once we've applied a similar change to Polymesh UI
 export async function setNetwork (network: NetworkName): Promise<boolean> {
   return sendMessage('pri(polyNetwork.set)', { network });
 }
@@ -191,7 +189,7 @@ export async function subscribePolySelectedAccount (cb: (selected: string | unde
   return sendMessage('pri(polySelectedAccount.subscribe)', null, cb);
 }
 
-export async function subscribeIsReady (cb: (isReady: boolean) => void): Promise<boolean> {
+export async function subscribePolyIsReady (cb: (isReady: boolean) => void): Promise<boolean> {
   return sendMessage('pri(polyIsReady.subscribe)', null, cb);
 }
 

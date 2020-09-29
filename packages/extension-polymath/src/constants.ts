@@ -5,9 +5,15 @@ const networkURLs: Record<NetworkName, string> = {
   pmf: 'wss://pmf.polymath.network'
 };
 
+const networkLabels: Record<NetworkName, string> = {
+  alcyone: 'Alcyone Testnet',
+  pmf: 'PMF'
+};
+
 const defaultNetwork: NetworkName = NetworkName.pmf;
 
 export {
   networkURLs,
+  networkLabels,
   defaultNetwork
 };

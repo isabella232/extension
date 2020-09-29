@@ -4,21 +4,24 @@
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import meshSchema from './schema';
-import { getNetworkUrl } from '../../store/getters';
+import { NetworkName } from '../../types';
+import { networkURLs } from '../../constants';
 
-const url = getNetworkUrl();
-const provider = new WsProvider(url);
+const apiPromise: Record<NetworkName, Promise<ApiPromise>> =
+  Object.keys(NetworkName).reduce((acc, network) => {
+    acc[network as NetworkName] = new Promise((resolve, reject) => {
+      ApiPromise.create({
+        provider: new WsProvider(networkURLs[network as NetworkName]),
+        rpc: meshSchema.rpc,
+        types: meshSchema.types
+      }).then((api) => {
+        api.isReady.then((api) => {
+          resolve(api);
+        }).catch((err) => reject(err));
+      }).catch((err) => reject(err));
+    });
 
-const apiPromise:Promise<ApiPromise> = new Promise((resolve, reject): void => {
-  ApiPromise.create({
-    provider,
-    rpc: meshSchema.rpc,
-    types: meshSchema.types
-  }).then((api) => {
-    api.isReady.then((api) => {
-      resolve(api);
-    }).catch((err) => reject(err));
-  }).catch((err) => reject(err));
-});
+    return acc;
+  }, {} as Record<NetworkName, Promise<ApiPromise>>);
 
 export default apiPromise;
