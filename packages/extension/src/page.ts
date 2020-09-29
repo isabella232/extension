@@ -4,8 +4,9 @@
 
 import { Message } from '@polkadot/extension-base/types';
 
-import { enable, handleResponse } from '@polkadot/extension-base/page';
+import { handleResponse } from '@polkadot/extension-base/page';
 import { injectExtension } from '@polkadot/extension-inject';
+import { enable } from '@polymath/extension/injected';
 
 // setup a response listener (events created by the loader for extension responses)
 window.addEventListener('message', ({ data, source }: Message): void => {
@@ -23,6 +24,6 @@ window.addEventListener('message', ({ data, source }: Message): void => {
 });
 
 injectExtension(enable, {
-  name: 'polkadot-js',
+  name: 'polywallet',
   version: process.env.PKG_VERSION as string
 });

@@ -1,3 +1,5 @@
+import { Unsubcall } from '@polkadot/extension-inject/types';
+
 export enum DidType {
   primary = 'primary',
   secondary = 'secondary'
@@ -42,4 +44,15 @@ export enum NetworkName {
 export type CDD = {
   issuer: string,
   expiry?: number
+}
+
+export type NetworkMeta = {
+  name: NetworkName,
+  label?: string,
+  wssUrl: string
+}
+
+export interface InjectedNetwork {
+  get: () => Promise<NetworkMeta>;
+  subscribe: (cb: (network: NetworkMeta) => void) => Unsubcall;
 }
