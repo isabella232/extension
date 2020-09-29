@@ -85,7 +85,8 @@ export default function Welcome (): React.ReactElement<Props> {
           <Checkbox
             checked={isPPChecked}
             label={
-              <Text fontSize='0' color='gray.1'>
+              <Text color='gray.1'
+                fontSize='0'>
                 I have read and accept the Polymath{' '}
                 <a
                   href='https://polymath.network/polymesh-aldebaran-testnet/privacy-policy'
@@ -101,7 +102,8 @@ export default function Welcome (): React.ReactElement<Props> {
           <Checkbox
             checked={isTSChecked}
             label={
-              <Text color='gray.1' fontSize='0'>
+              <Text color='gray.1'
+                fontSize='0'>
                 I have read and accept the Polymath{' '}
                 <a
                   href='https://polymath.network/polymesh-aldebaran-testnet/wallet-terms'
