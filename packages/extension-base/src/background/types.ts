@@ -10,7 +10,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 import { KeyringPair, KeyringPair$Json, KeyringPair$Meta } from '@polkadot/keyring/types';
 import { SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 import { TypeRegistry } from '@polkadot/types';
-import { IdentifiedAccount, NetworkName } from '@polymath/extension/types';
+import { IdentifiedAccount, NetworkMeta, NetworkName } from '@polymath/extension/types';
 
 type KeysWithDefinedValues<T> = {
   [K in keyof T]: T[K] extends undefined ? never : K
@@ -123,6 +123,8 @@ export interface RequestSignatures {
   'pub(rpc.subscribe)': [RequestRpcSubscribe, number, JsonRpcResponse];
   'pub(rpc.subscribeConnected)': [null, boolean, boolean];
   'pub(rpc.unsubscribe)': [RequestRpcUnsubscribe, boolean];
+  'pub(polyNetwork.get)': [RequestPolyNetworkGet, NetworkMeta];
+  'pub(polyNetwork.subscribe)': [RequestPolyNetworkMetaSubscribe, boolean, NetworkMeta]
 }
 
 export type MessageTypes = keyof RequestSignatures;
@@ -242,6 +244,10 @@ export type RequestPolyNetworkSubscribe = null;
 export type RequestPolySelectedAccountSubscribe = null;
 
 export type RequestPolyIsReadySubscribe = null;
+
+export type RequestPolyNetworkGet = null;
+
+export type RequestPolyNetworkMetaSubscribe = null;
 
 export interface RequestPolyNetworkSet {
   network: NetworkName
