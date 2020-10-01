@@ -10,13 +10,13 @@ export interface LinkProps
 }
 
 const LinkComponent = ({ href, ...rest }: LinkProps) => {
-  const isExternal = href && href.match(urlRegex);
+  const isExternal = href && urlRegex.match();
   let linkProps = {};
 
   if (isExternal) {
     linkProps = {
       target: '_blank',
-      rel: 'noopener noreferrer',
+      rel: 'noopener noreferrer'
     };
   }
 
@@ -27,13 +27,13 @@ const LinkComponent = ({ href, ...rest }: LinkProps) => {
 
 export const Link = styled(LinkComponent)(
   color,
-  ({ theme, color: _color }) => ({
+  ({ color: _color, theme }) => ({
     textDecoration: 'none',
     ...theme.links,
     ...(_color ? { color: _color } : {}),
 
     '&:hover, &:focus': {
-      textDecoration: 'none',
-    },
+      textDecoration: 'none'
+    }
   })
 );
