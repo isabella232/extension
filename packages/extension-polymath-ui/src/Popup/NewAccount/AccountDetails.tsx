@@ -6,9 +6,10 @@ import { SvgAccountCardDetailsOutline, SvgArrowLeft } from '@polymath/extension-
 export interface Props {
   onBack: () => void;
   onContinue: () => void;
+  setAccountDetails: (name: string, password:string) => void;
 }
 
-export const AccountDetails: FC<Props> = ({ onBack, onContinue }) => {
+export const AccountDetails: FC<Props> = ({ onBack, onContinue, setAccountDetails }) => {
   const [isValidForm, setValidForm] = useState(false);
   const { control, errors, handleSubmit, register, setError, watch } = useForm();
   const formValues: { [x: string]: any; } = watch();
@@ -24,6 +25,7 @@ export const AccountDetails: FC<Props> = ({ onBack, onContinue }) => {
         message: 'Passwords do not  match'
       });
     } else {
+      setAccountDetails(data.accountName, data.password);
       onContinue();
     }
   };

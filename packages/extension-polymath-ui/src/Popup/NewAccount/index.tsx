@@ -1,12 +1,15 @@
-import React, { FC, useEffect, useState } from 'react';
-import { createSeed } from '../../messaging';
+import React, { FC, useContext, useEffect, useState } from 'react';
+import { createAccountSuri, createSeed } from '../../messaging';
+import { ActionContext } from '../../components';
 import { AccountDetails } from './AccountDetails';
 import { ConfirmSeed } from './ConfirmSeed';
 import { SeedView } from './SeedView';
 
 export const NewAccount: FC = () => {
+  const onAction = useContext(ActionContext);
   const [account, setAccount] = useState<null | { address: string; seed: string }>(null);
   const [step, setStep] = useState(0);
+  const [credentials, setCredentials] = useState<{ name: string; password: string }>();
 
   useEffect((): void => {
     createSeed()
@@ -14,8 +17,24 @@ export const NewAccount: FC = () => {
       .catch((error: Error) => console.error(error));
   }, []);
 
+  const createAccount = () => {
+    credentials && account && createAccountSuri(credentials.name, credentials.password, account.seed)
+      .then((): void => onAction('/'))
+      .catch((error: Error): void => {
+        console.error(error);
+      });
+  };
+
+  const setAccountDetails = (name: string, password: string) => {
+    setCredentials({ name, password });
+  };
+
   const nextStep = () => {
-    setStep(step + 1);
+    if (step === 2) {
+      createAccount();
+    } else {
+      setStep(step + 1);
+    }
   };
 
   const prevStep = () => {
@@ -24,7 +43,7 @@ export const NewAccount: FC = () => {
 
   const renderStep = (currentStep: number) => {
     switch (currentStep) {
-      case 2:
+      case 0:
         return (
           <SeedView onContinue={nextStep}
             seedPhrase={account?.seed} />
@@ -35,10 +54,11 @@ export const NewAccount: FC = () => {
             onContinue={nextStep}
             seedPhrase={account?.seed} />
         );
-      case 0:
+      case 2:
         return (
           <AccountDetails onBack={prevStep}
-            onContinue={nextStep} />
+            onContinue={nextStep}
+            setAccountDetails={setAccountDetails} />
         );
     }
   };
