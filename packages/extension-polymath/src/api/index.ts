@@ -1,4 +1,5 @@
 import apiPromise from './apiPromise';
 import callDetails from './callDetails';
+import polyNetworkGet from './polyNetworkGet';
 
-export { apiPromise, callDetails };
+export { apiPromise, callDetails, polyNetworkGet };

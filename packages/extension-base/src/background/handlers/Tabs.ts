@@ -20,6 +20,9 @@ import { createSubscription, unsubscribe } from './subscriptions';
 import { subscribeSelectedAccount } from '@polymath/extension/store/subscribers';
 import { prioritize } from '@polymath/extension/utils';
 import { getSelectedAccount } from '@polymath/extension/store/getters';
+import { NetworkMeta } from '@polymath/extension/types';
+import { polyNetworkGet } from '@polymath/extension/api';
+import polyNetworkSubscribe from '@polymath/extension/api/polyNetworkSubscribe';
 
 function transformAccounts (accounts: SubjectInfo): InjectedAccount[] {
   return Object
@@ -147,6 +150,32 @@ export default class Tabs {
     return this.#state.rpcUnsubscribe(request, port);
   }
 
+  private polyNetworkGet (): NetworkMeta {
+    return polyNetworkGet();
+  }
+
+  private polyNetworkSubscribe (id: string, port: chrome.runtime.Port): boolean {
+    const cb = createSubscription<'pub(polyNetwork.subscribe)'>(id, port);
+    let initialCall = true;
+
+    const innerCb = (networkMeta: NetworkMeta) => {
+      if (initialCall) {
+        initialCall = false;
+      } else {
+        cb(networkMeta);
+      }
+    };
+
+    const reduxUnsub = polyNetworkSubscribe(innerCb);
+
+    port.onDisconnect.addListener((): void => {
+      reduxUnsub();
+      unsubscribe(id);
+    });
+
+    return true;
+  }
+
   public async handle<TMessageType extends MessageTypes> (id: string, type: TMessageType, request: RequestTypes[TMessageType], url: string, port: chrome.runtime.Port): Promise<ResponseTypes[keyof ResponseTypes]> {
     if (type !== 'pub(authorize.tab)') {
       this.#state.ensureUrlAuthorized(url);
@@ -191,6 +220,16 @@ export default class Tabs {
 
       case 'pub(rpc.unsubscribe)':
         return this.rpcUnsubscribe(request as RequestRpcUnsubscribe, port);
+
+        /** Polymesh request handlers */
+
+      case 'pub(polyNetwork.get)':
+        return this.polyNetworkGet();
+
+      case 'pub(polyNetwork.subscribe)':
+        return this.polyNetworkSubscribe(id, port);
+
+        /** End of Polymesh request handlers */
 
       default:
         throw new Error(`Unable to handle message of type ${type}`);
