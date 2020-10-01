@@ -46,9 +46,5 @@
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-styled-components": "^0.1.1",
     "ts-jest": "^26.4.0"
-  },
-  "dependencies": {
-    "@hookform/error-message": "^0.0.4",
-    "react-hook-form": "^6.8.6"
   }
 }

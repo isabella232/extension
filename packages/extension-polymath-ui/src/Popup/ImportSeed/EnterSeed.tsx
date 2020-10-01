@@ -15,6 +15,7 @@ export const EnterSeed: FC<Props> = ({ onContinue, setPhrase }) => {
   const checkSeed = async (seed: string) => {
     try {
       const account = await validateSeed(seed);
+
       console.log(account);
 
       return true;
