@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { createSeed } from '../../messaging';
+import { AccountDetails } from './AccountDetails';
 import { ConfirmSeed } from './ConfirmSeed';
 import { SeedView } from './SeedView';
 
@@ -23,7 +24,7 @@ export const NewAccount: FC = () => {
 
   const renderStep = (currentStep: number) => {
     switch (currentStep) {
-      case 0:
+      case 2:
         return (
           <SeedView onContinue={nextStep}
             seedPhrase={account?.seed} />
@@ -33,6 +34,11 @@ export const NewAccount: FC = () => {
           <ConfirmSeed onBack={prevStep}
             onContinue={nextStep}
             seedPhrase={account?.seed} />
+        );
+      case 0:
+        return (
+          <AccountDetails onBack={prevStep}
+            onContinue={nextStep} />
         );
     }
   };

@@ -18735,6 +18735,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^6.8.6":
+  version: 6.8.6
+  resolution: "react-hook-form@npm:6.8.6"
+  peerDependencies:
+    react: ^16.8.0
+  checksum: 9031c65e84fe64edc12469b80044dfdd0eb44457598f82e712ba885b4245097be32127f31cb01a6d1709be88e5d86045a09f2ce5d38187d4cac80daac7e63151
+  languageName: node
+  linkType: hard
+
 "react-i18next@npm:^11.7.2":
   version: 11.7.2
   resolution: "react-i18next@npm:11.7.2"
@@ -19806,6 +19815,7 @@ __metadata:
     "@types/jest": ^26.0.13
     copy-webpack-plugin: ^6.1.0
     i18next-scanner: ^2.11.0
+    react-hook-form: ^6.8.6
     sinon-chrome: ^3.0.1
     stylelint: ^13.7.0
     stylelint-config-recommended: ^3.0.0
