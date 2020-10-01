@@ -44,6 +44,7 @@ export const NewAccount: FC = () => {
   const renderStep = (currentStep: number) => {
     switch (currentStep) {
       case 0:
+      default:
         return (
           <SeedView onContinue={nextStep}
             seedPhrase={account?.seed} />

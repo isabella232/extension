@@ -17,12 +17,11 @@ import { subscribeAccounts, subscribePolyIsReady, subscribeAuthorizeRequests, su
 import { buildHierarchy } from '../util/buildHierarchy';
 import Accounts from './Accounts';
 import Authorize from './Authorize';
-import CreateAccount from './CreateAccount';
 import Derive from './Derive';
 import Export from './Export';
 import Forget from './Forget';
 import ImportQr from './ImportQr';
-import ImportSeed from './ImportSeed';
+import { ImportSeed } from './ImportSeed';
 import RestoreJson from './RestoreJson';
 import Metadata from './Metadata';
 import Signing from './Signing';
