@@ -1597,6 +1597,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hookform/error-message@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "@hookform/error-message@npm:0.0.4"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+    react-hook-form: ">=6.0.0"
+  checksum: bc227c3b2452679f3c221c1b4b3e3f798f096fdadee62e470814f3e2ed5baff7e6a2da0ba72aec58edaf0a820fdf99592cbd6df3c06687acf9b7f9dc5cecbf71
+  languageName: node
+  linkType: hard
+
 "@istanbuljs/load-nyc-config@npm:^1.0.0":
   version: 1.1.0
   resolution: "@istanbuljs/load-nyc-config@npm:1.1.0"
@@ -3487,6 +3498,7 @@ __metadata:
   resolution: "@polymath/extension-ui@workspace:packages/extension-polymath-ui"
   dependencies:
     "@babel/runtime": ^7.11.2
+    "@hookform/error-message": ^0.0.4
     "@polkadot/extension-base": 0.33.0-beta.6
     "@polkadot/extension-inject": 0.33.0-beta.6
     "@polkadot/keyring": ^3.3.0-beta.1
@@ -3514,6 +3526,7 @@ __metadata:
     react-contexify: ^4.1.1
     react-dom: ^16.13.1
     react-dropzone: ^11.0.3
+    react-hook-form: ^6.8.6
     react-i18next: ^11.7.2
     react-is: ^16.13.1
     react-router: ^5.2.0
@@ -18732,6 +18745,15 @@ __metadata:
   peerDependencies:
     react: ">= 16.8"
   checksum: 881f5be66ef79319fd62424de3d67974586a3bd5ecd2b65e8d3b7c955a8243a28f5945b94faf7cc6ff954e884cd615649b14cb03b2894850d1492d2d02c4eec4
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^6.8.6":
+  version: 6.8.6
+  resolution: "react-hook-form@npm:6.8.6"
+  peerDependencies:
+    react: ^16.8.0
+  checksum: 9031c65e84fe64edc12469b80044dfdd0eb44457598f82e712ba885b4245097be32127f31cb01a6d1709be88e5d86045a09f2ce5d38187d4cac80daac7e63151
   languageName: node
   linkType: hard
 

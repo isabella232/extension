@@ -29,6 +29,7 @@ import Signing from './Signing';
 import Welcome from './Welcome';
 import { IdentifiedAccount } from '@polymath/extension/types';
 import { PolymeshContext as PolymeshContextType } from '../types';
+import { NewAccount } from './NewAccount';
 const startSettings = uiSettings.get();
 
 // Request permission for video, based on access we can hide/show import
@@ -145,7 +146,7 @@ export default function Popup (): React.ReactElement {
                     <PolymeshContext.Provider value={polymeshCtx}>
                       <ToastProvider>
                         <Switch>
-                          <Route path='/account/create'><CreateAccount /></Route>
+                          <Route path='/account/create'><NewAccount /></Route>
                           <Route path='/account/forget/:address'><Forget /></Route>
                           <Route path='/account/export/:address'><Export /></Route>
                           <Route path='/account/import-qr'><ImportQr /></Route>
