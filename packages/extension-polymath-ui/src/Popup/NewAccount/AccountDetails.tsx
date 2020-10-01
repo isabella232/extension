@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, FieldError, useForm } from 'react-hook-form';
 import { Box, Button, Checkbox, Flex, Header, Heading, Icon, Link, Text, TextInput } from '@polymath/extension-ui/ui';
 import { SvgAccountCardDetailsOutline, SvgArrowLeft } from '@polymath/extension-ui/assets/images/icons';
 
@@ -10,14 +10,25 @@ export interface Props {
 
 export const AccountDetails: FC<Props> = ({ onBack, onContinue }) => {
   const [isValidForm, setValidForm] = useState(false);
-  const { control, errors, handleSubmit, register, trigger, watch } = useForm();
+  const { control, errors, handleSubmit, register, setError, watch } = useForm();
   const formValues: { [x: string]: any; } = watch();
 
   useEffect(() => {
     setValidForm(formValues.hasAcceptTerms && formValues.hasAcceptedPolicy);
   }, [formValues, setValidForm]);
 
-  const onSubmit = (data: { [x: string]: any; }) => console.log(data);
+  const onSubmit = (data: { [x: string]: any; }) => {
+    if (data.password !== data.confirmPassword) {
+      setError('confirmPassword', {
+        type: 'manual',
+        message: 'Passwords do not  match'
+      });
+    } else {
+      onContinue();
+    }
+  };
+
+  console.log(errors);
 
   return (
     <>
@@ -56,9 +67,18 @@ export const AccountDetails: FC<Props> = ({ onBack, onContinue }) => {
             </Text>
           </Box>
           <Box>
-            <TextInput inputRef={register}
+            <TextInput inputRef={register({ required: true, minLength: 4 })}
               name='accountName'
               placeholder='Enter 4 characters or more' />
+            {errors.accountName &&
+              <Box>
+                <Text color='alert'
+                  variant='b3'>
+                  {(errors.accountName as FieldError).type === 'required' && 'Required field'}
+                  {(errors.accountName as FieldError).type === 'minLength' && 'Invalid'}
+                </Text>
+              </Box>
+            }
           </Box>
         </Box>
         <Box mt='m'>
@@ -69,10 +89,19 @@ export const AccountDetails: FC<Props> = ({ onBack, onContinue }) => {
             </Text>
           </Box>
           <Box>
-            <TextInput inputRef={register}
+            <TextInput inputRef={register({ required: true, minLength: 8 })}
               name='password'
               placeholder='Enter 8 characters or more'
               type='password' />
+            {errors.password &&
+              <Box>
+                <Text color='alert'
+                  variant='b3'>
+                  {(errors.password as FieldError).type === 'required' && 'Required field'}
+                  {(errors.password as FieldError).type === 'minLength' && 'Invalid'}
+                </Text>
+              </Box>
+            }
           </Box>
         </Box>
         <Box mb='s'
@@ -84,10 +113,20 @@ export const AccountDetails: FC<Props> = ({ onBack, onContinue }) => {
             </Text>
           </Box>
           <Box>
-            <TextInput inputRef={register}
-              name='conformPassword'
+            <TextInput inputRef={register({ required: true, minLength: 8 })}
+              name='confirmPassword'
               placeholder='Enter 8 characters or more'
               type='password' />
+            {errors.confirmPassword &&
+              <Box>
+                <Text color='alert'
+                  variant='b3'>
+                  {(errors.confirmPassword as FieldError).type === 'required' && 'Required field'}
+                  {(errors.confirmPassword as FieldError).type === 'minLength' && 'Invalid'}
+                  {(errors.confirmPassword as FieldError).type === 'manual' && 'Passwords do not match'}
+                </Text>
+              </Box>
+            }
           </Box>
         </Box>
         <Controller
@@ -131,7 +170,7 @@ export const AccountDetails: FC<Props> = ({ onBack, onContinue }) => {
         justifyContent='flex-end'
         mx='xs'>
         <Flex mb='s'>
-          <Button noStretch
+          <Button minsize
             onClick={onBack}
             variant='secondary'>
             <Icon Asset={SvgArrowLeft}
@@ -140,7 +179,7 @@ export const AccountDetails: FC<Props> = ({ onBack, onContinue }) => {
               width={16} />
           </Button>
           <Box ml='s'
-            width={235}>
+            width={255}>
             <Button disabled={!isValidForm}
               fluid
               form='accountForm'

@@ -184,7 +184,7 @@ export const ConfirmSeed: FC<Props> = ({ onBack, onContinue, seedPhrase }) => {
         justifyContent='flex-end'
         mx='xs'>
         <Flex mb='s'>
-          <Button noStretch
+          <Button minsize
             onClick={onBack}
             variant='secondary'>
             <Icon Asset={SvgArrowLeft}
@@ -193,7 +193,7 @@ export const ConfirmSeed: FC<Props> = ({ onBack, onContinue, seedPhrase }) => {
               width={16} />
           </Button>
           <Box ml='s'
-            width={235}>
+            width={255}>
             <Button disabled={confirmationStatus !== status.valid}
               fluid
               onClick={onContinue}

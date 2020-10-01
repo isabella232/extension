@@ -48,6 +48,7 @@
     "ts-jest": "^26.4.0"
   },
   "dependencies": {
+    "@hookform/error-message": "^0.0.4",
     "react-hook-form": "^6.8.6"
   }
 }

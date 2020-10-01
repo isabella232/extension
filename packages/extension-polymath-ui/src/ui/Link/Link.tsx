@@ -10,7 +10,7 @@ export interface LinkProps
 }
 
 const LinkComponent = ({ href, ...rest }: LinkProps) => {
-  const isExternal = href && urlRegex.match();
+  const isExternal = href && urlRegex.exec(href);
   let linkProps = {};
 
   if (isExternal) {
