@@ -274,3 +274,5 @@ export { SvgWhitelist } from './generated/Whitelist';
 export { SvgWindowClose } from './generated/WindowClose';
 export { SvgWorld } from './generated/World';
 export { SvgYoutube } from './generated/Youtube';
+export { SvgClipboardListOutline } from './generated/ClipboardListOutline';
+
